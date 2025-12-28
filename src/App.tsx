@@ -1,12 +1,28 @@
-import SignIn from './components/Pages/SignIn';
-import './App.css';
+import AuthPage from "./Pages/AuthPage";
+import MainPage from "./Pages/MainPage";
+import "./App.css";
+import { Route, Routes, Navigate, BrowserRouter } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "./store/auth-context";
 
-function App() {
+const App = () => {
+  const authCtx = useContext(AuthContext);
+
   return (
-    <>
-      <SignIn/>
-    </>
+    <Routes>
+      {authCtx.isLoggedIn ? (
+        <>
+          <Route path="/" element={<MainPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </>
+      ) : (
+        <>
+          <Route path="/login" element={<AuthPage />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </>
+      )}
+    </Routes>
   );
-}
+};
 
 export default App;
