@@ -1,0 +1,28 @@
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-bar button {
+  margin-top: 1.5rem;
+  background-color: #a1869e;
+  color: black;
+  border: none;
+  border-radius: 80px;
+  padding: 0.5rem 1rem;
+  margin: 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+nav button:hover {
+  background-color: #c3a5c0;
+  transform: scale(1.02);
+}
+
+.profile-picture {
+  padding-left: 1%;
+  cursor: pointer;
+}
