@@ -13,39 +13,44 @@ interface signInProps {
   email: undefined | string;
   password: undefined | string;
   name: string;
+  personalNum: string;
   handlePageChange: () => void;
   handleSubmit: () => void;
   setEmail: (value: string) => void;
   setPassword: (value: string) => void;
   setName: (value: string) => void;
+  setError: (value: string) => void;
+  setPersonalNum: (value: string) => void;
   error: null | string;
   isLoading: boolean;
 }
 
-const SignIn = (props: signInProps) => {
+const AuthForm = (props: signInProps) => {
   const {
     isNewUser,
     email,
     password,
+    personalNum,
     handlePageChange,
     setEmail,
     setPassword,
+    setName,
+    setPersonalNum,
+    setError,
     handleSubmit,
     error,
     isLoading,
     name,
-    setName,
   } = props;
-  let header: string;
   let buttonText: string;
+  let passwordError: string;
   let footerText: string;
   let footerBtnText: string;
-  let passwordError: string;
   const minPasswordLength = 7;
+  const personalNumLength = 7;
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   const {
-    value: enteredName,
     isValid: enteredNameIsValid,
     hasError: nameInputHasError,
     valueChangeHandler: nameChangeHandler,
@@ -54,7 +59,14 @@ const SignIn = (props: signInProps) => {
   } = useInput((value) => value !== "");
 
   const {
-    value: enteredEmail,
+    isValid: enteredPersonalNumIsValid,
+    hasError: personalNumInputHasError,
+    valueChangeHandler: personalNumChangeHandler,
+    inputBlurHandler: personalNumBlurHandler,
+    reset: resetPersonalNumInput,
+  } = useInput((value) => value.length === personalNumLength);
+
+  const {
     isValid: enteredEmailIsValid,
     hasError: emailInputHasError,
     valueChangeHandler: emailChangeHandler,
@@ -63,7 +75,6 @@ const SignIn = (props: signInProps) => {
   } = useInput((value) => validator.isEmail(value));
 
   const {
-    value: enteredPassword,
     isValid: enteredPasswordIsValid,
     hasError: passwordInputHasError,
     valueChangeHandler: passwordChangeHandler,
@@ -81,25 +92,26 @@ const SignIn = (props: signInProps) => {
   });
 
   if (isNewUser) {
-    header = "Welcome to BAM headquarters!";
     buttonText = "Sign Up";
+    passwordError = `Password must contain at least ${minPasswordLength} characters`;
     footerText = "Already have an account? Sign in here.";
     footerBtnText = "Sign in!";
-    passwordError = `Password must contain at least ${minPasswordLength} characters`;
   } else {
-    header = "Welcome back to BAM headquarters";
     buttonText = "Sign In";
+    passwordError = "Please enter your password";
     footerText = "Don't have an account? Sign up now!";
     footerBtnText = "Create account";
-    passwordError = "Please enter your password";
   }
 
   let formIsValid =
-    enteredEmailIsValid && enteredPasswordIsValid && (enteredNameIsValid || !isNewUser);
+    enteredEmailIsValid &&
+    enteredPasswordIsValid &&
+    (enteredNameIsValid || !isNewUser) &&
+    (enteredPersonalNumIsValid || !isNewUser);
 
   const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
-    emailChangeHandler(event);
+    nameChangeHandler(event);
   };
 
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,11 +124,19 @@ const SignIn = (props: signInProps) => {
     passwordChangeHandler(event);
   };
 
+  const handlePersonalNum = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPersonalNum(event.target.value);
+    personalNumChangeHandler(event);
+  };
+
   const UIChange = () => {
     handlePageChange();
     resetEmailInput();
     resetNameInput();
     resetPasswordInput();
+    resetPersonalNumInput();
+    resetPersonalNumInput();
+    setError('')
   };
 
   const emailInputClasses = emailInputHasError
@@ -124,16 +144,24 @@ const SignIn = (props: signInProps) => {
     : styles["input"];
 
   const passwordInputClasses = passwordInputHasError
-    ? `${styles["input"]} ${styles["invalid-input"]} ${styles["password"]}`
+    ? `${styles["input"]} ${styles["invalid-input"]}`
     : styles["input"];
 
   const mainBtnClasses = !formIsValid
-    ? styles["disabled-main-button"]
+    ? `${styles["main-button"]} ${styles["disabled-main-button"]}`
     : styles["main-button"];
 
   const nameInputClasses = nameInputHasError
     ? `${styles["input"]} ${styles["invalid-input"]}`
     : styles["input"];
+
+  const personalNumInputClasses = personalNumInputHasError
+    ? `${styles["input"]} ${styles["invalid-input"]}`
+    : styles["input"];
+
+  const credentialsClasses = isNewUser
+    ? styles.credentials
+    : `${styles["credentials"]} ${styles["credentials-sign-in"]}`;
 
   const toggelShowPassword = () => {
     setIsShowPassword((prevIsShow) => !prevIsShow);
@@ -141,67 +169,77 @@ const SignIn = (props: signInProps) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles["auth-top"]}>
-        <h1 className={styles.header}>{header}</h1>
-        <div className={styles.credentials}>
-          {isNewUser && (
-            <>
-              <label>Name</label>
-              <input
-                className={nameInputClasses}
-                type="text"
-                onChange={(event) => handleName(event)}
-                onBlur={nameBlurHandler}
-                value={name}
-              />
-              {nameInputHasError && (
-                <p className={styles["error-text"]}>
-                  Please enter your name.
-                </p>
-              )}
-            </>
-          )}
-          <label>Email</label>
-          <input
-            className={emailInputClasses}
-            type="email"
-            onChange={(event) => handleEmail(event)}
-            onBlur={emailBlurHandler}
-            value={email}
-          />
-          {emailInputHasError && (
-            <p className={styles["error-text"]}>Please enter a valid email.</p>
-          )}
-          <div className={styles["password-container"]}>
-            <label>Password</label>
-            <img
-              src={isShowPassword ? openEyeImage : closedEyeImage}
-              alt="open eye"
-              onClick={toggelShowPassword}
-              className={styles["eye-image"]}
+      <div className={credentialsClasses}>
+        {isNewUser && (
+          <>
+            <label>Name</label>
+            <input
+              className={nameInputClasses}
+              type="text"
+              onChange={(event) => handleName(event)}
+              onBlur={nameBlurHandler}
+              value={name}
             />
-          </div>
-          <input
-            className={passwordInputClasses}
-            type={isShowPassword ? "text" : "password"}
-            onChange={(event) => handlePassword(event)}
-            onBlur={passwordBlurHandler}
-            value={password}
+            {nameInputHasError && (
+              <p className={styles["error-text"]}>Please enter your name.</p>
+            )}
+            <label>Personal Number</label>
+            <input
+              className={personalNumInputClasses}
+              type="text"
+              onChange={(event) => handlePersonalNum(event)}
+              onBlur={personalNumBlurHandler}
+              value={personalNum}
+            />
+            {personalNumInputHasError && (
+              <p className={styles["error-text"]}>
+                Your personal number must have exactly {personalNumLength}{" "}
+                digits.
+              </p>
+            )}
+          </>
+        )}
+        <label>Email</label>
+        <input
+          className={emailInputClasses}
+          type="email"
+          onChange={(event) => handleEmail(event)}
+          onBlur={emailBlurHandler}
+          value={email}
+        />
+        {emailInputHasError && (
+          <p className={styles["error-text"]}>Please enter a valid email.</p>
+        )}
+        <div className={styles["password-container"]}>
+          <label>Password</label>
+          <img
+            src={isShowPassword ? openEyeImage : closedEyeImage}
+            alt="open eye"
+            onClick={toggelShowPassword}
+            className={styles["eye-image"]}
           />
-          {passwordInputHasError && (
-            <p className={styles["error-text"]}>{passwordError}</p>
-          )}
-          {!isLoading && (
-            <button
-              onClick={handleSubmit}
-              disabled={!formIsValid}
-              className={mainBtnClasses}
-            >
-              {buttonText}
-            </button>
-          )}
-          {isLoading && <p>loading...</p>}
         </div>
+        <input
+          className={passwordInputClasses}
+          type={isShowPassword ? "text" : "password"}
+          onChange={(event) => handlePassword(event)}
+          onBlur={passwordBlurHandler}
+          value={password}
+        />
+        {passwordInputHasError && (
+          <p className={styles["error-text"]}>{passwordError}</p>
+        )}
+        {error && <p className={styles.error}>{error}</p>}
+        {!isLoading && (
+          <button
+            onClick={handleSubmit}
+            disabled={!formIsValid}
+            className={mainBtnClasses}
+          >
+            {buttonText}
+          </button>
+        )}
+        {isLoading && <p>loading...</p>}
       </div>
       <div className={styles.footer}>
         <h3>{footerText}</h3>
@@ -211,4 +249,4 @@ const SignIn = (props: signInProps) => {
   );
 };
 
-export default SignIn;
+export default AuthForm;

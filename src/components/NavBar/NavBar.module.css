@@ -5,20 +5,18 @@
 }
 
 .nav-bar button {
-  margin-top: 1.5rem;
-  background-color: #a1869e;
-  color: black;
-  border: none;
-  border-radius: 80px;
-  padding: 0.5rem 1rem;
-  margin: 1rem;
-  font-size: 1rem;
-  font-weight: 700;
+  background: transparent;
+  border: 1px solid #777;
+  border-radius: 999px;
+  padding: 0.7rem 2rem;
+  color: white;
+  font-weight: 600;
   cursor: pointer;
+  margin: 1rem;
 }
 
 nav button:hover {
-  background-color: #c3a5c0;
+  background-color: #2e2e2e;
   transform: scale(1.02);
 }
 
