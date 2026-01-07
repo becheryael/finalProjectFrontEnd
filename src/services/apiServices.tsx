@@ -1,6 +1,4 @@
-import axios from "axios";
-// import AuthContext from "../store/auth-context";
-// import { useContext } from "react";
+import axios, { AxiosError } from "axios";
 
 export const fetchUser = async (email: string, password: string) => {
   const url = "http://localhost:8000/users/login";
@@ -76,7 +74,7 @@ export const editUser = async (
         name,
         personalNum,
         email,
-        avatar
+        avatar,
       },
     });
     return response;

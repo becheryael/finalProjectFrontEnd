@@ -28,7 +28,7 @@ const ProfilePage = () => {
       name === authCtx.userInfo.name &&
       personalNum === authCtx.userInfo.personalNum &&
       email === authCtx.userInfo.email &&
-      avatar ===  authCtx.userInfo.avatar
+      avatar === authCtx.userInfo.avatar
     ) {
       setIsEdit(false);
       setError("");
@@ -37,7 +37,14 @@ const ProfilePage = () => {
     setIsLoading(true);
     setError("");
     try {
-      const res = await editUser(name!, personalNum!, email!, avatar!, id!, token!);
+      const res = await editUser(
+        name!,
+        personalNum!,
+        email!,
+        avatar!,
+        id!,
+        token!
+      );
       if (res.status === 200) {
         authCtx.edit(name!, personalNum!, email!, avatar!);
       }
@@ -46,6 +53,21 @@ const ProfilePage = () => {
       const axiosError = error as AxiosError;
       console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
+      const errorArray = errorMessage.split(" ");
+      console.log(errorArray);
+      if (errorArray.includes("duplicate")) {
+        const index = errorArray.indexOf("key:");
+        if (errorArray.includes("personalNum:")) {
+          errorArray[index + 2] = "Personal number";
+        }
+        const returnError = `${errorArray[index + 2]} ${
+          errorArray[index + 3]
+        } already exists in database.`;
+        setError(returnError);
+        setIsLoading(false);
+        setIsEdit(false);
+        return;
+      }
       if (errorMessage) {
         setError(errorMessage);
       } else {
