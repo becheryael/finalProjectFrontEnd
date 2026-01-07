@@ -1,6 +1,6 @@
 // @ts-ignore
 import styles from "./Requests.module.css";
-import Request from "./Request";
+import Request from "../Request/Request";
 
 const Requests = () => {
   return (

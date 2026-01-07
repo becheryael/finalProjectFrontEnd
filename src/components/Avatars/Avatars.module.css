@@ -1,0 +1,16 @@
+.images {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  display: flex;
+  width: 80%;
+}
+
+.avatar {
+  cursor: pointer;
+}
+
+.chosen-avatar {
+  background-color: #d2e6e6;
+  box-shadow: 0 0 10px 10px #a1869e, 0 0 10px 10px #b89eb5;
+  border-radius: 10%;
+}

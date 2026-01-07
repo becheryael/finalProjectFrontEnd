@@ -1,0 +1,74 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 80%;
+  gap: 1rem;
+}
+
+.inputs-contianer {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.edit-btn {
+  background: transparent;
+  border: 1.5px solid #777;
+  border-radius: 999px;
+  padding: 0.7rem 2rem;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.edit-btn:hover,
+.save-btn:hover {
+  border-color: white;
+  transform: scale(1.02);
+}
+
+.save-btn {
+  background-color: #2e2e2e;
+  border: 1.5px solid #777;
+  border-radius: 999px;
+  padding: 0.7rem 2rem;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.disabled-save-btn {
+  background-color: #777;
+}
+
+.disabled-save-btn:hover {
+  border-color: #777;
+  transform: scale(1);
+}
+
+@media screen and (max-width: 900px) {
+  .inputs-contianer {
+    width: 80%;
+  }
+}
+
+.undo {
+  color: rgb(190, 160, 221);
+  text-decoration: underline;
+  cursor: pointer;
+  margin: 0;
+}
+
+.back-arrow {
+  position: fixed;
+  cursor: pointer;
+  top: 10px;
+  left: 10px;
+}
+
+.error {
+  color: #d674ca;
+  text-align: center;
+}

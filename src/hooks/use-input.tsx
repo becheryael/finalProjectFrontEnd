@@ -7,12 +7,8 @@ type Action =
 
 type State = { isTouched: boolean; value: string };
 
-const initialInputState = {
-  value: "",
-  isTouched: false,
-};
-
 const inputStateReducer = (state: State, action: Action) => {
+  
   if (action.type === "INPUT") {
     return { value: action.value, isTouched: state.isTouched };
   }
@@ -25,11 +21,11 @@ const inputStateReducer = (state: State, action: Action) => {
   return state;
 };
 
-const useInput = (validateValue: (value: string) => boolean) => {
-  const [inputState, dispatch] = useReducer(
-    inputStateReducer,
-    initialInputState
-  );
+const useInput = (validateValue: (value: string) => boolean, prevValue?: string) => {
+  const [inputState, dispatch] = useReducer(inputStateReducer, {
+    value: prevValue || "",
+    isTouched: false,
+  });
 
   const valueIsValid = validateValue(inputState.value);
   const hasError = !valueIsValid && inputState.isTouched;
@@ -47,7 +43,7 @@ const useInput = (validateValue: (value: string) => boolean) => {
   };
 
   return {
-    value: inputState.value,
+    // value: inputState.value,
     isValid: valueIsValid,
     hasError,
     valueChangeHandler,

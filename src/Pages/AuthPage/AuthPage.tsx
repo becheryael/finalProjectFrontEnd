@@ -1,8 +1,9 @@
-import AuthContext from "../store/auth-context";
-import AuthForm from "../components/AuthForm/AuthForm";
+import AuthContext from "../../store/auth-context";
+import AuthForm from "../../components/AuthForm/AuthForm";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchUser, createUser } from "../services/apiServices";
+import { fetchUser, createUser } from "../../services/apiServices";
+import { AxiosError } from "axios";
 // @ts-ignore
 import styles from "./AuthPage.module.css";
 
@@ -30,6 +31,7 @@ const AuthPage = () => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
+    setError('');
     try {
       let res;
       if (!isNewUser) {
@@ -39,18 +41,20 @@ const AuthPage = () => {
       }
       setIsLoading(false);
       if (res.status === 200 || res.status === 201) {
-        authCtx.login(res.data.token);
+        authCtx.login(res.data.token, res.data.user, res.data.user._id);
         navigate("/main", { replace: true });
       }
     } catch (error) {
-      if (!isNewUser) {
-        setError("Unable to login. Try again or create an account.");
+      const axiosError = error as AxiosError;
+      console.log(axiosError)
+      const errorMessage = axiosError.response?.data as string;
+      if (errorMessage) {
+        setError(errorMessage);
+      } else if (isNewUser) {
+        setError("Unable to create account. Make sure all your information is correct and try again.");
       } else {
-        setError(
-          "Unable to create account. Make sure all your information is correct."
-        );
+        setError("Unable to login. Try again or create an account.");
       }
-      console.log(error);
       setIsLoading(false);
     }
   };

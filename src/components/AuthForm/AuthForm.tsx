@@ -1,17 +1,13 @@
-import useInput from "../../hooks/use-input";
-import React, { useState } from "react";
+import { useState, useRef } from "react";
 import validator from "validator";
+import AuthInput, { AuthInputHandle } from "../AuthInputs/AuthInput";
 // @ts-ignore
 import styles from "./AuthForm.module.css";
-// @ts-ignore
-import openEyeImage from "../../assets/media/images/open-eye.png";
-// @ts-ignore
-import closedEyeImage from "../../assets/media/images/closed-eye.png";
 
-interface signInProps {
+interface authFormProps {
   isNewUser: boolean;
-  email: undefined | string;
-  password: undefined | string;
+  email: string;
+  password: string;
   name: string;
   personalNum: string;
   handlePageChange: () => void;
@@ -25,7 +21,7 @@ interface signInProps {
   isLoading: boolean;
 }
 
-const AuthForm = (props: signInProps) => {
+const AuthForm = (props: authFormProps) => {
   const {
     isNewUser,
     email,
@@ -48,48 +44,16 @@ const AuthForm = (props: signInProps) => {
   let footerBtnText: string;
   const minPasswordLength = 7;
   const personalNumLength = 7;
-  const [isShowPassword, setIsShowPassword] = useState(false);
 
-  const {
-    isValid: enteredNameIsValid,
-    hasError: nameInputHasError,
-    valueChangeHandler: nameChangeHandler,
-    inputBlurHandler: nameBlurHandler,
-    reset: resetNameInput,
-  } = useInput((value) => value !== "");
+  const [nameIsValid, setNameIsValid] = useState(false);
+  const [personalNumIsValid, setPersonalNumIsValid] = useState(false);
+  const [emailIsValid, setEmailIsValid] = useState(false);
+  const [passwordIsValid, setPasswordIsValid] = useState(false);
 
-  const {
-    isValid: enteredPersonalNumIsValid,
-    hasError: personalNumInputHasError,
-    valueChangeHandler: personalNumChangeHandler,
-    inputBlurHandler: personalNumBlurHandler,
-    reset: resetPersonalNumInput,
-  } = useInput((value) => value.length === personalNumLength);
-
-  const {
-    isValid: enteredEmailIsValid,
-    hasError: emailInputHasError,
-    valueChangeHandler: emailChangeHandler,
-    inputBlurHandler: emailBlurHandler,
-    reset: resetEmailInput,
-  } = useInput((value) => validator.isEmail(value));
-
-  const {
-    isValid: enteredPasswordIsValid,
-    hasError: passwordInputHasError,
-    valueChangeHandler: passwordChangeHandler,
-    inputBlurHandler: passwordBlurHandler,
-    reset: resetPasswordInput,
-  } = useInput((value) => {
-    if (
-      (value !== "" && !isNewUser) ||
-      (value.length >= minPasswordLength && isNewUser)
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  });
+  const nameRef = useRef<AuthInputHandle>(null);
+  const emailRef = useRef<AuthInputHandle>(null);
+  const passwordRef = useRef<AuthInputHandle>(null);
+  const personalNumRef = useRef<AuthInputHandle>(null);
 
   if (isNewUser) {
     buttonText = "Sign Up";
@@ -104,131 +68,86 @@ const AuthForm = (props: signInProps) => {
   }
 
   let formIsValid =
-    enteredEmailIsValid &&
-    enteredPasswordIsValid &&
-    (enteredNameIsValid || !isNewUser) &&
-    (enteredPersonalNumIsValid || !isNewUser);
-
-  const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-    nameChangeHandler(event);
-  };
-
-  const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-    emailChangeHandler(event);
-  };
-
-  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-    passwordChangeHandler(event);
-  };
-
-  const handlePersonalNum = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPersonalNum(event.target.value);
-    personalNumChangeHandler(event);
-  };
+    emailIsValid &&
+    passwordIsValid &&
+    (nameIsValid || !isNewUser) &&
+    (personalNumIsValid || !isNewUser);
 
   const UIChange = () => {
     handlePageChange();
-    resetEmailInput();
-    resetNameInput();
-    resetPasswordInput();
-    resetPersonalNumInput();
-    resetPersonalNumInput();
-    setError('')
+    nameRef.current?.resetInput();
+    emailRef.current?.resetInput();
+    passwordRef.current?.resetInput();
+    personalNumRef.current?.resetInput();
+    setError("");
   };
 
-  const emailInputClasses = emailInputHasError
-    ? `${styles["input"]} ${styles["invalid-input"]}`
-    : styles["input"];
-
-  const passwordInputClasses = passwordInputHasError
-    ? `${styles["input"]} ${styles["invalid-input"]}`
-    : styles["input"];
-
-  const mainBtnClasses = !formIsValid
-    ? `${styles["main-button"]} ${styles["disabled-main-button"]}`
-    : styles["main-button"];
-
-  const nameInputClasses = nameInputHasError
-    ? `${styles["input"]} ${styles["invalid-input"]}`
-    : styles["input"];
-
-  const personalNumInputClasses = personalNumInputHasError
-    ? `${styles["input"]} ${styles["invalid-input"]}`
-    : styles["input"];
+  const passwordValidity = (value: string) => {
+    if (
+      (value !== "" && !isNewUser) ||
+      (value.length >= minPasswordLength && isNewUser)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   const credentialsClasses = isNewUser
     ? styles.credentials
     : `${styles["credentials"]} ${styles["credentials-sign-in"]}`;
 
-  const toggelShowPassword = () => {
-    setIsShowPassword((prevIsShow) => !prevIsShow);
-  };
+  const mainBtnClasses = !formIsValid
+    ? `${styles["main-button"]} ${styles["disabled-main-button"]}`
+    : styles["main-button"];
 
   return (
     <div className={styles.container}>
       <div className={credentialsClasses}>
         {isNewUser && (
-          <>
-            <label>Name</label>
-            <input
-              className={nameInputClasses}
-              type="text"
-              onChange={(event) => handleName(event)}
-              onBlur={nameBlurHandler}
-              value={name}
-            />
-            {nameInputHasError && (
-              <p className={styles["error-text"]}>Please enter your name.</p>
-            )}
-            <label>Personal Number</label>
-            <input
-              className={personalNumInputClasses}
-              type="text"
-              onChange={(event) => handlePersonalNum(event)}
-              onBlur={personalNumBlurHandler}
-              value={personalNum}
-            />
-            {personalNumInputHasError && (
-              <p className={styles["error-text"]}>
-                Your personal number must have exactly {personalNumLength}{" "}
-                digits.
-              </p>
-            )}
-          </>
-        )}
-        <label>Email</label>
-        <input
-          className={emailInputClasses}
-          type="email"
-          onChange={(event) => handleEmail(event)}
-          onBlur={emailBlurHandler}
-          value={email}
-        />
-        {emailInputHasError && (
-          <p className={styles["error-text"]}>Please enter a valid email.</p>
-        )}
-        <div className={styles["password-container"]}>
-          <label>Password</label>
-          <img
-            src={isShowPassword ? openEyeImage : closedEyeImage}
-            alt="open eye"
-            onClick={toggelShowPassword}
-            className={styles["eye-image"]}
+          <AuthInput
+            inputTitle="Name"
+            inputType="text"
+            inputValue={name}
+            errorText="Please enter your name."
+            setIsValid={setNameIsValid}
+            setInput={setName}
+            checkIsValid={(value) => value !== ""}
+            ref={nameRef}
           />
-        </div>
-        <input
-          className={passwordInputClasses}
-          type={isShowPassword ? "text" : "password"}
-          onChange={(event) => handlePassword(event)}
-          onBlur={passwordBlurHandler}
-          value={password}
-        />
-        {passwordInputHasError && (
-          <p className={styles["error-text"]}>{passwordError}</p>
         )}
+        {isNewUser && (
+          <AuthInput
+            inputTitle="Personal Number"
+            inputType="text"
+            inputValue={personalNum}
+            errorText={`Your personal number must have exactly ${personalNumLength} digits.`}
+            setIsValid={setPersonalNumIsValid}
+            setInput={setPersonalNum}
+            checkIsValid={(value) => value.length === personalNumLength}
+            ref={personalNumRef}
+            isNumOnly={true}
+          />
+        )}
+        <AuthInput
+          inputTitle="Email"
+          inputType="email"
+          inputValue={email}
+          errorText="Please enter a valid email."
+          setIsValid={setEmailIsValid}
+          setInput={setEmail}
+          checkIsValid={(value) => validator.isEmail(value)}
+          ref={emailRef}
+        />
+        <AuthInput
+          inputTitle="Password"
+          inputValue={password}
+          errorText={passwordError}
+          setIsValid={setPasswordIsValid}
+          setInput={setPassword}
+          checkIsValid={passwordValidity}
+          ref={passwordRef}
+        />
         {error && <p className={styles.error}>{error}</p>}
         {!isLoading && (
           <button

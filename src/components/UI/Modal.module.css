@@ -1,0 +1,64 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  background: rgba(70, 70, 70, 0.75);
+}
+
+.modal {
+  position: fixed;
+  top: 10vh;
+  left: 10%;
+  width: 80%;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.header {
+  background:  #a1869e;
+  padding: 1rem;
+}
+
+.header h2 {
+  margin: 0;
+  color: white;
+}
+
+.content {
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.actions {
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.confirm-btn {
+  background-color: #a1869e;
+  color: black;
+  border: none;
+  border-radius: 90px;
+  padding: 0.7rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+.confirm-btn:hover {
+  background-color: #c3a5c0;
+  transform: scale(1.02);
+}
+
+@media (min-width: 768px) {
+  .modal {
+    left: calc(50% - 20rem);
+    width: 40rem;
+  }
+}

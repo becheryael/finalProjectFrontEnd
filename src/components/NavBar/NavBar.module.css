@@ -23,4 +23,5 @@ nav button:hover {
 .profile-picture {
   padding-left: 1%;
   cursor: pointer;
+  width: 3.5rem;
 }

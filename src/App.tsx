@@ -1,10 +1,11 @@
-import AuthPage from "./Pages/AuthPage";
-import MainPage from "./Pages/MainPage";
-import LandingPage from "./Pages/LandingPage";
-import "./App.css";
+import AuthPage from "./Pages/AuthPage/AuthPage";
+import MainPage from "./Pages/MainPage/MainPage";
+import LandingPage from "./Pages/LandingPage/LandingPage";
+import ProfilePage from "./Pages/ProfilePage/ProfilePage";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "./store/auth-context";
+import "./App.css";
 
 const App = () => {
   const authCtx = useContext(AuthContext);
@@ -14,6 +15,7 @@ const App = () => {
       {authCtx.isLoggedIn ? (
         <>
           <Route path="/main" element={<MainPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="*" element={<Navigate to="/main" replace />} />
         </>
       ) : (

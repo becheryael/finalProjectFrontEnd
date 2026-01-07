@@ -23,7 +23,7 @@
 .landing-page {
     width: 100vw;
     margin-top: 0;
-    background-image: url('../assets/media/images/security-background.jpg');
+    background-image: url('../../assets/media/images/security-background.jpg');
     background-size: cover;
 
 }

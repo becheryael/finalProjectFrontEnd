@@ -1,0 +1,52 @@
+.input-contianer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center
+}
+
+.info {
+  color: antiquewhite;
+}
+
+.input {
+  background: transparent;
+  border: 1px solid #666;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  color: white;
+  font-size: 1rem;
+  margin-bottom: 0.1rem;
+}
+
+.input:focus {
+  outline: none;
+  border-color: white;
+}
+
+.invalid-input {
+  border: 2px solid #b40e0e;
+}
+
+.error-text {
+  color: #b40e0e;
+  margin-bottom: 0;
+  margin-top: 2px;
+}
+
+.eye-image {
+  height: 18px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 420px) {
+  .input-contianer {
+    flex-direction: column;
+  }
+}
