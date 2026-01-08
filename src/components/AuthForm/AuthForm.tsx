@@ -42,8 +42,8 @@ const AuthForm = (props: authFormProps) => {
   let passwordError: string;
   let footerText: string;
   let footerBtnText: string;
-  const minPasswordLength = 7;
-  const personalNumLength = 7;
+  const MIN_PASSWORD_LENGTH = 7;
+  const PERSONAL_NUM_LENGTH = 7;
 
   const [nameIsValid, setNameIsValid] = useState(false);
   const [personalNumIsValid, setPersonalNumIsValid] = useState(false);
@@ -57,7 +57,7 @@ const AuthForm = (props: authFormProps) => {
 
   if (isNewUser) {
     buttonText = "Sign Up";
-    passwordError = `Password must contain at least ${minPasswordLength} characters`;
+    passwordError = `Password must contain at least ${MIN_PASSWORD_LENGTH} characters`;
     footerText = "Already have an account? Sign in here.";
     footerBtnText = "Sign in!";
   } else {
@@ -85,7 +85,7 @@ const AuthForm = (props: authFormProps) => {
   const passwordValidity = (value: string) => {
     if (
       (value !== "" && !isNewUser) ||
-      (value.length >= minPasswordLength && isNewUser)
+      (value.length >= MIN_PASSWORD_LENGTH && isNewUser)
     ) {
       return true;
     } else {
@@ -121,10 +121,10 @@ const AuthForm = (props: authFormProps) => {
             inputTitle="Personal Number"
             inputType="text"
             inputValue={personalNum}
-            errorText={`Your personal number must have exactly ${personalNumLength} digits.`}
+            errorText={`Your personal number must have exactly ${PERSONAL_NUM_LENGTH} digits.`}
             setIsValid={setPersonalNumIsValid}
             setInput={setPersonalNum}
-            checkIsValid={(value) => value.length === personalNumLength}
+            checkIsValid={(value) => value.length === PERSONAL_NUM_LENGTH}
             ref={personalNumRef}
             isNumOnly={true}
           />

@@ -57,7 +57,7 @@ const ProfileForm = (props: profileFormProps) => {
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [isEditImage, setIsEditImage] = useState(false);
 
-  const personalNumLength = 7;
+  const PERSONAL_NUM_LENGTH = 7;
 
   let formIsValid =
     emailIsValid &&
@@ -108,8 +108,8 @@ const ProfileForm = (props: profileFormProps) => {
             title="Personal Number"
             inputType="text"
             value={personalNum!}
-            errorText={`Your personal number must be exactly ${personalNumLength} characters to save changes`}
-            checkIsValid={(value) => value.length === personalNumLength}
+            errorText={`Your personal number must be exactly ${PERSONAL_NUM_LENGTH} characters to save changes`}
+            checkIsValid={(value) => value.length === PERSONAL_NUM_LENGTH}
             setInput={setPersonalNum}
             setIsValid={setPersonalNumIsValid}
             ref={personalNumRef}
