@@ -43,11 +43,14 @@ export const createUser = async (
 };
 
 export const logoutUser = async (token: string) => {
-  const url = `http://localhost:8000/users/logout/${token}`;
+  const url = `http://localhost:8000/users/logout`;
   try {
     const response = await axios({
       method: "post",
       url: url,
+      headers: {
+        Authorization: token
+      }
     });
     return response;
   } catch (error) {
@@ -63,19 +66,38 @@ export const editUser = async (
   id: string,
   token: string
 ) => {
-  // const authCtx = useContext(AuthContext);
-  const url = `http://localhost:8000/users/${id}/${token}`;
-  // const convertedpersonalNum = Number(personalNum)
+  const url = `http://localhost:8000/users/${id}`;
   try {
     const response = await axios({
       method: "patch",
       url: url,
+      headers: {
+        Authorization: token
+      },
       data: {
         name,
         personalNum,
         email,
         avatar,
       },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const newToken = async (
+  token: string
+) => {
+  const url = `http://localhost:8000/users/newToken`;
+  try {
+    const response = await axios({
+      method: "POST",
+      url: url,
+      headers: {
+        Authorization: token
+      }
     });
     return response;
   } catch (error) {

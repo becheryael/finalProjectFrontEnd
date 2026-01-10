@@ -24,7 +24,6 @@ const NavBar = () => {
   };
 
   const logoutHandler = async () => {
-    navigate("/login", { replace: true });
     try {
       const res = logoutUser(authCtx.token!);
       console.log(res);
