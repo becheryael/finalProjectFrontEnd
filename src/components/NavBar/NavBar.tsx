@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../../store/auth-context";
-import { logoutUser } from "../../services/apiServices";
+import { logoutUser } from "../../services/userApiServices";
 import { AxiosError } from "axios";
 // @ts-ignore
 import styles from "./NavBar.module.css";
@@ -66,7 +66,6 @@ const NavBar = () => {
           onClick={profileHandler}
         />
       )}
-      <h1>main page haha</h1>
       <button onClick={logoutHandler}>Sign out</button>
     </nav>
   );

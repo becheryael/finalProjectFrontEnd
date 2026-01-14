@@ -1,26 +1,40 @@
+import { useState } from "react";
 // @ts-ignore
 import styles from "./Request.module.css";
 
 interface requestProps {
-  requestName: string;
+  requestTitle: string;
   requestType: string;
-  requestDate: Date;
+  requestDate: string;
+  isApproved: boolean;
 }
 
 const Request = (props: requestProps) => {
-  const { requestName, requestType, requestDate } = props;
-  const dateStr = requestDate.toLocaleDateString("en-US", {
+  const { requestTitle, requestType, requestDate, isApproved } = props;
+  let approvedTxt: string;
+  if (isApproved) {
+    approvedTxt = 'Approved';
+  } else {
+    approvedTxt = 'Denied';
+  }
+  const dateObj = new Date(requestDate);
+  const dateStr = dateObj.toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
   });
+  const approvedClasses = isApproved
+      ? styles["approved"]
+      : styles["denied"];
+
   return (
-    <div className={styles.request}>
-      <p>{requestName}</p>
-      <p>{requestType}</p>
-      <p>{dateStr}</p>
-    </div>
+  <tr>
+    <td>{requestTitle}</td>
+    <td>{requestType}</td>
+    <td>{dateStr}</td>
+    <td className={approvedClasses}>{approvedTxt}</td>
+  </tr>
   );
 };
 

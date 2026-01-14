@@ -5,6 +5,14 @@
     width: 75%;
 }
 
+.approved {
+  color: rgb(139, 231, 139);
+}
+
+.denied {
+  color: rgb(145, 65, 65);
+}
+
 @media screen and (max-width: 700px) {
   .request {
     background-color: lightgreen;

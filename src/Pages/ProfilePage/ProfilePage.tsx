@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { InputHandle } from "../../components/UserInfoField/UserInfoField";
 import AuthContext from "../../store/auth-context";
-import { editUser } from "../../services/apiServices";
+import { editUser } from "../../services/userApiServices";
 import ProfileForm from "../../components/ProfileForm/ProfileForm";
 
 const ProfilePage = () => {

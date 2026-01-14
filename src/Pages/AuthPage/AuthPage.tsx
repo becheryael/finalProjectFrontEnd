@@ -2,7 +2,7 @@ import AuthContext from "../../store/auth-context";
 import AuthForm from "../../components/AuthForm/AuthForm";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchUser, createUser } from "../../services/apiServices";
+import { loginUser, createUser } from "../../services/userApiServices";
 import { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
 // @ts-ignore
@@ -38,7 +38,7 @@ const AuthPage = () => {
     try {
       let res;
       if (!isNewUser) {
-        res = await fetchUser(email, password);
+        res = await loginUser(email, password);
       } else {
         res = await createUser(email, password, personalNum, name);
       }

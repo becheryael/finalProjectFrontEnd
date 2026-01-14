@@ -9,7 +9,7 @@ interface AuthContextType {
     token: string,
     user: { name: string; personalNum: string; email: string, avatar: string },
     id: string,
-    expirationTime: string
+    expirationTime: string,
   ) => void;
   logout: () => void;
   userInfo: {

@@ -1,6 +1,6 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
-export const fetchUser = async (email: string, password: string) => {
+export const loginUser = async (email: string, password: string) => {
   const url = "http://localhost:8000/users/login";
   try {
     const response = await axios({

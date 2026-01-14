@@ -1,6 +1,76 @@
 .requests-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   margin-top: 30px;
+  width: 85vw;
+  gap: 0.5rem;
+}
+
+.error-message {
+  align-self: flex-start;
+  margin-left: 30%;
+}
+
+.requests-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.requests-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 8px;
+  text-align: left;
+  background-color: #a1869e;
+  color: white;
+}
+
+.requests-table td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 8px;
+}
+
+.requests-table tr {
+  background-color: #8d8c8c;
+}
+
+.requests-table tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+    
+.requests-table tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+.requests-table tr:first-child th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.requests-table tr:first-child th:last-child {
+    border-top-right-radius: 10px;
+}
+
+tr:nth-child(even){background-color: #636363;}
+
+.new-btn {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgb(33, 26, 33);
+  border-radius: 100px;
+  background-color: rgb(70, 53, 70);
+  color: white;
+  gap: 0.4rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  cursor: pointer;
+}
+
+.new-btn:hover {
+  background-color: rgb(48, 37, 48);
+  transform: scale(1.02);
+  border: 1px solid rgb(255, 255, 255);
 }
