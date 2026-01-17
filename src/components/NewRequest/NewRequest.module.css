@@ -58,6 +58,7 @@ textarea::-webkit-scrollbar-thumb {
 .select:focus {
   background: #dddddd;
 }
+
 .select::picker-icon {
   color: #999999;
   transition: 0.4s rotate;
@@ -102,14 +103,13 @@ textarea::-webkit-scrollbar-thumb {
 }
 
 .select option:hover {
-  background: rgb(201, 164, 201);
-}
-
-.select option:focus {
-  background: plum;
+  background: rgb(166, 142, 166);
 }
 
 option:checked {
   font-weight: bold;
 }
 
+.req-error {
+  color: #d674ca;
+}

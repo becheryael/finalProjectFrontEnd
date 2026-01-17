@@ -1,0 +1,60 @@
+.select-contianer {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.select,
+::picker(select) {
+  appearance: base-select;
+}
+
+.select {
+  background: #ebd9e9;
+  padding: 2px 4px;
+  cursor: pointer;
+  transition: 0.4s;
+  width: 20%;
+  color: black;
+}
+
+.select::picker-icon {
+  color: #999999;
+  transition: 0.4s rotate;
+}
+
+.select:open::picker-icon {
+  rotate: 180deg;
+}
+
+::picker(select) {
+  border: none;
+}
+
+.select option {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  border: 2px solid #dddddd;
+  transition: 0.4s;
+  height: 20px;
+  cursor: pointer;
+}
+
+.select option:first-of-type {
+  border-radius: 8px 8px 0 0;
+}
+
+.select option:last-of-type {
+  border-radius: 0 0 8px 8px;
+}
+
+.select::picker(select) {
+  border-radius: 8px;
+}
+
+
+.select option:not(option:last-of-type) {
+  border-bottom: none;
+}

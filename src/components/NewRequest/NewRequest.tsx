@@ -1,35 +1,53 @@
 import useInput from "../../hooks/use-input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 //@ts-ignore
 import styles from "./NewRequest.module.css";
 
 interface newRequestProps {
-  isValid: boolean;
-  setIsValid: (value: boolean) => void;
+  requestText: string;
+  selectedType: string;
+  setRequestText: (value: string) => void;
+  setSelectedType: (value: string) => void;
   setFormIsValid: (value: boolean) => void;
+  isLoading: boolean;
+  error: null | string;
 }
 
 const NewRequest = (props: newRequestProps) => {
-  const { isValid, setIsValid, setFormIsValid } = props;
+  const {
+    requestText,
+    selectedType,
+    setRequestText,
+    setSelectedType,
+    setFormIsValid,
+    isLoading,
+    error,
+  } = props;
   const MIN_LENGTH = 5;
-  const [requestText, setRequestText] = useState("");
-  const [selectedType, setSelectedType] = useState("none");
+
   const {
     hasError: textHasError,
     valueChangeHandler: textChangeHandler,
-    inputBlurHandler: textBlurHandler
+    inputBlurHandler: textBlurHandler,
   } = useInput((value) => value.length >= MIN_LENGTH);
 
   const handleTextInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setRequestText(event.target.value);
+    const text = event.target.value;
+    setRequestText(text);
     textChangeHandler(event);
   };
 
-  if (isValid && selectedType !== "none") {
-    setFormIsValid(true);
-  } else {
-    setFormIsValid(false);
-  }
+  const handleSelectionInput = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const selection = event.target.value;
+    setSelectedType(selection);
+  };
+
+  useEffect(() => {
+    const isValid = requestText.length >= MIN_LENGTH && selectedType !== "none";
+    setFormIsValid(isValid);
+  }, [requestText, selectedType]);
 
   const textClasses = textHasError
     ? `${styles["text"]} ${styles["invalid-text"]}`
@@ -41,16 +59,16 @@ const NewRequest = (props: newRequestProps) => {
         name="Request type"
         className={styles.select}
         value={selectedType}
-        onChange={(event) => setSelectedType(event.target.value)}
+        onChange={(event) => handleSelectionInput(event)}
       >
         <option value="none" disabled>
           Request Type
         </option>
-        <option value="black">Blackening</option>
-        <option value="kidud">Kidud</option>
-        <option value="inside">Let me in</option>
-        <option value="inCar">Let me in by car or plane</option>
-        <option value="sign">Sign for me</option>
+        <option value="Blackening">Blackening</option>
+        <option value="Kidud">Kidud</option>
+        <option value="Let me in">Let me in</option>
+        <option value="Let me in by car or plane">Let me in by car or plane</option>
+        <option value="Sign for me">Sign for me</option>
       </select>
       <textarea
         className={textClasses}
@@ -63,6 +81,16 @@ const NewRequest = (props: newRequestProps) => {
       {textHasError && (
         <p className={styles["error-text"]}>
           Please write a description for your request.
+        </p>
+      )}
+      {error && (
+        <p className={styles["req-error"]}>
+          {error}
+        </p>
+      )}
+      {isLoading && (
+        <p>
+          Loading...
         </p>
       )}
     </div>

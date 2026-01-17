@@ -5,10 +5,16 @@ import styles from "./Modal.module.css";
 
 interface backdropProps {
   onConfirm: () => void;
+  onClose?: () => void;
 }
 
 const Backdrop = (props: backdropProps) => {
-  return <div className={styles.backdrop} onClick={props.onConfirm} />;
+  return (
+    <div
+      className={styles.backdrop}
+      onClick={props.onClose || props.onConfirm}
+    />
+  );
 };
 
 interface overlayProps {
@@ -17,9 +23,14 @@ interface overlayProps {
   onConfirm: () => void;
   confirmTxt: string;
   component?: React.ReactNode;
+  isValid?: boolean;
 }
 
 const ModalOverlay = (props: overlayProps) => {
+  const { isValid = true } = props;
+  const buttonClasses = !isValid
+    ? `${styles["invalid-button"]}`
+    : styles["confirm-btn"];
   return (
     <Card classname={styles.modal}>
       <header className={styles.header}>
@@ -33,7 +44,8 @@ const ModalOverlay = (props: overlayProps) => {
         <button
           type="button"
           onClick={props.onConfirm}
-          className={styles["confirm-btn"]}
+          className={buttonClasses}
+          disabled={!isValid}
         >
           {props.confirmTxt}
         </button>
@@ -46,15 +58,17 @@ interface modalProps {
   title: string;
   message?: string;
   onConfirm: () => void;
+  onClose?: () => void;
   confirmTxt: string;
-  component?: React.ReactNode
+  component?: React.ReactNode;
+  isValid?: boolean;
 }
 
 const Modal = (props: modalProps) => {
   return (
     <>
       {ReactDOM.createPortal(
-        <Backdrop onConfirm={props.onConfirm} />,
+        <Backdrop onConfirm={props.onConfirm} onClose={props.onClose} />,
         document.getElementById("backdrop-root") as HTMLElement
       )}
       {ReactDOM.createPortal(
@@ -64,6 +78,7 @@ const Modal = (props: modalProps) => {
           message={props.message}
           confirmTxt={props.confirmTxt}
           component={props.component}
+          isValid={props.isValid}
         />,
         document.getElementById("overlay-root") as HTMLElement
       )}

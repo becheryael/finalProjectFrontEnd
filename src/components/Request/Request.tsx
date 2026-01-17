@@ -3,20 +3,16 @@ import { useState } from "react";
 import styles from "./Request.module.css";
 
 interface requestProps {
-  requestTitle: string;
+  requestText: string;
   requestType: string;
   requestDate: string;
-  isApproved: boolean;
+  requestStatus: string;
 }
 
 const Request = (props: requestProps) => {
-  const { requestTitle, requestType, requestDate, isApproved } = props;
+  const { requestText, requestType, requestDate, requestStatus } = props;
   let approvedTxt: string;
-  if (isApproved) {
-    approvedTxt = 'Approved';
-  } else {
-    approvedTxt = 'Denied';
-  }
+
   const dateObj = new Date(requestDate);
   const dateStr = dateObj.toLocaleDateString("en-US", {
     weekday: "long",
@@ -24,17 +20,29 @@ const Request = (props: requestProps) => {
     month: "long",
     day: "numeric",
   });
-  const approvedClasses = isApproved
-      ? styles["approved"]
-      : styles["denied"];
+  
+  let statusClasses;
+  if (requestStatus === "Awaiting approval") {
+    statusClasses = styles["waiting"];
+  } else if (requestStatus === "Approved") {
+    statusClasses = styles["approved"];
+  } else {
+    statusClasses = styles["denied"];
+  }
 
   return (
-  <tr>
-    <td>{requestTitle}</td>
-    <td>{requestType}</td>
-    <td>{dateStr}</td>
-    <td className={approvedClasses}>{approvedTxt}</td>
-  </tr>
+    <tr>
+      <td>
+        <div>{requestType}</div>
+      </td>
+      <td>
+        <div>{requestText}</div>
+      </td>
+      <td>
+        <div>{dateStr}</div>
+      </td>
+      <td className={statusClasses}>{requestStatus}</td>
+    </tr>
   );
 };
 
