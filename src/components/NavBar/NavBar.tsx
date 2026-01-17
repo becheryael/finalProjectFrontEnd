@@ -1,6 +1,6 @@
+import AuthContext from "../../store/auth-context";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import AuthContext from "../../store/auth-context";
 import { logoutUser } from "../../services/userApiServices";
 import { AxiosError } from "axios";
 // @ts-ignore
@@ -14,7 +14,13 @@ import koalaAvatar from "../../assets/media/images/koalaAvatar.png";
 //@ts-ignore
 import raccoonAvatar from "../../assets/media/images/raccoonAvatar.png";
 
-const NavBar = () => {
+interface navBarProps {
+  setIsManagerPage: (value: boolean) => void;
+  isManagerPage: boolean;
+}
+
+const NavBar = (props: navBarProps) => {
+  const { setIsManagerPage, isManagerPage } = props;
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
   const avatar = authCtx.userInfo.avatar;
@@ -66,7 +72,15 @@ const NavBar = () => {
           onClick={profileHandler}
         />
       )}
-      <button onClick={logoutHandler}>Sign out</button>
+      <div className={styles["btns-container"]}>
+        {authCtx.isManager && !isManagerPage && (
+          <p onClick={(event) => setIsManagerPage(true)}>Control Requests</p>
+        )}
+        {authCtx.isManager && isManagerPage && (
+          <p onClick={(event) => setIsManagerPage(false)}>See my Requests</p>
+        )}
+        <button onClick={logoutHandler}>Sign out</button>
+      </div>
     </nav>
   );
 };

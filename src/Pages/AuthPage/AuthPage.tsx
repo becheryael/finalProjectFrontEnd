@@ -8,7 +8,7 @@ import { jwtDecode } from "jwt-decode";
 // @ts-ignore
 import styles from "./AuthPage.module.css";
 
-const TO_MILLISECONDS = 1000
+const TO_MILLISECONDS = 1000;
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -44,6 +44,7 @@ const AuthPage = () => {
       }
       setIsLoading(false);
       if (res.status === 200 || res.status === 201) {
+        console.log(res);
         const decodedToken = jwtDecode(res.data.token);
         const tokenExpiration = decodedToken.exp;
         const expirationTime = new Date(tokenExpiration! * TO_MILLISECONDS);
@@ -51,6 +52,7 @@ const AuthPage = () => {
           res.data.token,
           res.data.user,
           res.data.user._id,
+          res.data.user.manager,
           expirationTime.toISOString()
         );
         navigate("/main", { replace: true });

@@ -1,8 +1,17 @@
-import { useState } from "react";
 // @ts-ignore
 import styles from "./Request.module.css";
+//@ts-ignore
+import beaverAvatar from "../../assets/media/images/beaverAvatar.png";
+//@ts-ignore
+import deerAvatar from "../../assets/media/images/deerAvatar.png";
+//@ts-ignore
+import koalaAvatar from "../../assets/media/images/koalaAvatar.png";
+//@ts-ignore
+import raccoonAvatar from "../../assets/media/images/raccoonAvatar.png";
 
 interface requestProps {
+  user?: string;
+  avatar?: string;
   requestText: string;
   requestType: string;
   requestDate: string;
@@ -10,9 +19,7 @@ interface requestProps {
 }
 
 const Request = (props: requestProps) => {
-  const { requestText, requestType, requestDate, requestStatus } = props;
-  let approvedTxt: string;
-
+  const { user, avatar, requestText, requestType, requestDate, requestStatus } = props;
   const dateObj = new Date(requestDate);
   const dateStr = dateObj.toLocaleDateString("en-US", {
     weekday: "long",
@@ -20,7 +27,7 @@ const Request = (props: requestProps) => {
     month: "long",
     day: "numeric",
   });
-  
+
   let statusClasses;
   if (requestStatus === "Awaiting approval") {
     statusClasses = styles["waiting"];
@@ -32,6 +39,27 @@ const Request = (props: requestProps) => {
 
   return (
     <tr>
+      {avatar && (
+        <td>
+          {avatar === "koala" && (
+            <img src={koalaAvatar} className={styles["avatar"]} />
+          )}
+          {avatar === "deer" && (
+            <img src={deerAvatar} className={styles["avatar"]} />
+          )}
+          {avatar === "beaver" && (
+            <img src={beaverAvatar} className={styles["avatar"]} />
+          )}
+          {avatar === "raccoon" && (
+            <img src={raccoonAvatar} className={styles["avatar"]} />
+          )}
+        </td>
+      )}
+      {user && (
+        <td>
+          <div>{user}</div>
+        </td>
+      )}
       <td>
         <div>{requestType}</div>
       </td>

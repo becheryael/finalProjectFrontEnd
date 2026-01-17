@@ -4,17 +4,14 @@ import Modal from "../UI/Modal";
 import NewRequest from "../NewRequest/NewRequest";
 import SortingRequests from "../SortingRequests/SortingRequests";
 import { useState, useContext, useEffect } from "react";
-import {
-  fetchRequests,
-  createRequest,
-} from "../../services/requestApiServices";
+import { fetchRequests, createRequest } from "../../services/requestApiServices";
 import { AxiosError } from "axios";
 // @ts-ignore
-import styles from "./Requests.module.css";
+import styles from "./UserRequests.module.css";
 // @ts-ignore
 import newImage from "../../assets/media/images/new.png";
 
-const Requests = () => {
+const UserRequests = () => {
   const authCtx = useContext(AuthContext);
   const [error, setError] = useState<null | string>(null);
   const [newRequestError, setNewRequestError] = useState<null | string>(null);
@@ -166,4 +163,4 @@ const Requests = () => {
   );
 };
 
-export default Requests;
+export default UserRequests;

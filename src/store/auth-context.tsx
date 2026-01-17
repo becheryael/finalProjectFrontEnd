@@ -9,6 +9,7 @@ interface AuthContextType {
     token: string,
     user: { name: string; personalNum: string; email: string, avatar: string },
     id: string,
+    isManager: boolean,
     expirationTime: string,
   ) => void;
   logout: () => void;
@@ -19,6 +20,7 @@ interface AuthContextType {
     avatar: string | null;
   };
   userId: string | null;
+  isManager: boolean;
   edit: (newName: string, newPersonalNum: string, newEmail: string, newAvatar: string) => void;
 }
 
@@ -29,7 +31,8 @@ const AuthContext = React.createContext<AuthContextType>({
     token: string,
     user: { name: string; personalNum: string; email: string, avatar: string },
     id: string,
-        expirationTime: string
+    isManager: boolean,
+    expirationTime: string
   ) => {},
   logout: () => {},
   userInfo: {
@@ -39,6 +42,7 @@ const AuthContext = React.createContext<AuthContextType>({
     avatar: '',
   },
   userId: "",
+  isManager: false,
   edit: (newName: string, newPersonalNum: string, newEmail: string, newAvatar: string) => {},
 });
 
@@ -78,19 +82,30 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
   }
 
   // const initialToken = localStorage.getItem("token");
+  const [token, setToken] = useState<string | null>(initialToken!);
   const initailName = localStorage.getItem("name");
   const initailPersonalNum = localStorage.getItem("personalNum");
   const initialEmail = localStorage.getItem("email");
-  const [token, setToken] = useState<string | null>(initialToken!);
   const initialAvatar = localStorage.getItem("avatar");
+  const manager = localStorage.getItem("manager");
   const id = localStorage.getItem("id");
 
+  let managerBoolean: boolean;
+  if (manager === 'true') {
+    managerBoolean = true;
+  } else {
+    managerBoolean = false;
+  }
+
   const [userId, setUserId] = useState<string | null>(id);
+  const [isManager, setIsManager] = useState<boolean>(managerBoolean);
+
+
   const [userInfo, setUserInfo] = useState({
     name: initailName,
     personalNum: initailPersonalNum,
     email: initialEmail,
-    avatar: initialAvatar
+    avatar: initialAvatar,
   });
 
   const userIsLoggedIn = !!token;
@@ -99,6 +114,7 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
     token: string,
     user: { name: string; personalNum: string; email: string, avatar: string },
     id: string,
+    isManager: boolean,
     expirationTime: string
   ) => {
     setToken(token);
@@ -106,14 +122,16 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
       name: user.name,
       personalNum: user.personalNum,
       email: user.email,
-      avatar: user.avatar
+      avatar: user.avatar,
     });
     setUserId(id);
+    setIsManager(isManager);
     localStorage.setItem("name", user.name);
     localStorage.setItem("personalNum", user.personalNum);
     localStorage.setItem("email", user.email);
     localStorage.setItem("id", id);
-    localStorage.setItem("avatar",user.avatar);
+    localStorage.setItem("avatar", user.avatar);
+    localStorage.setItem("manager", String(isManager));
     
     localStorage.setItem("token", token);
     localStorage.setItem('expirationTime', expirationTime);
@@ -131,13 +149,12 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
     localStorage.removeItem("email");
     localStorage.removeItem("id");
     localStorage.removeItem("avatar");
+    localStorage.removeItem("manager");
     localStorage.removeItem('expirationTime');
     if (logoutTimer) {
       clearTimeout(logoutTimer);
     }
   }, []);
-
-  
 
   const editProfileHandler = (
     newName: string,
@@ -163,8 +180,9 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
     login: loginHandler,
     logout: logoutHandler,
     userInfo,
-    edit: editProfileHandler,
     userId,
+    isManager,
+    edit: editProfileHandler,
   };
 
   return (

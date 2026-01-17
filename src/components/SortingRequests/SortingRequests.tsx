@@ -1,37 +1,24 @@
-import { useState } from "react";
 //@ts-ignore
 import styles from "./SortingRequests.module.css";
 
 interface sortingRequestProps {
-    sortByDate: string;
-    sortByStatus: string;
-    sortByType: string;
-    setSortByDate: (value: string) => void;
-    setSortByStatus: (value: string) => void;
-    setSortByType: (value: string) => void;
+  sortByDate: string;
+  sortByStatus: string;
+  sortByType: string;
+  setSortByDate: (value: string) => void;
+  setSortByStatus: (value: string) => void;
+  setSortByType: (value: string) => void;
 }
 
 const SortingRequests = (props: sortingRequestProps) => {
-    const {sortByDate, sortByStatus, sortByType, setSortByDate, setSortByStatus, setSortByType} = props
-
-  const handleDateSorting = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortByDate(event.target.value);
-    handleSorting();
-  };
-
-  const handleStatusSorting = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortByStatus(event.target.value);
-    handleSorting();
-  };
-
-  const handleTypeSorting = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortByType(event.target.value);
-    handleSorting();
-  };
-
-  const handleSorting = () => {
-
-  }
+  const {
+    sortByDate,
+    sortByStatus,
+    sortByType,
+    setSortByDate,
+    setSortByStatus,
+    setSortByType,
+  } = props;
 
   return (
     <div className={styles["select-contianer"]}>
@@ -39,7 +26,7 @@ const SortingRequests = (props: sortingRequestProps) => {
         name="Date sort"
         className={styles.select}
         value={sortByDate}
-        onChange={(event) => handleDateSorting(event)}
+        onChange={(event) => setSortByDate(event.target.value)}
       >
         <option value="none" disabled>
           Sort by date
@@ -51,7 +38,7 @@ const SortingRequests = (props: sortingRequestProps) => {
         name="Status sort"
         className={styles.select}
         value={sortByStatus}
-        onChange={(event) => handleStatusSorting(event)}
+        onChange={(event) => setSortByStatus(event.target.value)}
       >
         <option value="none" disabled>
           Sort by status
@@ -62,10 +49,10 @@ const SortingRequests = (props: sortingRequestProps) => {
         <option value="Denied">Denied</option>
       </select>
       <select
-        name="Status sort"
+        name="Type sort"
         className={styles.select}
         value={sortByType}
-        onChange={(event) => handleTypeSorting(event)}
+        onChange={(event) => setSortByType(event.target.value)}
       >
         <option value="none" disabled>
           Sort by type

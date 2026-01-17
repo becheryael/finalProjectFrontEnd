@@ -25,3 +25,14 @@ nav button:hover {
   cursor: pointer;
   width: 3.5rem;
 }
+
+.btns-container {
+  display: flex;    
+  align-items: center;
+}
+
+.btns-container p{
+  cursor: pointer;
+  text-decoration: underline;
+  color: #ebd9e9;
+}

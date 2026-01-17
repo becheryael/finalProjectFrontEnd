@@ -58,3 +58,38 @@ export const createRequest = async (
     throw error;
   }
 };
+
+export const fetchAllRequests = async (
+  token: string,
+  date: string,
+  status: string,
+  type: string
+) => {
+  let statusSort;
+  let typeSort;
+  if (status !== "All" && status !== "none") {
+    statusSort = `status=${status}`;
+  } else {
+    statusSort = "";
+  }
+
+  if (type !== "All" && type !== "none") {
+    typeSort = `type=${type}`;
+  } else {
+    typeSort = "";
+  }
+
+  const url = `http://localhost:8000/requests/allRequests?${statusSort}&${typeSort}&date=${date}`;
+  try {
+    const response = await axios({
+      method: "get",
+      url: url,
+      headers: {
+        Authorization: token,
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
