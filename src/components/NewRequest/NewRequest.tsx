@@ -1,5 +1,5 @@
 import useInput from "../../hooks/use-input";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 //@ts-ignore
 import styles from "./NewRequest.module.css";
 

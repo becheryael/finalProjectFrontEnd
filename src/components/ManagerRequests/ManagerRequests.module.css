@@ -24,7 +24,7 @@
   padding-bottom: 12px;
   padding-left: 8px;
   text-align: left;
-  background-color: #a1869e;
+  background-color: #633960 ;
   color: white;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .requests-table tr {
-  background-color: #8d8c8c;
+  background-color: #4e474c;
 }
 
 .requests-table td:first-child {
@@ -78,10 +78,6 @@
 
 .requests-table tr:first-child th:last-child {
   border-top-right-radius: 10px;
-}
-
-tr:nth-child(even) {
-  background-color: #929191;
 }
 
 .new-btn {

@@ -66,6 +66,7 @@ const ManagerRequests = () => {
               <th>Request</th>
               <th>Date</th>
               <th>Status</th>
+              <th>Status Message</th>
             </tr>
           </thead>
           <tbody>
@@ -76,17 +77,22 @@ const ManagerRequests = () => {
                   text: string;
                   createdAt: string;
                   status: string;
+                  _id: string;
+                  message: string;
                   owner: { name: string; avatar: string };
                 },
                 index
               ) => (
                 <Request
+                  isManager={true}
                   user={request.owner.name}
                   avatar={request.owner.avatar}
                   requestType={request.type}
                   requestText={request.text}
                   requestDate={request.createdAt}
                   requestStatus={request.status}
+                  requestId={request._id}
+                  requestMessage={request.message}
                   key={index}
                 />
               )

@@ -93,3 +93,28 @@ export const fetchAllRequests = async (
     throw error;
   }
 };
+
+export const editRequest = async (
+  token: string,
+  requestId: string,
+  status: string,
+  message?: string
+) => {
+  const url = `http://localhost:8000/requests/${requestId}`;
+  try {
+    const response = await axios({
+      method: "patch",
+      url: url,
+      headers: {
+        Authorization: token
+      },
+      data: {
+        status,
+        message
+      }
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

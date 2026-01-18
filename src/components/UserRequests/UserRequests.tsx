@@ -133,6 +133,7 @@ const UserRequests = () => {
                 <th>Request</th>
                 <th>Date</th>
                 <th>Status</th>
+                <th>Status Message</th>
               </tr>
             </thead>
             <tbody>
@@ -143,6 +144,8 @@ const UserRequests = () => {
                     text: string;
                     createdAt: string;
                     status: string;
+                    message: string;
+                    _id: string;
                   },
                   index
                 ) => (
@@ -151,6 +154,8 @@ const UserRequests = () => {
                     requestText={request.text}
                     requestDate={request.createdAt}
                     requestStatus={request.status}
+                    requestId={request._id}
+                    requestMessage={request.message}
                     key={index}
                   />
                 )

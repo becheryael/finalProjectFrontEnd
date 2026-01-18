@@ -3,7 +3,21 @@
 }
 
 .denied {
-  color: rgb(220, 60, 60);
+  color: rgb(211, 136, 136);
+}
+
+.table-btn {
+  background: rgb(56, 56, 56);
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-container {
+  display: flex;
+  gap: 1rem;
 }
 
 .waiting {
@@ -11,7 +25,8 @@
 }
 
 .avatar {
-  width: 2rem;
+  min-width: 1rem;
+  width: 100%;
 }
 
 @media screen and (max-width: 700px) {
