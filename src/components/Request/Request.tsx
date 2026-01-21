@@ -37,7 +37,7 @@ const Request = (props: requestProps) => {
     requestStatus,
     requestId,
     isManager = false,
-    requestMessage
+    requestMessage,
   } = props;
   const authCtx = useContext(AuthContext);
   const dateObj = new Date(requestDate);
@@ -45,7 +45,7 @@ const Request = (props: requestProps) => {
     weekday: "long",
     year: "numeric",
     month: "long",
-    day: "numeric"
+    day: "numeric",
   });
   const [status, setStatus] = useState(requestStatus);
   const [message, setMessage] = useState(requestMessage);
@@ -55,6 +55,7 @@ const Request = (props: requestProps) => {
   const [isDenyLoading, setIsDenyLoading] = useState(false);
   const [denyError, setDenyError] = useState<null | string>(null);
   console.log(props);
+
   let statusClasses;
   if (status === "Awaiting approval") {
     statusClasses = styles["waiting"];
@@ -86,9 +87,10 @@ const Request = (props: requestProps) => {
         "Denied",
         denyText
       );
-      console.log(res.data)
+      console.log(res.data);
       setMessage(res.data.message);
       setStatus(res.data.status);
+      console.log(res.data.status);
       setIsDenyLoading(false);
       closeDeny();
     } catch (error) {
@@ -114,6 +116,7 @@ const Request = (props: requestProps) => {
           confirmTxt="Deny"
           onConfirm={handleDeny}
           isValid={isDenyFormValid}
+          onClose={closeDeny}
           component={
             <RequestDeny
               denyText={denyText}
@@ -127,7 +130,7 @@ const Request = (props: requestProps) => {
       )}
       <tr>
         {avatar && (
-          <td>
+          <td className={styles["avatar-container"]}>
             {avatar === "koala" && (
               <img src={koalaAvatar} className={styles["avatar"]} />
             )}

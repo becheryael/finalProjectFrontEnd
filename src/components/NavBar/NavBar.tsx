@@ -42,45 +42,66 @@ const NavBar = (props: navBarProps) => {
     }
   };
 
+  const managarPageBtn = isManagerPage
+    ? `${styles["current-page"]} ${styles["nav-bar-button"]}`
+    : `${styles["nav-bar-button"]}`;
+  const myPageBtn = !isManagerPage
+    ? `${styles["current-page"]} ${styles["nav-bar-button"]}`
+    : `${styles["nav-bar-button"]}`;
+
   return (
     <nav className={styles["nav-bar"]}>
-      {avatar === "koala" && (
-        <img
-          src={koalaAvatar}
-          className={styles["profile-picture"]}
-          onClick={profileHandler}
-        />
-      )}
-      {avatar === "deer" && (
-        <img
-          src={deerAvatar}
-          className={styles["profile-picture"]}
-          onClick={profileHandler}
-        />
-      )}
-      {avatar === "beaver" && (
-        <img
-          src={beaverAvatar}
-          className={styles["profile-picture"]}
-          onClick={profileHandler}
-        />
-      )}
-      {avatar === "raccoon" && (
-        <img
-          src={raccoonAvatar}
-          className={styles["profile-picture"]}
-          onClick={profileHandler}
-        />
-      )}
-      <div className={styles["btns-container"]}>
-        {authCtx.isManager && !isManagerPage && (
-          <p onClick={(event) => setIsManagerPage(true)}>Control Requests</p>
+      <div className={styles["start-container"]}>
+        {avatar === "koala" && (
+          <img
+            src={koalaAvatar}
+            className={styles["profile-picture"]}
+            onClick={profileHandler}
+          />
         )}
-        {authCtx.isManager && isManagerPage && (
-          <p onClick={(event) => setIsManagerPage(false)}>See my Requests</p>
+        {avatar === "deer" && (
+          <img
+            src={deerAvatar}
+            className={styles["profile-picture"]}
+            onClick={profileHandler}
+          />
         )}
-        <button onClick={logoutHandler}>Sign out</button>
+        {avatar === "beaver" && (
+          <img
+            src={beaverAvatar}
+            className={styles["profile-picture"]}
+            onClick={profileHandler}
+          />
+        )}
+        {avatar === "raccoon" && (
+          <img
+            src={raccoonAvatar}
+            className={styles["profile-picture"]}
+            onClick={profileHandler}
+          />
+        )}
+        <div className={styles["btns-container"]}>
+          {authCtx.isManager && (
+            <button
+              className={managarPageBtn}
+              onClick={(event) => setIsManagerPage(true)}
+            >
+              Control Requests
+            </button>
+          )}
+          {authCtx.isManager && (
+            <button
+              className={myPageBtn}
+              onClick={(event) => setIsManagerPage(false)}
+            >
+              See my Requests
+            </button>
+          )}
+        </div>
       </div>
+      <button className={styles["nav-bar-button"]} onClick={logoutHandler}>
+        Sign out
+      </button>
     </nav>
   );
 };

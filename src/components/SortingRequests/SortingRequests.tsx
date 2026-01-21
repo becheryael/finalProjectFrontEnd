@@ -1,5 +1,7 @@
 //@ts-ignore
 import styles from "./SortingRequests.module.css";
+//@ts-ignore
+import searchIcon from "../../assets/media/images/search-icon.png";
 
 interface sortingRequestProps {
   sortByDate: string;
@@ -8,6 +10,10 @@ interface sortingRequestProps {
   setSortByDate: (value: string) => void;
   setSortByStatus: (value: string) => void;
   setSortByType: (value: string) => void;
+  isManager?: boolean;
+  fetchByUser?: string;
+  setFetchByUser?: (value: string) => void;
+  handleSearch?: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const SortingRequests = (props: sortingRequestProps) => {
@@ -18,6 +24,10 @@ const SortingRequests = (props: sortingRequestProps) => {
     setSortByDate,
     setSortByStatus,
     setSortByType,
+    isManager = false,
+    fetchByUser,
+    setFetchByUser,
+    handleSearch
   } = props;
 
   return (
@@ -66,6 +76,19 @@ const SortingRequests = (props: sortingRequestProps) => {
         </option>
         <option value="Sign for me">Sign for me</option>
       </select>
+      {isManager && (
+        <form onSubmit={handleSearch} className={styles['search-form']}>
+          <input
+            value={fetchByUser}
+            onChange={(event) => setFetchByUser!(event.target.value)}
+            placeholder="Search by user..."
+            className={styles['search']}
+          ></input>
+          <button type="submit" className={styles['search-btn']} >
+            <img src={searchIcon} />
+          </button>
+        </form>
+      )}
     </div>
   );
 };

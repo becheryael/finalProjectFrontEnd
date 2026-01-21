@@ -24,6 +24,11 @@
   color: rgb(237, 221, 132);
 }
 
+.avatar-container {
+  max-width: 5px;
+  width: 4%;
+}
+
 .avatar {
   min-width: 1rem;
   width: 100%;

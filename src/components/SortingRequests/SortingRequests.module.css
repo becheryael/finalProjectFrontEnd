@@ -1,8 +1,8 @@
 .select-contianer {
-    display: flex;
-    gap: 2rem;
-    margin-top: 2rem;
-    width: 100%;
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  width: 100%;
 }
 
 .select,
@@ -54,7 +54,27 @@
   border-radius: 8px;
 }
 
-
 .select option:not(option:last-of-type) {
   border-bottom: none;
+}
+
+.search-form {
+  display: flex;
+}
+
+.search {
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-bottom: solid 1px white;
+}
+
+.search:focus {
+  outline: none;
+}
+
+.search-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }

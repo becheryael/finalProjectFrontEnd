@@ -4,7 +4,9 @@ export const fetchRequests = async (
   token: string,
   date: string,
   status: string,
-  type: string
+  type: string,
+  limit: number,
+  skip: number
 ) => {
   let statusSort;
   let typeSort;
@@ -20,7 +22,7 @@ export const fetchRequests = async (
     typeSort = "";
   }
 
-  const url = `http://localhost:8000/requests?${statusSort}&${typeSort}&date=${date}`;
+  const url = `http://localhost:8000/requests?${statusSort}&${typeSort}&date=${date}&limit=${limit}&skip=${skip}`;
   try {
     const response = await axios({
       method: "get",
@@ -63,10 +65,15 @@ export const fetchAllRequests = async (
   token: string,
   date: string,
   status: string,
-  type: string
+  type: string,
+  user: string,
+  limit: number,
+  skip: number
 ) => {
   let statusSort;
   let typeSort;
+  let userSearch;
+
   if (status !== "All" && status !== "none") {
     statusSort = `status=${status}`;
   } else {
@@ -78,8 +85,17 @@ export const fetchAllRequests = async (
   } else {
     typeSort = "";
   }
+console.log(user)
 
-  const url = `http://localhost:8000/requests/allRequests?${statusSort}&${typeSort}&date=${date}`;
+  if (user !== "" ) {
+    userSearch = `userSearch=${user}`;
+  } else {
+    userSearch = "";
+  }
+console.log(userSearch)
+
+
+  const url = `http://localhost:8000/requests/allRequests?${statusSort}&${typeSort}&${userSearch}&date=${date}&limit=${limit}&skip=${skip}`;
   try {
     const response = await axios({
       method: "get",

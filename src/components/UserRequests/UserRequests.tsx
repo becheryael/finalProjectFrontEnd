@@ -1,10 +1,13 @@
 import AuthContext from "../../store/auth-context";
-import Request from "../Request/Request";
 import Modal from "../UI/Modal";
 import NewRequest from "../NewRequest/NewRequest";
+import RequestsTable from "../RequestsTable/RequestsTable";
 import SortingRequests from "../SortingRequests/SortingRequests";
 import { useState, useContext, useEffect } from "react";
-import { fetchRequests, createRequest } from "../../services/requestApiServices";
+import {
+  fetchRequests,
+  createRequest,
+} from "../../services/requestApiServices";
 import { AxiosError } from "axios";
 // @ts-ignore
 import styles from "./UserRequests.module.css";
@@ -18,6 +21,11 @@ const UserRequests = () => {
   const [isLoadingNewReq, setIsLoadingNewReq] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [requests, setRequests] = useState<null | []>(null);
+
+  const ITEMS_PER_PAGE = 8;
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalItems, setTotalItems] = useState(0);
+
   const [isAddRequest, setIsAddRequest] = useState(false);
   const [formIsValid, setFormIsValid] = useState(false);
   const [requestText, setRequestText] = useState("");
@@ -36,12 +44,15 @@ const UserRequests = () => {
         authCtx.token!,
         sortByDate,
         sortByStatus,
-        sortByType
+        sortByType,
+        ITEMS_PER_PAGE,
+        currentPage
       );
-      const bamRequests = res.data;
-      console.log(bamRequests);
+      const bamRequests = res.data.requests;
+      const requestCount = res.data.requestCount;
       setIsLoading(false);
       setRequests(bamRequests);
+      setTotalItems(requestCount);
     } catch (error) {
       const axiosError = error as AxiosError;
       console.log(axiosError);
@@ -54,7 +65,7 @@ const UserRequests = () => {
 
   useEffect(() => {
     getRequests();
-  }, [sortByDate, sortByStatus, sortByType]);
+  }, [sortByDate, sortByStatus, sortByType, currentPage]);
 
   const handleNewRequest = async () => {
     setIsLoadingNewReq(true);
@@ -64,8 +75,8 @@ const UserRequests = () => {
         requestText,
         authCtx.token!
       );
-      const req = res.data;
-      console.log(req);
+      const request = res.data;
+      console.log(request);
       closeNewRequest();
       setIsLoadingNewReq(false);
       getRequests();
@@ -125,44 +136,13 @@ const UserRequests = () => {
       {error && <p className={styles["error-message"]}>{error}</p>}
       {isLoading && <p>Loading...</p>}
       {!error && requests && (
-        <>
-          <table className={styles["requests-table"]}>
-            <thead>
-              <tr>
-                <th>Type</th>
-                <th>Request</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Status Message</th>
-              </tr>
-            </thead>
-            <tbody>
-              {requests!.map(
-                (
-                  request: {
-                    type: string;
-                    text: string;
-                    createdAt: string;
-                    status: string;
-                    message: string;
-                    _id: string;
-                  },
-                  index
-                ) => (
-                  <Request
-                    requestType={request.type}
-                    requestText={request.text}
-                    requestDate={request.createdAt}
-                    requestStatus={request.status}
-                    requestId={request._id}
-                    requestMessage={request.message}
-                    key={index}
-                  />
-                )
-              )}
-            </tbody>
-          </table>
-        </>
+          <RequestsTable
+            requests={requests}
+            totalItems={totalItems}
+            ITEMS_PER_PAGE={ITEMS_PER_PAGE}
+            setCurrentPage={setCurrentPage}
+            currentPage={currentPage}
+          />
       )}
     </div>
   );
