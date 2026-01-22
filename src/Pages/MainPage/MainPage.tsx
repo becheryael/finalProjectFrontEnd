@@ -1,10 +1,10 @@
 import UserRequests from "../../components/UserRequests/UserRequests";
 import NavBar from "../../components/NavBar/NavBar";
 import AuthContext from "../../store/auth-context";
+import ManagerRequests from "../../components/ManagerRequests/ManagerRequests";
 import { useContext, useState } from "react";
 // @ts-ignore
 import styles from "./MainPage.module.css";
-import ManagerRequests from "../../components/ManagerRequests/ManagerRequests";
 
 const MainPage = () => {
   const authCtx = useContext(AuthContext);

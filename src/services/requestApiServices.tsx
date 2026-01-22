@@ -85,15 +85,12 @@ export const fetchAllRequests = async (
   } else {
     typeSort = "";
   }
-console.log(user)
 
   if (user !== "" ) {
     userSearch = `userSearch=${user}`;
   } else {
     userSearch = "";
   }
-console.log(userSearch)
-
 
   const url = `http://localhost:8000/requests/allRequests?${statusSort}&${typeSort}&${userSearch}&date=${date}&limit=${limit}&skip=${skip}`;
   try {

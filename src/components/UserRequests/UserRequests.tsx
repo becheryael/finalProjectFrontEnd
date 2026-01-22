@@ -4,22 +4,19 @@ import NewRequest from "../NewRequest/NewRequest";
 import RequestsTable from "../RequestsTable/RequestsTable";
 import SortingRequests from "../SortingRequests/SortingRequests";
 import { useState, useContext, useEffect } from "react";
-import {
-  fetchRequests,
-  createRequest,
-} from "../../services/requestApiServices";
+import { fetchRequests, createRequest } from "../../services/requestApiServices";
 import { AxiosError } from "axios";
 // @ts-ignore
 import styles from "./UserRequests.module.css";
 // @ts-ignore
-import newImage from "../../assets/media/images/new.png";
+import newImage from "../../assets/media/images/plus-button.png";
 
 const UserRequests = () => {
   const authCtx = useContext(AuthContext);
   const [error, setError] = useState<null | string>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [newRequestError, setNewRequestError] = useState<null | string>(null);
   const [isLoadingNewReq, setIsLoadingNewReq] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [requests, setRequests] = useState<null | []>(null);
 
   const ITEMS_PER_PAGE = 8;
@@ -34,7 +31,6 @@ const UserRequests = () => {
   const [sortByDate, setSortByDate] = useState("none");
   const [sortByStatus, setSortByStatus] = useState("none");
   const [sortByType, setSortByType] = useState("none");
-  console.log("reload");
 
   const getRequests = async () => {
     setError(null);
@@ -57,7 +53,6 @@ const UserRequests = () => {
       const axiosError = error as AxiosError;
       console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
-      console.log(errorMessage);
       setIsLoading(false);
       setError(errorMessage);
     }
@@ -76,7 +71,6 @@ const UserRequests = () => {
         authCtx.token!
       );
       const request = res.data;
-      console.log(request);
       closeNewRequest();
       setIsLoadingNewReq(false);
       getRequests();
@@ -84,7 +78,6 @@ const UserRequests = () => {
       const axiosError = error as AxiosError;
       console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
-      console.log(errorMessage);
       setIsLoadingNewReq(false);
       setNewRequestError(errorMessage);
     }

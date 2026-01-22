@@ -1,56 +1,38 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
 const useIdleTimer = ({
-  idleTime = 1 * 15 * 1000,
+  idleTime = 600000,
   onIdle,
-  onActive
 }: {
   idleTime?: number;
   onIdle: () => void;
-  onActive: () => void;
 }) => {
-  // const onIdleRef = useRef(onIdle);
-  // const onActiveRef = useRef(onActive);
+  const resetTimer = useCallback(() => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      onIdle();
+    }, idleTime);
+  }, [idleTime, onIdle]);
 
-  // useEffect(() => {
-  //   onIdleRef.current = onIdle;
-  //   onActiveRef.current = onActive;
-  // }, [onIdle, onActive]);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  // const [isIdle, setIsIdle] = useState(false);
+  const handleActivity = useCallback(() => {
+    resetTimer();
+  }, [resetTimer]);
 
-  // const resetTimer = () => {
-  //   clearTimeout(timeoutRef.current!);
-  //   timeoutRef.current = setTimeout(() => {
-  //     setIsIdle(true);
-  //     onIdleRef.current();
-  //   }, idleTime);
-  // };
+  useEffect(() => {
+    const events = ["mousemove", "keydown", "scroll", "click"];
+    events.forEach((event) => window.addEventListener(event, handleActivity));
 
-  // const handleActivity = () => {
-  //   if (isIdle) {
-  //     setIsIdle(false);
-  //     onActiveRef.current();
-  //   }
-  //   resetTimer();
-  // };
+    resetTimer();
 
-  // useEffect(() => {
-  //   const events = ["mousemove", "keydown", "scroll", "click"];
-  //   events.forEach((event) => window.addEventListener(event, handleActivity));
-
-  //   resetTimer();
-
-  //   return () => {
-  //     clearTimeout(timeoutRef.current!);
-  //     events.forEach((event) =>
-  //       window.removeEventListener(event, handleActivity)
-  //     );
-  //   };
-  // }, []);
-
-  // return isIdle
+    return () => {
+      clearTimeout(timeoutRef.current!);
+      events.forEach((event) =>
+        window.removeEventListener(event, handleActivity)
+      );
+    };
+  }, [handleActivity, resetTimer]);
 };
 
 export default useIdleTimer;

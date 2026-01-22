@@ -1,7 +1,7 @@
-import AuthPage from "./Pages/AuthPage/AuthPage";
-import MainPage from "./Pages/MainPage/MainPage";
-import LandingPage from "./Pages/LandingPage/LandingPage";
-import ProfilePage from "./Pages/ProfilePage/ProfilePage";
+import AuthPage from "./pages/AuthPage/AuthPage";
+import MainPage from "./pages/MainPage/MainPage";
+import LandingPage from "./pages/LandingPage/LandingPage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "./store/auth-context";

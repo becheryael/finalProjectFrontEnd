@@ -7,13 +7,13 @@ import RequestDeny from "../RequestDeny/RequestDeny";
 // @ts-ignore
 import styles from "./Request.module.css";
 //@ts-ignore
-import beaverAvatar from "../../assets/media/images/beaverAvatar.png";
+import beaverAvatar from "../../assets/media/images/beaver-avatar.png";
 //@ts-ignore
-import deerAvatar from "../../assets/media/images/deerAvatar.png";
+import deerAvatar from "../../assets/media/images/deer-avatar.png";
 //@ts-ignore
-import koalaAvatar from "../../assets/media/images/koalaAvatar.png";
+import koalaAvatar from "../../assets/media/images/koala-avatar.png";
 //@ts-ignore
-import raccoonAvatar from "../../assets/media/images/raccoonAvatar.png";
+import raccoonAvatar from "../../assets/media/images/raccoon-avatar.png";
 
 interface requestProps {
   isManager?: boolean;
@@ -54,7 +54,6 @@ const Request = (props: requestProps) => {
   const [isDenyFormValid, setIsDenyFormValid] = useState(false);
   const [isDenyLoading, setIsDenyLoading] = useState(false);
   const [denyError, setDenyError] = useState<null | string>(null);
-  console.log(props);
 
   let statusClasses;
   if (status === "Awaiting approval") {
@@ -87,15 +86,12 @@ const Request = (props: requestProps) => {
         "Denied",
         denyText
       );
-      console.log(res.data);
       setMessage(res.data.message);
       setStatus(res.data.status);
-      console.log(res.data.status);
       setIsDenyLoading(false);
       closeDeny();
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
       console.log(errorMessage);
       setIsDenyLoading(false);

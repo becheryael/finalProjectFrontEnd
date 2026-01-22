@@ -42,7 +42,6 @@ const ManagerRequests = () => {
       setTotalItems(requestCount);
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
       console.log(errorMessage);
       setIsLoading(false);

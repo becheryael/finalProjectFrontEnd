@@ -24,23 +24,22 @@ const RequestsTable = (props: requestTableProps) => {
     currentPage,
     setCurrentPage,
   } = props;
+
   const numOfPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   const pages = [...Array(numOfPages).keys()];
+
   const HandlePreviousBtn = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
     }
   };
 
-  console.log('table')
-  console.log(props)
-
   const HandleNextBtn = () => {
     if (currentPage < pages.length - 1) {
       setCurrentPage(currentPage + 1);
-      console.log(currentPage);
     }
   };
+
   return (
     <>
       <table className={styles["requests-table"]}>
@@ -86,17 +85,24 @@ const RequestsTable = (props: requestTableProps) => {
         </tbody>
       </table>
       <div className={styles["pagination"]}>
-        {pages.length > 1 && <img onClick={HandlePreviousBtn} src={previousArrow}/>}
-        {pages.length > 1 && pages.map((page, index) => (
-          <button
-            className={currentPage === page? `${styles['selected']} ${styles['pagination-button']}` : styles['pagination-button']}
-            onClick={() => setCurrentPage(page)}
-            key={index}
-          >
-            {page + 1}
-          </button>
-        ))}
-        {pages.length > 1 &&<img onClick={HandleNextBtn} src={nextArrow}/>}
+        {pages.length > 1 && (
+          <img onClick={HandlePreviousBtn} src={previousArrow} />
+        )}
+        {pages.length > 1 &&
+          pages.map((page, index) => (
+            <button
+              className={
+                currentPage === page
+                  ? `${styles["selected"]} ${styles["pagination-button"]}`
+                  : styles["pagination-button"]
+              }
+              onClick={() => setCurrentPage(page)}
+              key={index}
+            >
+              {page + 1}
+            </button>
+          ))}
+        {pages.length > 1 && <img onClick={HandleNextBtn} src={nextArrow} />}
       </div>
     </>
   );
