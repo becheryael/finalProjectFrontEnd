@@ -5,7 +5,7 @@ import ProfileImage from "../ProfileImage/ProfileImage";
 import Modal from "../UI/Modal";
 import Avatars from "../Avatars/Avatars";
 //@ts-ignore
-import arrowImage from "../../assets/media/images/arrow.png";
+import arrowImage from "../../assets/media/images/back-arrow.png";
 //@ts-ignore
 import styles from "./ProfileForm.module.css";
 

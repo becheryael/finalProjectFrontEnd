@@ -2,10 +2,13 @@ import AuthContext from "../../store/auth-context";
 import AuthForm from "../../components/AuthForm/AuthForm";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchUser, createUser } from "../../services/apiServices";
+import { loginUser, createUser } from "../../services/userApiServices";
 import { AxiosError } from "axios";
+import { jwtDecode } from "jwt-decode";
 // @ts-ignore
 import styles from "./AuthPage.module.css";
+
+const TO_MILLISECONDS = 1000;
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -31,27 +34,39 @@ const AuthPage = () => {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    setError('');
+    setError("");
     try {
       let res;
       if (!isNewUser) {
-        res = await fetchUser(email, password);
+        res = await loginUser(email, password);
       } else {
         res = await createUser(email, password, personalNum, name);
       }
       setIsLoading(false);
       if (res.status === 200 || res.status === 201) {
-        authCtx.login(res.data.token, res.data.user, res.data.user._id);
+        console.log(res);
+        const decodedToken = jwtDecode(res.data.token);
+        const tokenExpiration = decodedToken.exp;
+        const expirationTime = new Date(tokenExpiration! * TO_MILLISECONDS);
+        authCtx.login(
+          res.data.token,
+          res.data.user,
+          res.data.user._id,
+          res.data.user.manager,
+          expirationTime.toISOString()
+        );
         navigate("/main", { replace: true });
       }
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.log(axiosError)
+      console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
       if (errorMessage) {
         setError(errorMessage);
       } else if (isNewUser) {
-        setError("Unable to create account. Make sure all your information is correct and try again.");
+        setError(
+          "Unable to create account. Make sure all your information is correct and try again."
+        );
       } else {
         setError("Unable to login. Try again or create an account.");
       }

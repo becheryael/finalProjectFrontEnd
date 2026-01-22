@@ -1,8 +1,37 @@
-.request {
-    display: flex;
-    justify-content: space-evenly;
-    border-color: blue;
-    width: 75%;
+.approved {
+  color: rgb(139, 231, 139);
+}
+
+.denied {
+  color: rgb(211, 136, 136);
+}
+
+.table-btn {
+  background: rgb(56, 56, 56);
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.waiting {
+  color: rgb(237, 221, 132);
+}
+
+.avatar-container {
+  max-width: 5px;
+  width: 4%;
+}
+
+.avatar {
+  min-width: 1rem;
+  width: 100%;
 }
 
 @media screen and (max-width: 700px) {

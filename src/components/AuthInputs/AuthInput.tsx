@@ -19,7 +19,7 @@ interface authInputProps {
   checkIsValid: (value: string) => boolean;
   setInput: (value: string) => void;
   setIsValid: (value: boolean) => void;
-  ref: Ref<AuthInputHandle>;
+  ref?: Ref<AuthInputHandle>;
   isNumOnly?: boolean;
 }
 

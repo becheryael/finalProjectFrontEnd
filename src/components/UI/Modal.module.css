@@ -56,6 +56,17 @@
   transform: scale(1.02);
 }
 
+.invalid-button {
+  background-color: gray;
+  color: black;
+  border: none;
+  border-radius: 90px;
+  padding: 0.7rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: default;
+}
+
 @media (min-width: 768px) {
   .modal {
     left: calc(50% - 20rem);

@@ -1,13 +1,13 @@
 //@ts-ignore
 import styles from './ProfileImage.module.css'
 //@ts-ignore
-import beaverAvatar from "../../assets/media/images/beaverAvatar.png";
+import beaverAvatar from "../../assets/media/images/beaver-avatar.png";
 //@ts-ignore
-import deerAvatar from "../../assets/media/images/deerAvatar.png";
+import deerAvatar from "../../assets/media/images/deer-avatar.png";
 //@ts-ignore
-import koalaAvatar from "../../assets/media/images/koalaAvatar.png";
+import koalaAvatar from "../../assets/media/images/koala-avatar.png";
 //@ts-ignore
-import raccoonAvatar from "../../assets/media/images/raccoonAvatar.png";
+import raccoonAvatar from "../../assets/media/images/raccoon-avatar.png";
 
 interface imageProps {
   setIsEditImage: (value: boolean) => void;
