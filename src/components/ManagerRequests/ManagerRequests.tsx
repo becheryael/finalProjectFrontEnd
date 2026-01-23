@@ -38,15 +38,14 @@ const ManagerRequests = () => {
       const allRequests = res.data.allRequests;
       const requestCount = res.data.requestCount;
       setRequests(allRequests);
-      setIsLoading(false);
       setTotalItems(requestCount);
     } catch (error) {
       const axiosError = error as AxiosError;
       const errorMessage = axiosError.response?.data as string;
       console.log(errorMessage);
-      setIsLoading(false);
       setError(errorMessage);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {

@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { Link } from "react-router";
 import validator from "validator";
 import AuthInput, { AuthInputHandle } from "../AuthInputs/AuthInput";
 // @ts-ignore
@@ -147,8 +148,14 @@ const AuthForm = (props: authFormProps) => {
           setInput={setPassword}
           checkIsValid={passwordValidity}
           ref={passwordRef}
+          isPassword={true}
         />
         {error && <p className={styles.error}>{error}</p>}
+        {!isNewUser && (
+          <Link className={styles["forgot-password"]} to="/forgot-password">
+            Forgot Password?
+          </Link>
+        )}
         {!isLoading && (
           <button
             onClick={handleSubmit}

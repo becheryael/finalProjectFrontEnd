@@ -51,10 +51,8 @@ const ProfilePage = () => {
     } catch (error) {
       handleUndo();
       const axiosError = error as AxiosError;
-      console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
       const errorArray = errorMessage.split(" ");
-      console.log(errorArray);
       if (errorArray.includes("duplicate")) {
         const index = errorArray.indexOf("key:");
         if (errorArray.includes("personalNum:")) {
@@ -94,7 +92,7 @@ const ProfilePage = () => {
 
   const handlePageChange = () => {
     handleUndo();
-    navigate("/main");
+    navigate("/main/my-requests");
   };
 
   return (

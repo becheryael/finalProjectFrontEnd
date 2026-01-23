@@ -21,6 +21,7 @@ interface authInputProps {
   setIsValid: (value: boolean) => void;
   ref?: Ref<AuthInputHandle>;
   isNumOnly?: boolean;
+  isPassword?: boolean;
 }
 
 const AuthInput = (props: authInputProps) => {
@@ -34,13 +35,14 @@ const AuthInput = (props: authInputProps) => {
     setIsValid,
     ref,
     isNumOnly,
+    isPassword = false,
   } = props;
   const { hasError, valueChangeHandler, inputBlurHandler, reset } =
     useInput(checkIsValid);
 
   const [isShowPassword, setIsShowPassword] = useState(false);
   let type;
-  if (inputTitle === "Password") {
+  if (isPassword) {
     if (!isShowPassword) {
       type = "password";
     } else {
@@ -86,11 +88,11 @@ const AuthInput = (props: authInputProps) => {
     <div className={styles["input-div"]}>
       <div className={styles["title-container"]}>
         <label>{inputTitle}</label>
-        {inputTitle === "Password" && (
+        {isPassword && (
           <img
             src={isShowPassword ? openEyeImage : closedEyeImage}
             alt={isShowPassword ? "open eye" : "closed eye"}
-            onClick={(event) => setIsShowPassword((prevIsShow) => !prevIsShow)}
+            onClick={() => setIsShowPassword((prevIsShow) => !prevIsShow)}
             className={styles["eye-image"]}
           />
         )}

@@ -46,16 +46,15 @@ const UserRequests = () => {
       );
       const bamRequests = res.data.requests;
       const requestCount = res.data.requestCount;
-      setIsLoading(false);
       setRequests(bamRequests);
       setTotalItems(requestCount);
     } catch (error) {
       const axiosError = error as AxiosError;
       console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
-      setIsLoading(false);
       setError(errorMessage);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -65,22 +64,20 @@ const UserRequests = () => {
   const handleNewRequest = async () => {
     setIsLoadingNewReq(true);
     try {
-      const res = await createRequest(
+      await createRequest(
         selectedType,
         requestText,
         authCtx.token!
       );
-      const request = res.data;
       closeNewRequest();
-      setIsLoadingNewReq(false);
       getRequests();
     } catch (error) {
       const axiosError = error as AxiosError;
       console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
-      setIsLoadingNewReq(false);
       setNewRequestError(errorMessage);
     }
+    setIsLoadingNewReq(false);
   };
 
   const closeNewRequest = () => {

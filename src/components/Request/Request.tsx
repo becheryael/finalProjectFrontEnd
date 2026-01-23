@@ -15,6 +15,13 @@ import koalaAvatar from "../../assets/media/images/koala-avatar.png";
 //@ts-ignore
 import raccoonAvatar from "../../assets/media/images/raccoon-avatar.png";
 
+const AVATARS: Record<string, string> = {
+  koala: koalaAvatar,
+  deer: deerAvatar,
+  beaver: beaverAvatar,
+  raccoon: raccoonAvatar,
+};
+
 interface requestProps {
   isManager?: boolean;
   user?: string;
@@ -39,6 +46,7 @@ const Request = (props: requestProps) => {
     isManager = false,
     requestMessage,
   } = props;
+  console.log(props);
   const authCtx = useContext(AuthContext);
   const dateObj = new Date(requestDate);
   const dateStr = dateObj.toLocaleDateString("en-US", {
@@ -88,15 +96,14 @@ const Request = (props: requestProps) => {
       );
       setMessage(res.data.message);
       setStatus(res.data.status);
-      setIsDenyLoading(false);
       closeDeny();
     } catch (error) {
       const axiosError = error as AxiosError;
       const errorMessage = axiosError.response?.data as string;
       console.log(errorMessage);
-      setIsDenyLoading(false);
       setDenyError(errorMessage);
     }
+    setIsDenyLoading(false);
   };
 
   const closeDeny = () => {
@@ -127,18 +134,11 @@ const Request = (props: requestProps) => {
       <tr>
         {avatar && (
           <td className={styles["avatar-container"]}>
-            {avatar === "koala" && (
-              <img src={koalaAvatar} className={styles["avatar"]} />
-            )}
-            {avatar === "deer" && (
-              <img src={deerAvatar} className={styles["avatar"]} />
-            )}
-            {avatar === "beaver" && (
-              <img src={beaverAvatar} className={styles["avatar"]} />
-            )}
-            {avatar === "raccoon" && (
-              <img src={raccoonAvatar} className={styles["avatar"]} />
-            )}
+            <img
+              src={AVATARS[avatar]}
+              alt={avatar}
+              className={styles["avatar"]}
+            />
           </td>
         )}
         {user && (
@@ -155,28 +155,26 @@ const Request = (props: requestProps) => {
         <td>
           <div>{dateStr}</div>
         </td>
-        {!isManager && <td className={statusClasses}>{status}</td>}
-        {isManager &&
-          (status === "Denied" || status === "Approved" ? (
-            <td className={statusClasses}>{status}</td>
-          ) : (
-            <td>
-              <div className={styles["btn-container"]}>
-                <button
-                  className={`${styles["table-btn"]} ${styles["approved"]}`}
-                  onClick={handleApprove}
-                >
-                  Approve
-                </button>
-                <button
-                  onClick={(event) => setisDenying(true)}
-                  className={`${styles["table-btn"]} ${styles["denied"]}`}
-                >
-                  Deny
-                </button>
-              </div>
-            </td>
-          ))}
+        {!isManager || status !== "Awaiting approval" ? (
+          <td className={statusClasses}>{status}</td>
+        ) : (
+          <td>
+            <div className={styles["btn-container"]}>
+              <button
+                className={`${styles["table-btn"]} ${styles["approved"]}`}
+                onClick={handleApprove}
+              >
+                Approve
+              </button>
+              <button
+                onClick={() => setisDenying(true)}
+                className={`${styles["table-btn"]} ${styles["denied"]}`}
+              >
+                Deny
+              </button>
+            </div>
+          </td>
+        )}
         <td>
           <div>{message}</div>
         </td>

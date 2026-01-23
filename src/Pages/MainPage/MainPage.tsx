@@ -2,24 +2,26 @@ import UserRequests from "../../components/UserRequests/UserRequests";
 import NavBar from "../../components/NavBar/NavBar";
 import AuthContext from "../../store/auth-context";
 import ManagerRequests from "../../components/ManagerRequests/ManagerRequests";
-import { useContext, useState } from "react";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { useContext } from "react";
 // @ts-ignore
 import styles from "./MainPage.module.css";
 
 const MainPage = () => {
   const authCtx = useContext(AuthContext);
-  const [isManagerPage, setIsManagerPage] = useState(false);
+  const location = useLocation();
+
   return (
     <>
-      <NavBar
-        setIsManagerPage={setIsManagerPage}
-        isManagerPage={isManagerPage}
-      />
+      <NavBar />
       <div className={styles.requests}>
-        {!isManagerPage && <h2>Hey {authCtx.userInfo.name}, Your Requests</h2>}
-        {isManagerPage && <h2>All User Requests</h2>}
-        {!isManagerPage && <UserRequests />}
-        {isManagerPage && <ManagerRequests />}
+        {(location.pathname === '/main/my-requests') && <h2>Hey {authCtx.userInfo.name}, Your Requests</h2>}
+        {(location.pathname === '/main/manage-requests') && <h2>All User Requests</h2>}
+        <Routes>
+          <Route path="/my-requests" element={<UserRequests />} />
+          <Route path="/manage-requests" element={<ManagerRequests />} />
+          <Route path="*" element={<Navigate to="/my-requests" replace />} />
+        </Routes>
       </div>
     </>
   );

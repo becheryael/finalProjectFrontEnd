@@ -9,6 +9,7 @@ import raccoonAvatar from "../../assets/media/images/raccoon-avatar.png";
 //@ts-ignore
 import styles from "./Avatars.module.css";
 
+
 interface avatarProps {
   setAvatar: (value: string) => void;
   avatar: string;

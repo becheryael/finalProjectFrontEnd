@@ -133,7 +133,7 @@ const ProfileForm = (props: profileFormProps) => {
         {!isEdit && !isLoading && (
           <button
             className={styles["edit-btn"]}
-            onClick={(event) => setIsEdit(true)}
+            onClick={() => setIsEdit(true)}
           >
             Edit
           </button>

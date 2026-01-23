@@ -1,5 +1,5 @@
 //@ts-ignore
-import styles from './ProfileImage.module.css'
+import styles from "./ProfileImage.module.css";
 //@ts-ignore
 import beaverAvatar from "../../assets/media/images/beaver-avatar.png";
 //@ts-ignore
@@ -9,26 +9,30 @@ import koalaAvatar from "../../assets/media/images/koala-avatar.png";
 //@ts-ignore
 import raccoonAvatar from "../../assets/media/images/raccoon-avatar.png";
 
+const AVATARS: Record<string, string> = {
+  koala: koalaAvatar,
+  deer: deerAvatar,
+  beaver: beaverAvatar,
+  raccoon: raccoonAvatar,
+};
+
 interface imageProps {
   setIsEditImage: (value: boolean) => void;
   isEditPage: boolean;
-  avatar: string
+  avatar: string;
 }
 
 const ProfileImage = (props: imageProps) => {
   const { setIsEditImage, isEditPage, avatar } = props;
-  
+
   const handleImageChange = () => {
     setIsEditImage(true);
   };
-  
+
   return (
     <>
       <div className={styles["image-container"]}>
-        {avatar === "koala" && <img src={koalaAvatar} />}
-        {avatar === "deer" && <img src={deerAvatar} />}
-        {avatar === "beaver" && <img src={beaverAvatar} />}
-        {avatar === "raccoon" && <img src={raccoonAvatar} />}
+        <img src={AVATARS[avatar!]} alt={avatar!} />
         {isEditPage && (
           <button onClick={handleImageChange} className={styles["avatar-btn"]}>
             Change Avatar

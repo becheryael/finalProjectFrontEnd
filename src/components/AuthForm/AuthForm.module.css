@@ -91,3 +91,9 @@
   color: #d674ca;
   text-align: center;
 }
+
+.forgot-password {
+  align-self: flex-end;
+  cursor: pointer;
+  color: #e7c1e3;
+}

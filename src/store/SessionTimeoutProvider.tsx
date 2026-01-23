@@ -13,7 +13,7 @@ const MODAL_COUNTDOWN = 1 * 20 * 1000;
 const TO_MILLISECONDS = 1000;
 const REFRESH_INTERVAL = 10 * 60 * 1000;
 
-const EXEMPTED_PATHS = ["/login", "/"];
+const EXEMPTED_PATHS = ["/login", "/", "forgot-password", "reset-password"];
 
 export const SessionTimeoutProvider: React.FC<{
   children: React.ReactNode;

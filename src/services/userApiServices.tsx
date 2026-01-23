@@ -104,3 +104,21 @@ export const newToken = async (
     throw error;
   }
 };
+
+export const forgotPassword = async (
+  email: string
+) => {
+  const url = `http://localhost:8000/users/forgotPassword`;
+  try {
+    const response = await axios({
+      method: "POST",
+      url: url,
+      data: {
+        email
+      }
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};

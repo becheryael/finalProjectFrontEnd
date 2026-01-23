@@ -1,5 +1,5 @@
 import AuthContext from "../../store/auth-context";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { logoutUser } from "../../services/userApiServices";
 import { AxiosError } from "axios";
@@ -14,14 +14,16 @@ import koalaAvatar from "../../assets/media/images/koala-avatar.png";
 //@ts-ignore
 import raccoonAvatar from "../../assets/media/images/raccoon-avatar.png";
 
-interface navBarProps {
-  setIsManagerPage: (value: boolean) => void;
-  isManagerPage: boolean;
-}
+const AVATARS: Record<string, string> = {
+  koala: koalaAvatar,
+  deer: deerAvatar,
+  beaver: beaverAvatar,
+  raccoon: raccoonAvatar,
+};
 
-const NavBar = (props: navBarProps) => {
-  const { setIsManagerPage, isManagerPage } = props;
+const NavBar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const authCtx = useContext(AuthContext);
   const avatar = authCtx.userInfo.avatar;
 
@@ -29,71 +31,52 @@ const NavBar = (props: navBarProps) => {
     navigate("/profile");
   };
 
+  const managerPageHandler = () => {
+    navigate("/main/manage-requests");
+  };
+
+  const userPageHandler = () => {
+    navigate("/main/my-requests");
+  };
+
   const logoutHandler = async () => {
     try {
-      const res = logoutUser(authCtx.token!);
-      console.log(res);
+      logoutUser(authCtx.token!);
       authCtx.logout();
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
       alert(errorMessage);
     }
   };
 
-  const managarPageBtn = isManagerPage
-    ? `${styles["current-page"]} ${styles["nav-bar-button"]}`
-    : `${styles["nav-bar-button"]}`;
-  const myPageBtn = !isManagerPage
-    ? `${styles["current-page"]} ${styles["nav-bar-button"]}`
-    : `${styles["nav-bar-button"]}`;
+  const managarPageBtn =
+    location.pathname === "/main/manage-requests"
+      ? `${styles["current-page"]} ${styles["nav-bar-button"]}`
+      : `${styles["nav-bar-button"]}`;
+
+  const myPageBtn =
+    location.pathname === "/main/my-requests"
+      ? `${styles["current-page"]} ${styles["nav-bar-button"]}`
+      : `${styles["nav-bar-button"]}`;
 
   return (
     <nav className={styles["nav-bar"]}>
       <div className={styles["start-container"]}>
-        {avatar === "koala" && (
-          <img
-            src={koalaAvatar}
-            className={styles["profile-picture"]}
-            onClick={profileHandler}
-          />
-        )}
-        {avatar === "deer" && (
-          <img
-            src={deerAvatar}
-            className={styles["profile-picture"]}
-            onClick={profileHandler}
-          />
-        )}
-        {avatar === "beaver" && (
-          <img
-            src={beaverAvatar}
-            className={styles["profile-picture"]}
-            onClick={profileHandler}
-          />
-        )}
-        {avatar === "raccoon" && (
-          <img
-            src={raccoonAvatar}
-            className={styles["profile-picture"]}
-            onClick={profileHandler}
-          />
-        )}
+        <img
+          src={AVATARS[avatar!]}
+          alt={avatar!}
+          className={styles["profile-picture"]}
+          onClick={profileHandler}
+        />
         <div className={styles["btns-container"]}>
           {authCtx.isManager && (
-            <button
-              className={managarPageBtn}
-              onClick={(event) => setIsManagerPage(true)}
-            >
+            <button className={managarPageBtn} onClick={managerPageHandler}>
               Control Requests
             </button>
           )}
           {authCtx.isManager && (
-            <button
-              className={myPageBtn}
-              onClick={(event) => setIsManagerPage(false)}
-            >
+            <button className={myPageBtn} onClick={userPageHandler}>
               See my Requests
             </button>
           )}

@@ -42,7 +42,6 @@ const AuthPage = () => {
       } else {
         res = await createUser(email, password, personalNum, name);
       }
-      setIsLoading(false);
       if (res.status === 200 || res.status === 201) {
         console.log(res);
         const decodedToken = jwtDecode(res.data.token);
@@ -70,8 +69,8 @@ const AuthPage = () => {
       } else {
         setError("Unable to login. Try again or create an account.");
       }
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   if (isNewUser) {
