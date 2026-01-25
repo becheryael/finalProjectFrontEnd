@@ -25,7 +25,7 @@ export const fetchRequests = async (
   const url = `http://localhost:8000/requests?${statusSort}&${typeSort}&date=${date}&limit=${limit}&skip=${skip}`;
   try {
     const response = await axios({
-      method: "get",
+      method: "GET",
       url: url,
       headers: {
         Authorization: token,
@@ -45,7 +45,7 @@ export const createRequest = async (
   const url = "http://localhost:8000/requests";
   try {
     const response = await axios({
-      method: "post",
+      method: "POST",
       url: url,
       headers: {
         Authorization: token,
@@ -86,7 +86,7 @@ export const fetchAllRequests = async (
     typeSort = "";
   }
 
-  if (user !== "" ) {
+  if (user !== "") {
     userSearch = `userSearch=${user}`;
   } else {
     userSearch = "";
@@ -116,15 +116,15 @@ export const editRequest = async (
   const url = `http://localhost:8000/requests/${requestId}`;
   try {
     const response = await axios({
-      method: "patch",
+      method: "PATCH",
       url: url,
       headers: {
-        Authorization: token
+        Authorization: token,
       },
       data: {
         status,
-        message
-      }
+        message,
+      },
     });
     return response;
   } catch (error) {

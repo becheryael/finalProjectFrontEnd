@@ -4,7 +4,7 @@ export const loginUser = async (email: string, password: string) => {
   const url = "http://localhost:8000/users/login";
   try {
     const response = await axios({
-      method: "post",
+      method: "POST",
       url: url,
       data: {
         email,
@@ -27,7 +27,7 @@ export const createUser = async (
   // const convertedpersonalNum = Number(personalNum)
   try {
     const response = await axios({
-      method: "post",
+      method: "POST",
       url: url,
       data: {
         email,
@@ -46,11 +46,11 @@ export const logoutUser = async (token: string) => {
   const url = `http://localhost:8000/users/logout`;
   try {
     const response = await axios({
-      method: "post",
+      method: "POST",
       url: url,
       headers: {
-        Authorization: token
-      }
+        Authorization: token,
+      },
     });
     return response;
   } catch (error) {
@@ -69,10 +69,10 @@ export const editUser = async (
   const url = `http://localhost:8000/users/${id}`;
   try {
     const response = await axios({
-      method: "patch",
+      method: "PATCH",
       url: url,
       headers: {
-        Authorization: token
+        Authorization: token,
       },
       data: {
         name,
@@ -87,17 +87,15 @@ export const editUser = async (
   }
 };
 
-export const newToken = async (
-  token: string
-) => {
+export const newToken = async (token: string) => {
   const url = `http://localhost:8000/users/newToken`;
   try {
     const response = await axios({
       method: "POST",
       url: url,
       headers: {
-        Authorization: token
-      }
+        Authorization: token,
+      },
     });
     return response;
   } catch (error) {
@@ -105,17 +103,34 @@ export const newToken = async (
   }
 };
 
-export const forgotPassword = async (
-  email: string
-) => {
-  const url = `http://localhost:8000/users/forgotPassword`;
+export const forgotPassword = async (email: string) => {
+  const url = `http://localhost:8000/users/forgot-password`;
   try {
     const response = await axios({
       method: "POST",
       url: url,
       data: {
-        email
-      }
+        email,
+      },
+    });
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const resetPassword = async (token: string, password: string) => {
+  const url = `http://localhost:8000/users/reset-password`;
+  try {
+    const response = await axios({
+      method: "PATCH",
+      url: url,
+      headers: {
+        Authorization: token,
+      },
+      data: {
+        password,
+      },
     });
     return response;
   } catch (error) {

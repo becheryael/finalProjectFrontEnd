@@ -77,7 +77,7 @@ const AuthInput = (props: authInputProps) => {
         setIsValid(false);
       },
     }),
-    [reset, setInput]
+    [reset, setInput, setIsValid]
   );
 
   const inputClasses = hasError

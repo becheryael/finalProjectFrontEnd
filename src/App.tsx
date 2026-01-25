@@ -25,7 +25,7 @@ const App = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<AuthPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </>
       )}

@@ -79,6 +79,7 @@ const ProfileForm = (props: profileFormProps) => {
         src={arrowImage}
         className={styles["back-arrow"]}
         onClick={handlePageChange}
+        alt="back arrow"
       />
       <div className={styles.container}>
         <ProfileImage

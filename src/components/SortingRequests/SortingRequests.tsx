@@ -51,7 +51,7 @@ const SortingRequests = (props: sortingRequestProps) => {
         onChange={(event) => setSortByStatus(event.target.value)}
       >
         <option value="none" disabled>
-          Sort by status
+        Filter by status
         </option>
         <option value="All">All</option>
         <option value="Approved">Approved</option>
@@ -65,7 +65,7 @@ const SortingRequests = (props: sortingRequestProps) => {
         onChange={(event) => setSortByType(event.target.value)}
       >
         <option value="none" disabled>
-          Sort by type
+          Filter by type
         </option>
         <option value="All">All</option>
         <option value="Blackening">Blackening</option>
@@ -85,7 +85,7 @@ const SortingRequests = (props: sortingRequestProps) => {
             className={styles['search']}
           ></input>
           <button type="submit" className={styles['search-btn']} >
-            <img src={searchIcon} />
+            <img src={searchIcon} alt="search" />
           </button>
         </form>
       )}

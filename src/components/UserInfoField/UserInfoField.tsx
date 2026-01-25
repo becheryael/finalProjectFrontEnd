@@ -38,18 +38,6 @@ const UserInfoField = (props: authInputProps) => {
     value
   );
 
-  //   const [isShowPassword, setIsShowPassword] = useState(false);
-  //   let type;
-  //   if (title === "Password") {
-  //     if (!isShowPassword) {
-  //       type = "password";
-  //     } else {
-  //       type = "text";
-  //     }
-  //   } else {
-  const type = inputType;
-  //   }
-
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (isNumOnly) {
       const newChar = event.target.value.slice(-1);
@@ -76,7 +64,7 @@ const UserInfoField = (props: authInputProps) => {
         reset();
       },
     }),
-    [reset, setInput]
+    [reset, setIsValid]
   );
 
   const inputClasses = hasError
@@ -88,19 +76,11 @@ const UserInfoField = (props: authInputProps) => {
       <div className={styles["input-contianer"]}>
         <div className={styles["title-container"]}>
           <h3>{title}</h3>
-          {/* {inputTitle === "Password" && (
-          <img
-            // src={isShowPassword ? openEyeImage : closedEyeImage}
-            alt={isShowPassword ? "open eye" : "closed eye"}
-            onClick={(event) => setIsShowPassword((prevIsShow) => !prevIsShow)}
-            className={styles["eye-image"]}
-          />
-        )} */}
         </div>
         {isEdit ? (
           <input
             className={inputClasses}
-            type={type}
+            type={inputType}
             onChange={(event) => handleInput(event)}
             onBlur={inputBlurHandler}
             value={value}

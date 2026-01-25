@@ -31,7 +31,7 @@ const Avatars = (props: avatarProps) => {
         id="koala"
         onClick={ChangeAvatar}
         className={
-          avatar == "koala" ? styles["chosen-avatar"] : styles["avatar"]
+          avatar === "koala" ? styles["chosen-avatar"] : styles["avatar"]
         }
       />
       <img
@@ -40,7 +40,7 @@ const Avatars = (props: avatarProps) => {
         id="deer"
         onClick={ChangeAvatar}
         className={
-          avatar == "deer" ? styles["chosen-avatar"] : styles["avatar"]
+          avatar === "deer" ? styles["chosen-avatar"] : styles["avatar"]
         }
       />
       <img
@@ -49,7 +49,7 @@ const Avatars = (props: avatarProps) => {
         id="raccoon"
         onClick={ChangeAvatar}
         className={
-          avatar == "raccoon" ? styles["chosen-avatar"] : styles["avatar"]
+          avatar === "raccoon" ? styles["chosen-avatar"] : styles["avatar"]
         }
       />
       <img
@@ -58,7 +58,7 @@ const Avatars = (props: avatarProps) => {
         id="beaver"
         onClick={ChangeAvatar}
         className={
-          avatar == "beaver" ? styles["chosen-avatar"] : styles["avatar"]
+          avatar === "beaver" ? styles["chosen-avatar"] : styles["avatar"]
         }
       />
     </div>

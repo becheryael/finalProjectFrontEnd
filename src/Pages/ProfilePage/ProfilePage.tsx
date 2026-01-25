@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { InputHandle } from "../../components/UserInfoField/UserInfoField";
 import AuthContext from "../../store/auth-context";
 import { editUser } from "../../services/userApiServices";
+import { StatusCodes } from "http-status-codes";
 import ProfileForm from "../../components/ProfileForm/ProfileForm";
 
 const ProfilePage = () => {
@@ -45,7 +46,7 @@ const ProfilePage = () => {
         id!,
         token!
       );
-      if (res.status === 200) {
+      if (res.status === StatusCodes.OK) {
         authCtx.edit(name!, personalNum!, email!, avatar!);
       }
     } catch (error) {

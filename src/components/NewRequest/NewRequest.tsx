@@ -47,7 +47,7 @@ const NewRequest = (props: newRequestProps) => {
   useEffect(() => {
     const isValid = requestText.length >= MIN_LENGTH && selectedType !== "none";
     setFormIsValid(isValid);
-  }, [requestText, selectedType]);
+  }, [requestText, selectedType, setFormIsValid]);
 
   const textClasses = textHasError
     ? `${styles["text"]} ${styles["invalid-text"]}`

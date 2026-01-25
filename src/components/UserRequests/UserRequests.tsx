@@ -3,7 +3,7 @@ import Modal from "../UI/Modal";
 import NewRequest from "../NewRequest/NewRequest";
 import RequestsTable from "../RequestsTable/RequestsTable";
 import SortingRequests from "../SortingRequests/SortingRequests";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useCallback } from "react";
 import { fetchRequests, createRequest } from "../../services/requestApiServices";
 import { AxiosError } from "axios";
 // @ts-ignore
@@ -32,7 +32,7 @@ const UserRequests = () => {
   const [sortByStatus, setSortByStatus] = useState("none");
   const [sortByType, setSortByType] = useState("none");
 
-  const getRequests = async () => {
+  const getRequests = useCallback(async () => {
     setError(null);
     setIsLoading(true);
     try {
@@ -55,11 +55,11 @@ const UserRequests = () => {
       setError(errorMessage);
     }
     setIsLoading(false);
-  };
+  }, [sortByDate, sortByStatus, sortByType, currentPage, authCtx.token]);
 
   useEffect(() => {
     getRequests();
-  }, [sortByDate, sortByStatus, sortByType, currentPage]);
+  }, [sortByDate, sortByStatus, sortByType, currentPage, getRequests]);
 
   const handleNewRequest = async () => {
     setIsLoadingNewReq(true);
@@ -92,7 +92,7 @@ const UserRequests = () => {
         className={styles["new-btn"]}
         onClick={(event) => setIsAddRequest(true)}
       >
-        <img src={newImage} />
+        <img src={newImage} alt="plus"/>
         Create new request
       </button>
       {isAddRequest && (

@@ -1,4 +1,4 @@
-import React, { useState, PropsWithChildren, useEffect, useCallback } from "react";
+import React, { useState, PropsWithChildren, useCallback } from "react";
 
 let logoutTimer:  ReturnType<typeof setTimeout>;
 

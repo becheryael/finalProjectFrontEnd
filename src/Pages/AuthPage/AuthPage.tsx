@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { loginUser, createUser } from "../../services/userApiServices";
 import { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
+import { StatusCodes } from "http-status-codes";
 // @ts-ignore
 import styles from "./AuthPage.module.css";
 
@@ -42,7 +43,7 @@ const AuthPage = () => {
       } else {
         res = await createUser(email, password, personalNum, name);
       }
-      if (res.status === 200 || res.status === 201) {
+      if (res.status === StatusCodes.CREATED || res.status === StatusCodes.OK) {
         console.log(res);
         const decodedToken = jwtDecode(res.data.token);
         const tokenExpiration = decodedToken.exp;

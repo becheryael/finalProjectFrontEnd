@@ -2,7 +2,7 @@ import SortingRequests from "../SortingRequests/SortingRequests";
 import RequestsTable from "../RequestsTable/RequestsTable";
 import AuthContext from "../../store/auth-context";
 import { fetchAllRequests } from "../../services/requestApiServices";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useCallback } from "react";
 import { AxiosError } from "axios";
 //@ts-ignore
 import styles from "./ManagerRequests.module.css";
@@ -22,7 +22,7 @@ const ManagerRequests = () => {
   const [sortByType, setSortByType] = useState("none");
   const [fetchByUser, setfetchByUser] = useState("");
 
-  const getAllRequests = async () => {
+  const getAllRequests = useCallback(async () => {
     setError(null);
     setIsLoading(true);
     try {
@@ -46,11 +46,11 @@ const ManagerRequests = () => {
       setError(errorMessage);
     }
     setIsLoading(false);
-  };
+  }, [authCtx.token, sortByDate, sortByStatus, sortByType, fetchByUser, currentPage]);
 
   useEffect(() => {
     getAllRequests();
-  }, [sortByDate, sortByStatus, sortByType, currentPage]);
+  }, [getAllRequests]);
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

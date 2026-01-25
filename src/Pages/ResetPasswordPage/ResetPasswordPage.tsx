@@ -1,28 +1,32 @@
-import AuthInput, {
-  AuthInputHandle,
-} from "../../components/AuthInputs/AuthInput";
-import validator from "validator";
-import { forgotPassword } from "../../services/userApiServices";
-import { useState } from "react";
+import AuthInput from "../../components/AuthInputs/AuthInput";
+import AuthContext from "../../store/auth-context";
+import { resetPassword } from "../../services/userApiServices";
+import { useState, useContext } from "react";
 import { AxiosError } from "axios";
+import { useParams } from "react-router";
+import { jwtDecode } from "jwt-decode";
+import { StatusCodes } from "http-status-codes";
 //@ts-ignore
 import styles from "./ResetPasswordPage.module.css";
 
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [confirmPasswordIsValid, setConfirmPasswordIsValid] = useState(false);
-
-  //   const [formIsValid, setFormIsValid] = useState(false);
   const [error, setError] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const authCtx = useContext(AuthContext);
 
+  const TO_MILLISECONDS = 1000;
+  const SUCCESS_TIMER = 2000; // 2 seconds
   const MIN_PASSWORD_LENGTH = 7;
 
+  const { token } = useParams();
+
   let formIsValid = passwordIsValid && confirmPasswordIsValid;
-  
+
   const mainBtnClasses = !formIsValid
     ? `${styles["main-button"]} ${styles["disabled-main-button"]}`
     : styles["main-button"];
@@ -30,23 +34,40 @@ const ResetPasswordPage = () => {
   const handlePasswordReset = async () => {
     if (password !== confirmPassword) {
       alert("Make sure the password you entered is the same in both fields.");
+      return;
     }
-    //   setIsLoading(true);
-    //   setError("");
-    //   try {
-    //     const res = await forgotPassword(email);
-    //     setIsLoading(false);
-    //     console.log(res)
-    //   } catch (error) {
-    //     const axiosError = error as AxiosError;
-    //     console.log(axiosError);
-    //     const errorMessage = axiosError.response?.data as string;
-    //     if (errorMessage) {
-    //       setError(errorMessage);
-    //       // setError("Unable to login. Try again or create an account.");
-    //     }
-    //     setIsLoading(false);
-    //   }
+    if (token === undefined) {
+      alert("invalid link.");
+      return;
+    }
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const res = await resetPassword(token, password);
+      setIsLoading(false);
+      if (res.status === StatusCodes.OK) {
+        console.log(res);
+        const decodedToken = jwtDecode(res.data.token);
+        const tokenExpiration = decodedToken.exp;
+        const expirationTime = new Date(tokenExpiration! * TO_MILLISECONDS);
+        setIsSuccess(true);
+        setTimeout(() => {
+          authCtx.login(
+            res.data.token,
+            res.data.user,
+            res.data.user._id,
+            res.data.user.manager,
+            expirationTime.toISOString()
+          );
+        }, SUCCESS_TIMER);
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      console.log(axiosError);
+      setError("Unable to reset password. Try again.");
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -63,7 +84,6 @@ const ResetPasswordPage = () => {
           setInput={setPassword}
           checkIsValid={(value) => value.length >= MIN_PASSWORD_LENGTH}
           isPassword={true}
-          //   ref={emailRef}
         />
         <AuthInput
           inputTitle="Confirm Password"
@@ -73,9 +93,12 @@ const ResetPasswordPage = () => {
           setInput={setConfirmPassword}
           checkIsValid={(value) => value.length >= MIN_PASSWORD_LENGTH}
           isPassword={true}
-
-          //   ref={emailRef}
         />
+        {isLoading && <p>Loading...</p>}
+        {isSuccess && (
+          <p className={styles.success}>Password changed successfully!</p>
+        )}
+        {error && <p className={styles.error}>{error}</p>}
         <button className={mainBtnClasses} onClick={handlePasswordReset}>
           Save
         </button>
