@@ -19,7 +19,6 @@ const UserRequests = () => {
   const [isLoadingNewReq, setIsLoadingNewReq] = useState(false);
   const [requests, setRequests] = useState<null | []>(null);
 
-  const ITEMS_PER_PAGE = 8;
   const [currentPage, setCurrentPage] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
 
@@ -31,6 +30,8 @@ const UserRequests = () => {
   const [sortByDate, setSortByDate] = useState("none");
   const [sortByStatus, setSortByStatus] = useState("none");
   const [sortByType, setSortByType] = useState("none");
+  
+  const ITEMS_PER_PAGE = 8;
 
   const getRequests = useCallback(async () => {
     setError(null);

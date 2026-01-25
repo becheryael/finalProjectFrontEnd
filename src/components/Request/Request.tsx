@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { editRequest } from "../../services/requestApiServices";
 import { AxiosError } from "axios";
 import Modal from "../UI/Modal";
@@ -62,6 +62,11 @@ const Request = (props: requestProps) => {
   const [isDenyFormValid, setIsDenyFormValid] = useState(false);
   const [isDenyLoading, setIsDenyLoading] = useState(false);
   const [denyError, setDenyError] = useState<null | string>(null);
+
+  useEffect(() => {
+    setStatus(requestStatus);
+    setMessage(requestMessage);
+  }, [requestStatus, requestMessage]);
 
   let statusClasses;
   if (status === "Awaiting approval") {

@@ -78,7 +78,7 @@ const RequestsTable = (props: requestTableProps) => {
                 requestStatus={request.status}
                 requestId={request._id}
                 requestMessage={request.message}
-                key={index}
+                key={request._id}
               />
             )
           )}

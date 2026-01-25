@@ -37,6 +37,7 @@ const ManagerRequests = () => {
       );
       const allRequests = res.data.allRequests;
       const requestCount = res.data.requestCount;
+      console.log(allRequests)
       setRequests(allRequests);
       setTotalItems(requestCount);
     } catch (error) {
