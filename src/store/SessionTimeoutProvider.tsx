@@ -26,13 +26,11 @@ export const SessionTimeoutProvider: React.FC<{
 
   const handleRefresh = useCallback(async () => {
     if (!authCtx.token || isExemptedRoute) return;
-    console.log('in handleRefresh')
 
     try {
       const res = await newToken(authCtx.token);
       const decodedToken = jwtDecode(res.data.token);
       const expirationTime = new Date(decodedToken.exp! * TO_MILLISECONDS);
-      console.log(res);
 
       const user = {
         name: authCtx.userInfo.name!,
@@ -68,7 +66,6 @@ export const SessionTimeoutProvider: React.FC<{
   useIdleTimer({
     idleTime: IDLE_TIMEOUT,
     onIdle: () => {
-      console.log('in onIdle')
       if (isExemptedRoute) return;
       setShowModal(true);
       const timer = setTimeout(() => {

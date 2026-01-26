@@ -30,7 +30,7 @@ const UserRequests = () => {
   const [sortByDate, setSortByDate] = useState("none");
   const [sortByStatus, setSortByStatus] = useState("none");
   const [sortByType, setSortByType] = useState("none");
-  
+
   const ITEMS_PER_PAGE = 8;
 
   const getRequests = useCallback(async () => {
@@ -51,7 +51,6 @@ const UserRequests = () => {
       setTotalItems(requestCount);
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
       setError(errorMessage);
     }
@@ -74,7 +73,6 @@ const UserRequests = () => {
       getRequests();
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
       setNewRequestError(errorMessage);
     }
@@ -126,7 +124,7 @@ const UserRequests = () => {
       />
       {error && <p className={styles["error-message"]}>{error}</p>}
       {isLoading && <p>Loading...</p>}
-      {!error && requests && (
+      {!error && requests && !isLoading && (
           <RequestsTable
             requests={requests}
             totalItems={totalItems}

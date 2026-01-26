@@ -22,7 +22,10 @@ const ManagerRequests = () => {
   const [sortByType, setSortByType] = useState("none");
   const [fetchByUser, setfetchByUser] = useState("");
 
-  const getAllRequests = useCallback(async () => {
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [endDate, setEndDate] = useState<Date | null>(null);
+
+  const getAllRequests = useCallback(async (rangeStart?: string, rangeEnd?: string) => {
     setError(null);
     setIsLoading(true);
     try {
@@ -33,17 +36,17 @@ const ManagerRequests = () => {
         sortByType,
         fetchByUser,
         ITEMS_PER_PAGE,
-        currentPage
+        currentPage,
+        rangeStart,
+        rangeEnd
       );
       const allRequests = res.data.allRequests;
       const requestCount = res.data.requestCount;
-      console.log(allRequests)
       setRequests(allRequests);
       setTotalItems(requestCount);
     } catch (error) {
       const axiosError = error as AxiosError;
       const errorMessage = axiosError.response?.data as string;
-      console.log(errorMessage);
       setError(errorMessage);
     }
     setIsLoading(false);
@@ -71,10 +74,15 @@ const ManagerRequests = () => {
         fetchByUser={fetchByUser}
         setFetchByUser={setfetchByUser}
         handleSearch={handleSearch}
+        startDate={startDate}
+        endDate={endDate}
+        setStartDate={setStartDate}
+        setEndDate={setEndDate}
+        getAllRequests={getAllRequests}
       />
       {error && <p className={styles["error-message"]}>{error}</p>}
       {isLoading && <p>Loading...</p>}
-      {!error && requests && (
+      {!error && requests && !isLoading && (
         <RequestsTable
           requests={requests}
           isManager={true}

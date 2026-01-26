@@ -1,7 +1,11 @@
+import { useState } from "react";
+import DateRangeCalander from "../DateRangeCalander/DateRangeCalander";
 //@ts-ignore
 import styles from "./SortingRequests.module.css";
 //@ts-ignore
 import searchIcon from "../../assets/media/images/search-icon.png";
+//@ts-ignore
+import calendarIcon from "../../assets/media/images/calendar.png";
 
 interface sortingRequestProps {
   sortByDate: string;
@@ -14,6 +18,11 @@ interface sortingRequestProps {
   fetchByUser?: string;
   setFetchByUser?: (value: string) => void;
   handleSearch?: (event: React.FormEvent<HTMLFormElement>) => void;
+  startDate?: Date | null;
+  endDate?: Date | null;
+  setStartDate?: (value: Date | null) => void;
+  setEndDate?: (value: Date | null) => void;
+  getAllRequests?: (start: string, end: string) => void;
 }
 
 const SortingRequests = (props: sortingRequestProps) => {
@@ -27,8 +36,15 @@ const SortingRequests = (props: sortingRequestProps) => {
     isManager = false,
     fetchByUser,
     setFetchByUser,
-    handleSearch
+    handleSearch,
+    startDate,
+    endDate,
+    setStartDate,
+    setEndDate,
+    getAllRequests,
   } = props;
+
+  const [isShowCalendar, setIsShowCalendar] = useState(false);
 
   return (
     <div className={styles["select-contianer"]}>
@@ -41,8 +57,8 @@ const SortingRequests = (props: sortingRequestProps) => {
         <option value="none" disabled>
           Sort by date
         </option>
-        <option value="newist">Newist to oldest</option>
-        <option value="oldest">Oldest to newist</option>
+        <option value="newest">Newest to oldest</option>
+        <option value="oldest">Oldest to newest</option>
       </select>
       <select
         name="Status sort"
@@ -51,7 +67,7 @@ const SortingRequests = (props: sortingRequestProps) => {
         onChange={(event) => setSortByStatus(event.target.value)}
       >
         <option value="none" disabled>
-        Filter by status
+          Filter by status
         </option>
         <option value="All">All</option>
         <option value="Approved">Approved</option>
@@ -77,17 +93,37 @@ const SortingRequests = (props: sortingRequestProps) => {
         <option value="Sign for me">Sign for me</option>
       </select>
       {isManager && (
-        <form onSubmit={handleSearch} className={styles['search-form']}>
+        <form onSubmit={handleSearch} className={styles["search-form"]}>
           <input
             value={fetchByUser}
             onChange={(event) => setFetchByUser!(event.target.value)}
             placeholder="Search by user..."
-            className={styles['search']}
+            className={styles["search"]}
           ></input>
-          <button type="submit" className={styles['search-btn']} >
+          <button type="submit" className={styles["search-btn"]}>
             <img src={searchIcon} alt="search" />
           </button>
         </form>
+      )}
+      {isManager && (
+        <img
+          src={calendarIcon}
+          alt="calander"
+          className={styles.calendar}
+          onClick={() =>
+            setIsShowCalendar((prevShowCalender) => !prevShowCalender)
+          }
+        />
+      )}
+      {isManager && isShowCalendar && (
+        <DateRangeCalander
+          startDate={startDate!}
+          endDate={endDate!}
+          setStartDate={setStartDate!}
+          setEndDate={setEndDate!}
+          getAllRequests={getAllRequests!}
+          setIsShowCalendar={setIsShowCalendar}
+        />
       )}
     </div>
   );

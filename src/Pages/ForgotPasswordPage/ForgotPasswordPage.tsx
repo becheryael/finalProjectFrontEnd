@@ -23,13 +23,11 @@ const ForgotPasswordPage = () => {
     setError("");
     try {
       const res = await forgotPassword(email);
-      console.log(res);
       if (res.status === StatusCodes.OK) {
         setIsSuccess(true);
       }
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
       if (errorMessage) {
         setError(errorMessage);

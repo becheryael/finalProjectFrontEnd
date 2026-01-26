@@ -1,5 +1,26 @@
 import axios from "axios";
 
+const api = axios.create({
+  baseURL: "http://localhost:8000/requests",
+});
+
+export const createRequest = async (
+  type: string,
+  text: string,
+  token: string
+) => {
+  try {
+    const response = await api.post(
+      "",
+      { type, text },
+      { headers: { Authorization: token } }
+    );
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const fetchRequests = async (
   token: string,
   date: string,
@@ -8,51 +29,17 @@ export const fetchRequests = async (
   limit: number,
   skip: number
 ) => {
-  let statusSort;
-  let typeSort;
-  if (status !== "All" && status !== "none") {
-    statusSort = `status=${status}`;
-  } else {
-    statusSort = "";
-  }
-
-  if (type !== "All" && type !== "none") {
-    typeSort = `type=${type}`;
-  } else {
-    typeSort = "";
-  }
-
-  const url = `http://localhost:8000/requests?${statusSort}&${typeSort}&date=${date}&limit=${limit}&skip=${skip}`;
   try {
-    const response = await axios({
-      method: "GET",
-      url: url,
+    const response = await api.get("", {
       headers: {
         Authorization: token,
       },
-    });
-    return response;
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const createRequest = async (
-  type: string,
-  text: string,
-  token: string
-) => {
-  const url = "http://localhost:8000/requests";
-  try {
-    const response = await axios({
-      method: "POST",
-      url: url,
-      headers: {
-        Authorization: token,
-      },
-      data: {
-        type,
-        text,
+      params: {
+        status: status !== "All" && status !== "none" ? status : undefined,
+        type: type !== "All" && type !== "none" ? type : undefined,
+        date,
+        limit,
+        skip,
       },
     });
     return response;
@@ -68,37 +55,24 @@ export const fetchAllRequests = async (
   type: string,
   user: string,
   limit: number,
-  skip: number
+  skip: number,
+  startDate?: string,
+  endDate?: string
 ) => {
-  let statusSort;
-  let typeSort;
-  let userSearch;
-
-  if (status !== "All" && status !== "none") {
-    statusSort = `status=${status}`;
-  } else {
-    statusSort = "";
-  }
-
-  if (type !== "All" && type !== "none") {
-    typeSort = `type=${type}`;
-  } else {
-    typeSort = "";
-  }
-
-  if (user !== "") {
-    userSearch = `userSearch=${user}`;
-  } else {
-    userSearch = "";
-  }
-
-  const url = `http://localhost:8000/requests/allRequests?${statusSort}&${typeSort}&${userSearch}&date=${date}&limit=${limit}&skip=${skip}`;
   try {
-    const response = await axios({
-      method: "get",
-      url: url,
+    const response = await api.get("/allRequests", {
       headers: {
         Authorization: token,
+      },
+      params: {
+        status: status !== "All" && status !== "none" ? status : undefined,
+        type: type !== "All" && type !== "none" ? type : undefined,
+        userSearch: user || undefined,
+        date,
+        limit,
+        skip,
+        startDate,
+        endDate,
       },
     });
     return response;
@@ -113,19 +87,19 @@ export const editRequest = async (
   status: string,
   message?: string
 ) => {
-  const url = `http://localhost:8000/requests/${requestId}`;
   try {
-    const response = await axios({
-      method: "PATCH",
-      url: url,
-      headers: {
-        Authorization: token,
-      },
-      data: {
+    const response = await api.patch(
+      `/${requestId}`,
+      {
         status,
         message,
       },
-    });
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
     return response;
   } catch (error) {
     throw error;

@@ -46,7 +46,6 @@ const Request = (props: requestProps) => {
     isManager = false,
     requestMessage,
   } = props;
-  console.log(props);
   const authCtx = useContext(AuthContext);
   const dateObj = new Date(requestDate);
   const dateStr = dateObj.toLocaleDateString("en-US", {
@@ -83,7 +82,6 @@ const Request = (props: requestProps) => {
       setStatus(res.data.status);
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
       alert(errorMessage);
     }
@@ -105,7 +103,6 @@ const Request = (props: requestProps) => {
     } catch (error) {
       const axiosError = error as AxiosError;
       const errorMessage = axiosError.response?.data as string;
-      console.log(errorMessage);
       setDenyError(errorMessage);
     }
     setIsDenyLoading(false);

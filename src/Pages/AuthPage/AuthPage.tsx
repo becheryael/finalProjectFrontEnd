@@ -44,7 +44,6 @@ const AuthPage = () => {
         res = await createUser(email, password, personalNum, name);
       }
       if (res.status === StatusCodes.CREATED || res.status === StatusCodes.OK) {
-        console.log(res);
         const decodedToken = jwtDecode(res.data.token);
         const tokenExpiration = decodedToken.exp;
         const expirationTime = new Date(tokenExpiration! * TO_MILLISECONDS);
@@ -59,7 +58,6 @@ const AuthPage = () => {
       }
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.log(axiosError);
       const errorMessage = axiosError.response?.data as string;
       if (errorMessage) {
         setError(errorMessage);

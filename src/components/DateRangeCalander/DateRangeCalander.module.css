@@ -1,0 +1,43 @@
+.calender-contianer {
+  position: absolute;
+  top: 32vh;
+  right: 8vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.filter-btn {
+  background-color: #f2e8fa;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+}
+
+.react-datepicker .react-datepicker__day--selected {
+  background-color: #5d4761;
+  color: white;
+  border-radius: 7px;
+}
+
+.date-picker .react-datepicker__day--in-range {
+  background-color: #5d4761;
+}
+
+.calender-contianer :global(.react-datepicker__day--selected),
+.calender-contianer :global(.react-datepicker__day--range-start),
+.calender-contianer :global(.react-datepicker__day--range-end),
+.calender-contianer :global(.react-datepicker__day--in-range) {
+  background-color: #5d4761 !important;
+  color: white !important;
+  border-radius: 7px !important;
+}
+
+.calender-contianer :global(.react-datepicker__day--in-selecting-range) {
+  background-color: #a392a7;
+}
+
+.calender-contianer :global(.react-datepicker__day--in-selecting-range:hover) {
+  background-color: #5d4761 !important;
+}

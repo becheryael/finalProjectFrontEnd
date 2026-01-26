@@ -47,7 +47,6 @@ const ResetPasswordPage = () => {
       const res = await resetPassword(token, password);
       setIsLoading(false);
       if (res.status === StatusCodes.OK) {
-        console.log(res);
         const decodedToken = jwtDecode(res.data.token);
         const tokenExpiration = decodedToken.exp;
         const expirationTime = new Date(tokenExpiration! * TO_MILLISECONDS);
@@ -64,7 +63,6 @@ const ResetPasswordPage = () => {
       }
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.log(axiosError);
       setError("Unable to reset password. Try again.");
     }
     setIsLoading(false);
