@@ -31,7 +31,7 @@ const UserInfoField = (props: authInputProps) => {
     setIsValid,
     ref,
     isNumOnly,
-    isEdit,
+    isEdit
   } = props;
   const { hasError, valueChangeHandler, inputBlurHandler, reset } = useInput(
     checkIsValid,
@@ -62,7 +62,7 @@ const UserInfoField = (props: authInputProps) => {
       resetInput: () => {
         setIsValid(true);
         reset();
-      },
+      }
     }),
     [reset, setIsValid]
   );

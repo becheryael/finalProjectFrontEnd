@@ -37,7 +37,7 @@ const AuthForm = (props: authFormProps) => {
     handleSubmit,
     error,
     isLoading,
-    name,
+    name
   } = props;
   let buttonText: string;
   let passwordError: string;

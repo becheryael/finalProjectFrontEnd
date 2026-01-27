@@ -19,7 +19,7 @@ const AVATARS: Record<string, string> = {
   koala: koalaAvatar,
   deer: deerAvatar,
   beaver: beaverAvatar,
-  raccoon: raccoonAvatar,
+  raccoon: raccoonAvatar
 };
 
 interface requestProps {
@@ -44,7 +44,7 @@ const Request = (props: requestProps) => {
     requestStatus,
     requestId,
     isManager = false,
-    requestMessage,
+    requestMessage
   } = props;
   const authCtx = useContext(AuthContext);
   const dateObj = new Date(requestDate);
@@ -52,7 +52,7 @@ const Request = (props: requestProps) => {
     weekday: "long",
     year: "numeric",
     month: "long",
-    day: "numeric",
+    day: "numeric"
   });
   const [status, setStatus] = useState(requestStatus);
   const [message, setMessage] = useState(requestMessage);

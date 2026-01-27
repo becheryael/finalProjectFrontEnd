@@ -2,7 +2,7 @@ import { useEffect, useRef, useCallback } from "react";
 
 const useIdleTimer = ({
   idleTime = 600000,
-  onIdle,
+  onIdle
 }: {
   idleTime?: number;
   onIdle: () => void;

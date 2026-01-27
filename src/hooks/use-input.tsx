@@ -53,7 +53,6 @@ const useInput = (
   };
 
   return {
-    // value: inputState.value,
     isValid: valueIsValid,
     hasError,
     valueChangeHandler,

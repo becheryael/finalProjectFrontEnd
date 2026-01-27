@@ -1,16 +1,16 @@
 import React, { useState, PropsWithChildren, useCallback } from "react";
 
-let logoutTimer:  ReturnType<typeof setTimeout>;
+let logoutTimer: ReturnType<typeof setTimeout>;
 
 interface AuthContextType {
   token: string | null;
   isLoggedIn: boolean;
   login: (
     token: string,
-    user: { name: string; personalNum: string; email: string, avatar: string },
+    user: { name: string; personalNum: string; email: string; avatar: string },
     id: string,
     isManager: boolean,
-    expirationTime: string,
+    expirationTime: string
   ) => void;
   logout: () => void;
   userInfo: {
@@ -21,7 +21,12 @@ interface AuthContextType {
   };
   userId: string | null;
   isManager: boolean;
-  edit: (newName: string, newPersonalNum: string, newEmail: string, newAvatar: string) => void;
+  edit: (
+    newName: string,
+    newPersonalNum: string,
+    newEmail: string,
+    newAvatar: string
+  ) => void;
 }
 
 const AuthContext = React.createContext<AuthContextType>({
@@ -29,7 +34,7 @@ const AuthContext = React.createContext<AuthContextType>({
   isLoggedIn: false,
   login: (
     token: string,
-    user: { name: string; personalNum: string; email: string, avatar: string },
+    user: { name: string; personalNum: string; email: string; avatar: string },
     id: string,
     isManager: boolean,
     expirationTime: string
@@ -39,11 +44,16 @@ const AuthContext = React.createContext<AuthContextType>({
     name: "",
     personalNum: "",
     email: "",
-    avatar: '',
+    avatar: ""
   },
   userId: "",
   isManager: false,
-  edit: (newName: string, newPersonalNum: string, newEmail: string, newAvatar: string) => {},
+  edit: (
+    newName: string,
+    newPersonalNum: string,
+    newEmail: string,
+    newAvatar: string
+  ) => {}
 });
 
 const calculateRemainingTime = (expirationTime: string) => {
@@ -56,32 +66,31 @@ const calculateRemainingTime = (expirationTime: string) => {
 };
 
 const retrieveStoredToken = () => {
-  const storedToken = localStorage.getItem('token');
-  const storedExpirationDate = localStorage.getItem('expirationTime');
+  const storedToken = localStorage.getItem("token");
+  const storedExpirationDate = localStorage.getItem("expirationTime");
 
   const remainingTime = calculateRemainingTime(storedExpirationDate!);
 
   if (remainingTime <= 3600) {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expirationTime');
+    localStorage.removeItem("token");
+    localStorage.removeItem("expirationTime");
     return null;
   }
 
   return {
     token: storedToken,
-    duration: remainingTime,
+    duration: remainingTime
   };
 };
 
 export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
   const tokenData = retrieveStoredToken();
-  
+
   let initialToken: string;
   if (tokenData) {
     initialToken = tokenData.token!;
   }
 
-  // const initialToken = localStorage.getItem("token");
   const [token, setToken] = useState<string | null>(initialToken!);
   const initailName = localStorage.getItem("name");
   const initailPersonalNum = localStorage.getItem("personalNum");
@@ -91,7 +100,7 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
   const id = localStorage.getItem("id");
 
   let managerBoolean: boolean;
-  if (manager === 'true') {
+  if (manager === "true") {
     managerBoolean = true;
   } else {
     managerBoolean = false;
@@ -100,19 +109,18 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
   const [userId, setUserId] = useState<string | null>(id);
   const [isManager, setIsManager] = useState<boolean>(managerBoolean);
 
-
   const [userInfo, setUserInfo] = useState({
     name: initailName,
     personalNum: initailPersonalNum,
     email: initialEmail,
-    avatar: initialAvatar,
+    avatar: initialAvatar
   });
 
   const userIsLoggedIn = !!token;
 
   const loginHandler = (
     token: string,
-    user: { name: string; personalNum: string; email: string, avatar: string },
+    user: { name: string; personalNum: string; email: string; avatar: string },
     id: string,
     isManager: boolean,
     expirationTime: string
@@ -122,7 +130,7 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
       name: user.name,
       personalNum: user.personalNum,
       email: user.email,
-      avatar: user.avatar,
+      avatar: user.avatar
     });
     setUserId(id);
     setIsManager(isManager);
@@ -132,9 +140,9 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
     localStorage.setItem("id", id);
     localStorage.setItem("avatar", user.avatar);
     localStorage.setItem("manager", String(isManager));
-    
+
     localStorage.setItem("token", token);
-    localStorage.setItem('expirationTime', expirationTime);
+    localStorage.setItem("expirationTime", expirationTime);
 
     const remainingTime = calculateRemainingTime(expirationTime);
 
@@ -150,7 +158,7 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
     localStorage.removeItem("id");
     localStorage.removeItem("avatar");
     localStorage.removeItem("manager");
-    localStorage.removeItem('expirationTime');
+    localStorage.removeItem("expirationTime");
     if (logoutTimer) {
       clearTimeout(logoutTimer);
     }
@@ -182,7 +190,7 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
     userInfo,
     userId,
     isManager,
-    edit: editProfileHandler,
+    edit: editProfileHandler
   };
 
   return (

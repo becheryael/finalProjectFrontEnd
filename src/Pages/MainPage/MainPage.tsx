@@ -15,8 +15,12 @@ const MainPage = () => {
     <>
       <NavBar />
       <div className={styles.requests}>
-        {(location.pathname === '/main/my-requests') && <h2>Hey {authCtx.userInfo.name}, Your Requests</h2>}
-        {(location.pathname === '/main/manage-requests') && <h2>All User Requests</h2>}
+        {location.pathname === "/main/my-requests" && (
+          <h2>Hey {authCtx.userInfo.name}, Your Requests</h2>
+        )}
+        {location.pathname === "/main/manage-requests" && (
+          <h2>All User Requests</h2>
+        )}
         <Routes>
           <Route path="/my-requests" element={<UserRequests />} />
           <Route path="/manage-requests" element={<ManagerRequests />} />

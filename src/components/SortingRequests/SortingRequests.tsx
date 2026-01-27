@@ -1,5 +1,5 @@
-import { useState } from "react";
 import DateRangeCalander from "../DateRangeCalander/DateRangeCalander";
+import { useState } from "react";
 //@ts-ignore
 import styles from "./SortingRequests.module.css";
 //@ts-ignore
@@ -41,7 +41,7 @@ const SortingRequests = (props: sortingRequestProps) => {
     endDate,
     setStartDate,
     setEndDate,
-    getAllRequests,
+    getAllRequests
   } = props;
 
   const [isShowCalendar, setIsShowCalendar] = useState(false);

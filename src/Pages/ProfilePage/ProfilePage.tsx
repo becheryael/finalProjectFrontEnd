@@ -1,11 +1,11 @@
+import ProfileForm from "../../components/ProfileForm/ProfileForm";
+import AuthContext from "../../store/auth-context";
 import { useContext, useState, useRef } from "react";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { InputHandle } from "../../components/UserInfoField/UserInfoField";
-import AuthContext from "../../store/auth-context";
 import { editUser } from "../../services/userApiServices";
 import { StatusCodes } from "http-status-codes";
-import ProfileForm from "../../components/ProfileForm/ProfileForm";
 
 const ProfilePage = () => {
   const navigate = useNavigate();

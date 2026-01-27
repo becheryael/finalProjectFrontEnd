@@ -25,32 +25,42 @@ const ManagerRequests = () => {
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(null);
 
-  const getAllRequests = useCallback(async (rangeStart?: string, rangeEnd?: string) => {
-    setError(null);
-    setIsLoading(true);
-    try {
-      const res = await fetchAllRequests(
-        authCtx.token!,
-        sortByDate,
-        sortByStatus,
-        sortByType,
-        fetchByUser,
-        ITEMS_PER_PAGE,
-        currentPage,
-        rangeStart,
-        rangeEnd
-      );
-      const allRequests = res.data.allRequests;
-      const requestCount = res.data.requestCount;
-      setRequests(allRequests);
-      setTotalItems(requestCount);
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      const errorMessage = axiosError.response?.data as string;
-      setError(errorMessage);
-    }
-    setIsLoading(false);
-  }, [authCtx.token, sortByDate, sortByStatus, sortByType, fetchByUser, currentPage]);
+  const getAllRequests = useCallback(
+    async (rangeStart?: string, rangeEnd?: string) => {
+      setError(null);
+      setIsLoading(true);
+      try {
+        const res = await fetchAllRequests(
+          authCtx.token!,
+          sortByDate,
+          sortByStatus,
+          sortByType,
+          fetchByUser,
+          ITEMS_PER_PAGE,
+          currentPage,
+          rangeStart,
+          rangeEnd
+        );
+        const allRequests = res.data.allRequests;
+        const requestCount = res.data.requestCount;
+        setRequests(allRequests);
+        setTotalItems(requestCount);
+      } catch (error) {
+        const axiosError = error as AxiosError;
+        const errorMessage = axiosError.response?.data as string;
+        setError(errorMessage);
+      }
+      setIsLoading(false);
+    },
+    [
+      authCtx.token,
+      sortByDate,
+      sortByStatus,
+      sortByType,
+      fetchByUser,
+      currentPage
+    ]
+  );
 
   useEffect(() => {
     getAllRequests();
@@ -59,7 +69,7 @@ const ManagerRequests = () => {
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     getAllRequests();
-  }
+  };
 
   return (
     <div className={styles["requests-container"]}>

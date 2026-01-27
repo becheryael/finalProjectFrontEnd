@@ -61,7 +61,6 @@ const ProfileForm = (props: profileFormProps) => {
 
   let formIsValid =
     emailIsValid &&
-    // passwordIsValid &&
     nameIsValid &&
     personalNumIsValid;
 
@@ -71,7 +70,7 @@ const ProfileForm = (props: profileFormProps) => {
 
   const handleAvatarChange = () => {
     setIsEditImage(false);
-  }
+  };
 
   return (
     <>
@@ -87,12 +86,14 @@ const ProfileForm = (props: profileFormProps) => {
           isEditPage={isEdit}
           avatar={avatar}
         />
-        {isEditImage && <Modal 
-        title="Pick your new avatar!"
-        confirmTxt="Confirm"
-        onConfirm={handleAvatarChange}
-        component={<Avatars setAvatar={setAvatar} avatar={avatar}/>}
-        />}
+        {isEditImage && (
+          <Modal
+            title="Pick your new avatar!"
+            confirmTxt="Confirm"
+            onConfirm={handleAvatarChange}
+            component={<Avatars setAvatar={setAvatar} avatar={avatar} />}
+          />
+        )}
         <div className={styles["inputs-contianer"]}>
           <UserInfoField
             title="Name"

@@ -36,7 +36,7 @@ export const SessionTimeoutProvider: React.FC<{
         name: authCtx.userInfo.name!,
         personalNum: authCtx.userInfo.personalNum!,
         email: authCtx.userInfo.email!,
-        avatar: authCtx.userInfo.avatar!,
+        avatar: authCtx.userInfo.avatar!
       };
 
       authCtx.login(
@@ -73,7 +73,7 @@ export const SessionTimeoutProvider: React.FC<{
         authCtx.logout();
       }, MODAL_COUNTDOWN);
       setCountdownTimer(timer);
-    },
+    }
   });
 
   const handleContinue = () => {

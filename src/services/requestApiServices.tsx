@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/requests",
+  baseURL: "http://localhost:8000/requests"
 });
 
 export const createRequest = async (
@@ -32,15 +32,15 @@ export const fetchRequests = async (
   try {
     const response = await api.get("", {
       headers: {
-        Authorization: token,
+        Authorization: token
       },
       params: {
         status: status !== "All" && status !== "none" ? status : undefined,
         type: type !== "All" && type !== "none" ? type : undefined,
         date,
         limit,
-        skip,
-      },
+        skip
+      }
     });
     return response;
   } catch (error) {
@@ -62,7 +62,7 @@ export const fetchAllRequests = async (
   try {
     const response = await api.get("/allRequests", {
       headers: {
-        Authorization: token,
+        Authorization: token
       },
       params: {
         status: status !== "All" && status !== "none" ? status : undefined,
@@ -72,8 +72,8 @@ export const fetchAllRequests = async (
         limit,
         skip,
         startDate,
-        endDate,
-      },
+        endDate
+      }
     });
     return response;
   } catch (error) {
@@ -92,12 +92,12 @@ export const editRequest = async (
       `/${requestId}`,
       {
         status,
-        message,
+        message
       },
       {
         headers: {
-          Authorization: token,
-        },
+          Authorization: token
+        }
       }
     );
     return response;

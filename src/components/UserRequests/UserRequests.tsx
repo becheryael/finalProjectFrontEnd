@@ -4,7 +4,10 @@ import NewRequest from "../NewRequest/NewRequest";
 import RequestsTable from "../RequestsTable/RequestsTable";
 import SortingRequests from "../SortingRequests/SortingRequests";
 import { useState, useContext, useEffect, useCallback } from "react";
-import { fetchRequests, createRequest } from "../../services/requestApiServices";
+import {
+  fetchRequests,
+  createRequest
+} from "../../services/requestApiServices";
 import { AxiosError } from "axios";
 // @ts-ignore
 import styles from "./UserRequests.module.css";
@@ -64,11 +67,7 @@ const UserRequests = () => {
   const handleNewRequest = async () => {
     setIsLoadingNewReq(true);
     try {
-      await createRequest(
-        selectedType,
-        requestText,
-        authCtx.token!
-      );
+      await createRequest(selectedType, requestText, authCtx.token!);
       closeNewRequest();
       getRequests();
     } catch (error) {
@@ -91,7 +90,7 @@ const UserRequests = () => {
         className={styles["new-btn"]}
         onClick={(event) => setIsAddRequest(true)}
       >
-        <img src={newImage} alt="plus"/>
+        <img src={newImage} alt="plus" />
         Create new request
       </button>
       {isAddRequest && (
@@ -125,13 +124,13 @@ const UserRequests = () => {
       {error && <p className={styles["error-message"]}>{error}</p>}
       {isLoading && <p>Loading...</p>}
       {!error && requests && !isLoading && (
-          <RequestsTable
-            requests={requests}
-            totalItems={totalItems}
-            ITEMS_PER_PAGE={ITEMS_PER_PAGE}
-            setCurrentPage={setCurrentPage}
-            currentPage={currentPage}
-          />
+        <RequestsTable
+          requests={requests}
+          totalItems={totalItems}
+          ITEMS_PER_PAGE={ITEMS_PER_PAGE}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+        />
       )}
     </div>
   );

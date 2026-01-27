@@ -35,7 +35,7 @@ const AuthInput = (props: authInputProps) => {
     setIsValid,
     ref,
     isNumOnly,
-    isPassword = false,
+    isPassword = false
   } = props;
   const { hasError, valueChangeHandler, inputBlurHandler, reset } =
     useInput(checkIsValid);
@@ -75,7 +75,7 @@ const AuthInput = (props: authInputProps) => {
         reset();
         setInput("");
         setIsValid(false);
-      },
+      }
     }),
     [reset, setInput, setIsValid]
   );

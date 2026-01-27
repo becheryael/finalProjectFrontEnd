@@ -13,7 +13,7 @@ const AVATARS: Record<string, string> = {
   koala: koalaAvatar,
   deer: deerAvatar,
   beaver: beaverAvatar,
-  raccoon: raccoonAvatar,
+  raccoon: raccoonAvatar
 };
 
 interface imageProps {

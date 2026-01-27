@@ -21,14 +21,14 @@ const NewRequest = (props: newRequestProps) => {
     setSelectedType,
     setFormIsValid,
     isLoading,
-    error,
+    error
   } = props;
   const MIN_LENGTH = 5;
 
   const {
     hasError: textHasError,
     valueChangeHandler: textChangeHandler,
-    inputBlurHandler: textBlurHandler,
+    inputBlurHandler: textBlurHandler
   } = useInput((value) => value.length >= MIN_LENGTH);
 
   const handleTextInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -67,7 +67,9 @@ const NewRequest = (props: newRequestProps) => {
         <option value="Blackening">Blackening</option>
         <option value="Kidud">Kidud</option>
         <option value="Let me in">Let me in</option>
-        <option value="Let me in by car or plane">Let me in by car or plane</option>
+        <option value="Let me in by car or plane">
+          Let me in by car or plane
+        </option>
         <option value="Sign for me">Sign for me</option>
       </select>
       <textarea
@@ -83,16 +85,8 @@ const NewRequest = (props: newRequestProps) => {
           Please write a description for your request.
         </p>
       )}
-      {error && (
-        <p className={styles["req-error"]}>
-          {error}
-        </p>
-      )}
-      {isLoading && (
-        <p>
-          Loading...
-        </p>
-      )}
+      {error && <p className={styles["req-error"]}>{error}</p>}
+      {isLoading && <p>Loading...</p>}
     </div>
   );
 };

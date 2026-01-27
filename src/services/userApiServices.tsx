@@ -1,14 +1,14 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/users",
+  baseURL: "http://localhost:8000/users"
 });
 
 export const loginUser = async (email: string, password: string) => {
   try {
     const response = await api.post("/login", {
       email,
-      password,
+      password
     });
     return response;
   } catch (error) {
@@ -27,7 +27,7 @@ export const createUser = async (
       email,
       password,
       personalNum,
-      name,
+      name
     });
     return response;
   } catch (error) {
@@ -42,8 +42,8 @@ export const logoutUser = async (token: string) => {
       {},
       {
         headers: {
-          Authorization: token,
-        },
+          Authorization: token
+        }
       }
     );
     return response;
@@ -67,12 +67,12 @@ export const editUser = async (
         name,
         personalNum,
         email,
-        avatar,
+        avatar
       },
       {
         headers: {
-          Authorization: token,
-        },
+          Authorization: token
+        }
       }
     );
     return response;
@@ -88,8 +88,8 @@ export const newToken = async (token: string) => {
       {},
       {
         headers: {
-          Authorization: token,
-        },
+          Authorization: token
+        }
       }
     );
     return response;
@@ -101,7 +101,7 @@ export const newToken = async (token: string) => {
 export const forgotPassword = async (email: string) => {
   try {
     const response = await api.post("/forgot-password", {
-      email,
+      email
     });
     return response;
   } catch (error) {
@@ -114,12 +114,12 @@ export const resetPassword = async (token: string, password: string) => {
     const response = await api.patch(
       "/reset-password",
       {
-        password,
+        password
       },
       {
         headers: {
-          Authorization: token,
-        },
+          Authorization: token
+        }
       }
     );
     return response;

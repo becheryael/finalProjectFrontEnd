@@ -19,7 +19,7 @@ const DateRangeCalander = (props: DateRangeCalanderProps) => {
     setStartDate,
     setEndDate,
     getAllRequests,
-    setIsShowCalendar,
+    setIsShowCalendar
   } = props;
 
   const onChange = (dates: [Date | null, Date | null]) => {

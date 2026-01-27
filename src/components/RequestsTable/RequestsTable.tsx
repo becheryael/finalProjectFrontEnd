@@ -22,7 +22,7 @@ const RequestsTable = (props: requestTableProps) => {
     totalItems,
     ITEMS_PER_PAGE,
     currentPage,
-    setCurrentPage,
+    setCurrentPage
   } = props;
 
   const numOfPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
@@ -86,7 +86,7 @@ const RequestsTable = (props: requestTableProps) => {
       </table>
       <div className={styles["pagination"]}>
         {pages.length > 1 && (
-          <img onClick={HandlePreviousBtn} src={previousArrow} alt="previous"/>
+          <img onClick={HandlePreviousBtn} src={previousArrow} alt="previous" />
         )}
         {pages.length > 1 &&
           pages.map((page, index) => (
@@ -102,7 +102,9 @@ const RequestsTable = (props: requestTableProps) => {
               {page + 1}
             </button>
           ))}
-        {pages.length > 1 && <img onClick={HandleNextBtn} src={nextArrow} alt="next"/>}
+        {pages.length > 1 && (
+          <img onClick={HandleNextBtn} src={nextArrow} alt="next" />
+        )}
       </div>
     </>
   );
