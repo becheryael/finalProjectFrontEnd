@@ -1,4 +1,5 @@
 import DateRangeCalander from "../DateRangeCalander/DateRangeCalander";
+import SortingSelect from "../SortingSelect/SortingSelect";
 import { useState } from "react";
 //@ts-ignore
 import styles from "./SortingRequests.module.css";
@@ -9,11 +10,11 @@ import calendarIcon from "../../assets/media/images/calendar.png";
 
 interface sortingRequestProps {
   sortByDate: string;
-  sortByStatus: string;
-  sortByType: string;
+  filterByStatus: string;
+  filterByType: string;
   setSortByDate: (value: string) => void;
-  setSortByStatus: (value: string) => void;
-  setSortByType: (value: string) => void;
+  setfilterByStatus: (value: string) => void;
+  setfilterByType: (value: string) => void;
   isManager?: boolean;
   fetchByUser?: string;
   setFetchByUser?: (value: string) => void;
@@ -28,11 +29,11 @@ interface sortingRequestProps {
 const SortingRequests = (props: sortingRequestProps) => {
   const {
     sortByDate,
-    sortByStatus,
-    sortByType,
+    filterByStatus,
+    filterByType,
     setSortByDate,
-    setSortByStatus,
-    setSortByType,
+    setfilterByStatus,
+    setfilterByType,
     isManager = false,
     fetchByUser,
     setFetchByUser,
@@ -45,53 +46,48 @@ const SortingRequests = (props: sortingRequestProps) => {
   } = props;
 
   const [isShowCalendar, setIsShowCalendar] = useState(false);
+  const dateSortArr = [
+    { value: "newest", text: "Newest to oldest" },
+    { value: "oldest", text: "Oldest to newest" }
+  ];
+  const statusSortArr = [
+    { value: "All", text: "All" },
+    { value: "Approved", text: "Approved" },
+    { value: "Awaiting approval", text: "Awaiting approval" },
+    { value: "Denied", text: "Denied" }
+  ];
+  const typeSortArr = [
+    { value: "All", text: "All" },
+    { value: "Blackening", text: "Blackening" },
+    { value: "Kidud", text: "Kidud" },
+    { value: "Let me in", text: "Let me in" },
+    { value: "Let me in by car or plane", text: "Let me in by car or plane" },
+    { value: "Sign for me", text: "Sign for me" }
+  ];
 
   return (
     <div className={styles["select-contianer"]}>
-      <select
+      <SortingSelect
         name="Date sort"
-        className={styles.select}
+        text="Sort by date"
         value={sortByDate}
-        onChange={(event) => setSortByDate(event.target.value)}
-      >
-        <option value="none" disabled>
-          Sort by date
-        </option>
-        <option value="newest">Newest to oldest</option>
-        <option value="oldest">Oldest to newest</option>
-      </select>
-      <select
+        setSort={setSortByDate}
+        optionsArray={dateSortArr}
+      />
+      <SortingSelect
         name="Status sort"
-        className={styles.select}
-        value={sortByStatus}
-        onChange={(event) => setSortByStatus(event.target.value)}
-      >
-        <option value="none" disabled>
-          Filter by status
-        </option>
-        <option value="All">All</option>
-        <option value="Approved">Approved</option>
-        <option value="Awaiting approval">Awaiting approval</option>
-        <option value="Denied">Denied</option>
-      </select>
-      <select
+        text="Filter by status"
+        value={filterByStatus}
+        setSort={setfilterByStatus}
+        optionsArray={statusSortArr}
+      />
+      <SortingSelect
         name="Type sort"
-        className={styles.select}
-        value={sortByType}
-        onChange={(event) => setSortByType(event.target.value)}
-      >
-        <option value="none" disabled>
-          Filter by type
-        </option>
-        <option value="All">All</option>
-        <option value="Blackening">Blackening</option>
-        <option value="Kidud">Kidud</option>
-        <option value="Let me in">Let me in</option>
-        <option value="Let me in by car or plane">
-          Let me in by car or plane
-        </option>
-        <option value="Sign for me">Sign for me</option>
-      </select>
+        text="Filter by type"
+        value={filterByType}
+        setSort={setfilterByType}
+        optionsArray={typeSortArr}
+      />
       {isManager && (
         <form onSubmit={handleSearch} className={styles["search-form"]}>
           <input

@@ -18,8 +18,8 @@ const ManagerRequests = () => {
   const [totalItems, setTotalItems] = useState(0);
 
   const [sortByDate, setSortByDate] = useState("none");
-  const [sortByStatus, setSortByStatus] = useState("none");
-  const [sortByType, setSortByType] = useState("none");
+  const [filterByStatus, setfilterByStatus] = useState("none");
+  const [filterByType, setfilterByType] = useState("none");
   const [fetchByUser, setfetchByUser] = useState("");
 
   const [startDate, setStartDate] = useState<Date | null>(new Date());
@@ -33,8 +33,8 @@ const ManagerRequests = () => {
         const res = await fetchAllRequests(
           authCtx.token!,
           sortByDate,
-          sortByStatus,
-          sortByType,
+          filterByStatus,
+          filterByType,
           fetchByUser,
           ITEMS_PER_PAGE,
           currentPage,
@@ -55,8 +55,8 @@ const ManagerRequests = () => {
     [
       authCtx.token,
       sortByDate,
-      sortByStatus,
-      sortByType,
+      filterByStatus,
+      filterByType,
       fetchByUser,
       currentPage
     ]
@@ -75,11 +75,11 @@ const ManagerRequests = () => {
     <div className={styles["requests-container"]}>
       <SortingRequests
         sortByDate={sortByDate}
-        sortByStatus={sortByStatus}
-        sortByType={sortByType}
+        filterByStatus={filterByStatus}
+        filterByType={filterByType}
         setSortByDate={setSortByDate}
-        setSortByStatus={setSortByStatus}
-        setSortByType={setSortByType}
+        setfilterByStatus={setfilterByStatus}
+        setfilterByType={setfilterByType}
         isManager={true}
         fetchByUser={fetchByUser}
         setFetchByUser={setfetchByUser}

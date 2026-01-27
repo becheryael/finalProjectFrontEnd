@@ -165,7 +165,7 @@ const AuthForm = (props: authFormProps) => {
             {buttonText}
           </button>
         )}
-        {isLoading && <p>loading...</p>}
+        {isLoading && <p>Loading...</p>}
       </div>
       <div className={styles.footer}>
         <h3>{footerText}</h3>

@@ -31,8 +31,8 @@ const UserRequests = () => {
   const [selectedType, setSelectedType] = useState("none");
 
   const [sortByDate, setSortByDate] = useState("none");
-  const [sortByStatus, setSortByStatus] = useState("none");
-  const [sortByType, setSortByType] = useState("none");
+  const [filterByStatus, setfilterByStatus] = useState("none");
+  const [filterByType, setfilterByType] = useState("none");
 
   const ITEMS_PER_PAGE = 8;
 
@@ -43,8 +43,8 @@ const UserRequests = () => {
       const res = await fetchRequests(
         authCtx.token!,
         sortByDate,
-        sortByStatus,
-        sortByType,
+        filterByStatus,
+        filterByType,
         ITEMS_PER_PAGE,
         currentPage
       );
@@ -58,11 +58,11 @@ const UserRequests = () => {
       setError(errorMessage);
     }
     setIsLoading(false);
-  }, [sortByDate, sortByStatus, sortByType, currentPage, authCtx.token]);
+  }, [sortByDate, filterByStatus, filterByType, currentPage, authCtx.token]);
 
   useEffect(() => {
     getRequests();
-  }, [sortByDate, sortByStatus, sortByType, currentPage, getRequests]);
+  }, [sortByDate, filterByStatus, filterByType, currentPage, getRequests]);
 
   const handleNewRequest = async () => {
     setIsLoadingNewReq(true);
@@ -115,11 +115,11 @@ const UserRequests = () => {
       )}
       <SortingRequests
         sortByDate={sortByDate}
-        sortByStatus={sortByStatus}
-        sortByType={sortByType}
+        filterByStatus={filterByStatus}
+        filterByType={filterByType}
         setSortByDate={setSortByDate}
-        setSortByStatus={setSortByStatus}
-        setSortByType={setSortByType}
+        setfilterByStatus={setfilterByStatus}
+        setfilterByType={setfilterByType}
       />
       {error && <p className={styles["error-message"]}>{error}</p>}
       {isLoading && <p>Loading...</p>}

@@ -1,0 +1,65 @@
+.select,
+::picker(select) {
+  appearance: base-select;
+}
+
+.select {
+  border: none;
+  background: #3e3843;
+  padding: 2px 10px;
+  cursor: pointer;
+  transition: 0.4s;
+  width: 18%;
+  min-width: 130px;
+  height: 1rem;
+  color: white;
+}
+
+.select::picker-icon {
+  transition: 0.4s rotate;
+  background-image: url("../../assets/media/images/down-arrow.png");
+  margin-top: 0.8%;
+  width: 1rem;
+  height: 1rem;
+  background-size: cover;
+  content: "";
+}
+
+.select:open::picker-icon {
+  rotate: 180deg;
+}
+
+::picker(select) {
+  border: none;
+}
+
+.select option {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  border: 1px solid #978e9f;
+  background-color: #ece1f4;
+  transition: 0.4s;
+  height: 20px;
+  cursor: pointer;
+}
+
+.select option:first-of-type {
+  border-radius: 8px 8px 0 0;
+}
+
+.select option:last-of-type {
+  border-radius: 0 0 8px 8px;
+}
+
+.select option::checkmark {
+  content: "";
+}
+
+.select::picker(select) {
+  border-radius: 8px;
+}
+
+.select option:not(option:last-of-type) {
+  border-bottom: none;
+}
