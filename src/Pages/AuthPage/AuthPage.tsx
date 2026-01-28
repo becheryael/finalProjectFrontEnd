@@ -59,6 +59,7 @@ const AuthPage = () => {
     } catch (error) {
       const axiosError = error as AxiosError;
       const errorMessage = axiosError.response?.data as string;
+      console.log(axiosError);
       if (errorMessage) {
         setError(errorMessage);
       } else if (isNewUser) {

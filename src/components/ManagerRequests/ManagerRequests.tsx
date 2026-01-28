@@ -48,7 +48,11 @@ const ManagerRequests = () => {
       } catch (error) {
         const axiosError = error as AxiosError;
         const errorMessage = axiosError.response?.data as string;
-        setError(errorMessage);
+        if (errorMessage) {
+          setError(errorMessage);
+        } else {
+          setError("Unable to get requests data");
+        }
       }
       setIsLoading(false);
     },

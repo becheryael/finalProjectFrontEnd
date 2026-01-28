@@ -63,7 +63,12 @@ const ResetPasswordPage = () => {
       }
     } catch (error) {
       const axiosError = error as AxiosError;
-      setError("Unable to reset password. Try again.");
+      const errorMessage = axiosError.response?.data as string;
+      if (errorMessage) {
+        setError(errorMessage);
+      } else {
+        setError("Unable to reset password. Try again.");
+      }
     }
     setIsLoading(false);
   };

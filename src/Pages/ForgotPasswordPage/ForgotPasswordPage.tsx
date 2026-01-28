@@ -31,6 +31,8 @@ const ForgotPasswordPage = () => {
       const errorMessage = axiosError.response?.data as string;
       if (errorMessage) {
         setError(errorMessage);
+      } else {
+        setError("Unable to send email. Try again.");
       }
     }
     setIsLoading(false);
