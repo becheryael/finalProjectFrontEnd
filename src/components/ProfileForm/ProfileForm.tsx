@@ -9,6 +9,8 @@ import arrowImage from "../../assets/media/images/back-arrow.png";
 //@ts-ignore
 import styles from "./ProfileForm.module.css";
 
+const PERSONAL_NUM_LENGTH = 7;
+
 interface profileFormProps {
   handleSave: () => void;
   handleUndo: () => void;
@@ -57,12 +59,7 @@ const ProfileForm = (props: profileFormProps) => {
   const [emailIsValid, setEmailIsValid] = useState(true);
   const [isEditImage, setIsEditImage] = useState(false);
 
-  const PERSONAL_NUM_LENGTH = 7;
-
-  let formIsValid =
-    emailIsValid &&
-    nameIsValid &&
-    personalNumIsValid;
+  let formIsValid = emailIsValid && nameIsValid && personalNumIsValid;
 
   const saveBtnClasses = !formIsValid
     ? `${styles["save-btn"]} ${styles["disabled-save-btn"]}`

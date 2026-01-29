@@ -5,6 +5,9 @@ import AuthInput, { AuthInputHandle } from "../AuthInputs/AuthInput";
 // @ts-ignore
 import styles from "./AuthForm.module.css";
 
+const MIN_PASSWORD_LENGTH = 7;
+const PERSONAL_NUM_LENGTH = 7;
+
 interface authFormProps {
   isNewUser: boolean;
   email: string;
@@ -43,8 +46,6 @@ const AuthForm = (props: authFormProps) => {
   let passwordError: string;
   let footerText: string;
   let footerBtnText: string;
-  const MIN_PASSWORD_LENGTH = 7;
-  const PERSONAL_NUM_LENGTH = 7;
 
   const [nameIsValid, setNameIsValid] = useState(false);
   const [personalNumIsValid, setPersonalNumIsValid] = useState(false);

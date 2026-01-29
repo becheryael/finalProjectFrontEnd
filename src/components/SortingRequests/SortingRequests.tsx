@@ -1,5 +1,5 @@
 import DateRangeCalander from "../DateRangeCalander/DateRangeCalander";
-import SortingSelect from "../SortingSelect/SortingSelect";
+import SelectOptions from "../SelectOptions/SelectOptions";
 import { useState } from "react";
 //@ts-ignore
 import styles from "./SortingRequests.module.css";
@@ -7,6 +7,25 @@ import styles from "./SortingRequests.module.css";
 import searchIcon from "../../assets/media/images/search-icon.png";
 //@ts-ignore
 import calendarIcon from "../../assets/media/images/calendar.png";
+
+const DATE_SORT_ARR = [
+  { value: "newest", text: "Newest to oldest" },
+  { value: "oldest", text: "Oldest to newest" }
+];
+const STATUS_SORT_ARR = [
+  { value: "All", text: "All" },
+  { value: "Approved", text: "Approved" },
+  { value: "Awaiting approval", text: "Awaiting approval" },
+  { value: "Denied", text: "Denied" }
+];
+const TYPE_SORT_ARR = [
+  { value: "All", text: "All" },
+  { value: "Blackening", text: "Blackening" },
+  { value: "Kidud", text: "Kidud" },
+  { value: "Let me in", text: "Let me in" },
+  { value: "Let me in by car or plane", text: "Let me in by car or plane" },
+  { value: "Sign for me", text: "Sign for me" }
+];
 
 interface sortingRequestProps {
   sortByDate: string;
@@ -46,47 +65,29 @@ const SortingRequests = (props: sortingRequestProps) => {
   } = props;
 
   const [isShowCalendar, setIsShowCalendar] = useState(false);
-  const dateSortArr = [
-    { value: "newest", text: "Newest to oldest" },
-    { value: "oldest", text: "Oldest to newest" }
-  ];
-  const statusSortArr = [
-    { value: "All", text: "All" },
-    { value: "Approved", text: "Approved" },
-    { value: "Awaiting approval", text: "Awaiting approval" },
-    { value: "Denied", text: "Denied" }
-  ];
-  const typeSortArr = [
-    { value: "All", text: "All" },
-    { value: "Blackening", text: "Blackening" },
-    { value: "Kidud", text: "Kidud" },
-    { value: "Let me in", text: "Let me in" },
-    { value: "Let me in by car or plane", text: "Let me in by car or plane" },
-    { value: "Sign for me", text: "Sign for me" }
-  ];
 
   return (
     <div className={styles["select-contianer"]}>
-      <SortingSelect
+      <SelectOptions
         name="Date sort"
         text="Sort by date"
         value={sortByDate}
         setSort={setSortByDate}
-        optionsArray={dateSortArr}
+        optionsArray={DATE_SORT_ARR}
       />
-      <SortingSelect
+      <SelectOptions
         name="Status sort"
         text="Filter by status"
         value={filterByStatus}
         setSort={setfilterByStatus}
-        optionsArray={statusSortArr}
+        optionsArray={STATUS_SORT_ARR}
       />
-      <SortingSelect
+      <SelectOptions
         name="Type sort"
         text="Filter by type"
         value={filterByType}
         setSort={setfilterByType}
-        optionsArray={typeSortArr}
+        optionsArray={TYPE_SORT_ARR}
       />
       {isManager && (
         <form onSubmit={handleSearch} className={styles["search-form"]}>

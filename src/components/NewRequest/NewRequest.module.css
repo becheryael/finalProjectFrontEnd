@@ -40,74 +40,9 @@ textarea::-webkit-scrollbar-thumb {
   border-radius: 999px;
 }
 
-.select,
-::picker(select) {
-  appearance: base-select;
-}
-
 .select {
-  border: 2px solid #dddddd;
-  background: #eeeeee;
-  padding: 10px;
-  transition: 0.4s;
-  width: 60%;
-  color: black;
-}
-
-.select:hover,
-.select:focus {
-  background: #dddddd;
-}
-
-.select::picker-icon {
-  color: #999999;
-  transition: 0.4s rotate;
-}
-
-.select:open::picker-icon {
-  rotate: 180deg;
-}
-
-::picker(select) {
-  border: none;
-}
-
-.select option {
-  display: flex;
-  justify-content: flex-start;
-  gap: 20px;
-  border: 2px solid #dddddd;
-  background: #eeeeee;
-  padding: 10px;
-  transition: 0.4s;
-  cursor: pointer;
-}
-
-.select option:first-of-type {
-  border-radius: 8px 8px 0 0;
-}
-
-.select option:last-of-type {
-  border-radius: 0 0 8px 8px;
-}
-
-.select::picker(select) {
-  border-radius: 8px;
-}
-
-.select option:not(option:last-of-type) {
-  border-bottom: none;
-}
-.select option:nth-of-type(odd) {
-  background: white;
-}
-
-.select option:hover {
-  background: rgb(166, 142, 166);
-}
-
-option:checked {
-  font-weight: bold;
+  width: 50%;
+  height: 2rem;
 }
 
 .req-error {

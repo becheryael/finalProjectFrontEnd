@@ -9,6 +9,10 @@ import { StatusCodes } from "http-status-codes";
 //@ts-ignore
 import styles from "./ResetPasswordPage.module.css";
 
+const TO_MILLISECONDS = 1000;
+const SUCCESS_TIMER = 2000; // 2 seconds
+const MIN_PASSWORD_LENGTH = 7;
+
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -18,10 +22,6 @@ const ResetPasswordPage = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const authCtx = useContext(AuthContext);
-
-  const TO_MILLISECONDS = 1000;
-  const SUCCESS_TIMER = 2000; // 2 seconds
-  const MIN_PASSWORD_LENGTH = 7;
 
   const { token } = useParams();
 

@@ -1,7 +1,19 @@
 import useInput from "../../hooks/use-input";
+import SelectOptions from "../SelectOptions/SelectOptions";
 import { useEffect } from "react";
 //@ts-ignore
 import styles from "./NewRequest.module.css";
+
+const TYPE_SORT_ARR = [
+  { value: "All", text: "All" },
+  { value: "Blackening", text: "Blackening" },
+  { value: "Kidud", text: "Kidud" },
+  { value: "Let me in", text: "Let me in" },
+  { value: "Let me in by car or plane", text: "Let me in by car or plane" },
+  { value: "Sign for me", text: "Sign for me" }
+];
+
+const MIN_LENGTH = 5;
 
 interface newRequestProps {
   requestText: string;
@@ -23,7 +35,6 @@ const NewRequest = (props: newRequestProps) => {
     isLoading,
     error
   } = props;
-  const MIN_LENGTH = 5;
 
   const {
     hasError: textHasError,
@@ -37,13 +48,6 @@ const NewRequest = (props: newRequestProps) => {
     textChangeHandler(event);
   };
 
-  const handleSelectionInput = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const selection = event.target.value;
-    setSelectedType(selection);
-  };
-
   useEffect(() => {
     const isValid = requestText.length >= MIN_LENGTH && selectedType !== "none";
     setFormIsValid(isValid);
@@ -55,23 +59,14 @@ const NewRequest = (props: newRequestProps) => {
 
   return (
     <div className={styles.container}>
-      <select
+      <SelectOptions
         name="Request type"
-        className={styles.select}
         value={selectedType}
-        onChange={(event) => handleSelectionInput(event)}
-      >
-        <option value="none" disabled>
-          Request Type
-        </option>
-        <option value="Blackening">Blackening</option>
-        <option value="Kidud">Kidud</option>
-        <option value="Let me in">Let me in</option>
-        <option value="Let me in by car or plane">
-          Let me in by car or plane
-        </option>
-        <option value="Sign for me">Sign for me</option>
-      </select>
+        text="Request Type"
+        setSort={setSelectedType}
+        optionsArray={TYPE_SORT_ARR}
+        classname={styles.select}
+      />
       <textarea
         className={textClasses}
         maxLength={500}

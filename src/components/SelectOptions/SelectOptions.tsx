@@ -1,5 +1,5 @@
 //@ts-ignore
-import styles from "./SortingSelect.module.css";
+import styles from "./SelectOptions.module.css";
 
 interface sortingSelectProps {
   name: string;
@@ -7,15 +7,16 @@ interface sortingSelectProps {
   text: string;
   optionsArray: { value: string; text: string }[];
   setSort: (value: string) => void;
+  classname?: string;
 }
 
 const SortingSelect = (props: sortingSelectProps) => {
-  const { name, value, text, optionsArray, setSort } = props;
+  const { name, value, text, optionsArray, setSort, classname } = props;
 
   return (
     <select
       name={name}
-      className={styles.select}
+      className={`${styles.select} ${classname}`}
       value={value}
       onChange={(event) => setSort(event.target.value)}
     >

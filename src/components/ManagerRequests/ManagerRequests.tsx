@@ -7,13 +7,14 @@ import { AxiosError } from "axios";
 //@ts-ignore
 import styles from "./ManagerRequests.module.css";
 
+const ITEMS_PER_PAGE = 6;
+
 const ManagerRequests = () => {
   const authCtx = useContext(AuthContext);
   const [error, setError] = useState<null | string>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [requests, setRequests] = useState<null | []>(null);
 
-  const ITEMS_PER_PAGE = 6;
   const [currentPage, setCurrentPage] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
 

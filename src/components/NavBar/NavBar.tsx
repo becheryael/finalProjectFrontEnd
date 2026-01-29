@@ -27,18 +27,6 @@ const NavBar = () => {
   const authCtx = useContext(AuthContext);
   const avatar = authCtx.userInfo.avatar;
 
-  const profileHandler = () => {
-    navigate("/profile");
-  };
-
-  const managerPageHandler = () => {
-    navigate("/main/manage-requests");
-  };
-
-  const userPageHandler = () => {
-    navigate("/main/my-requests");
-  };
-
   const logoutHandler = async () => {
     try {
       logoutUser(authCtx.token!);
@@ -67,16 +55,22 @@ const NavBar = () => {
           src={AVATARS[avatar!]}
           alt={avatar!}
           className={styles["profile-picture"]}
-          onClick={profileHandler}
+          onClick={() => navigate("/profile")}
         />
         <div className={styles["btns-container"]}>
           {authCtx.isManager && (
-            <button className={managarPageBtn} onClick={managerPageHandler}>
+            <button
+              className={managarPageBtn}
+              onClick={() => navigate("/main/manage-requests")}
+            >
               Control Requests
             </button>
           )}
           {authCtx.isManager && (
-            <button className={myPageBtn} onClick={userPageHandler}>
+            <button
+              className={myPageBtn}
+              onClick={() => navigate("/main/my-requests")}
+            >
               See my Requests
             </button>
           )}

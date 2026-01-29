@@ -2,6 +2,8 @@ import useInput from "../../hooks/use-input";
 //@ts-ignore
 import styles from "./RequestDeny.module.css";
 
+const MIN_LENGTH = 5;
+
 interface requestDenyProps {
   denyText: string;
   setDenyText: (value: string) => void;
@@ -12,7 +14,6 @@ interface requestDenyProps {
 
 const RequestDeny = (props: requestDenyProps) => {
   const { denyText, setDenyText, setFormIsValid, isLoading, error } = props;
-  const MIN_LENGTH = 5;
   const {
     hasError: textHasError,
     valueChangeHandler: textChangeHandler,

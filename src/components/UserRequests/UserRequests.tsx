@@ -14,6 +14,8 @@ import styles from "./UserRequests.module.css";
 // @ts-ignore
 import newImage from "../../assets/media/images/plus-button.png";
 
+const ITEMS_PER_PAGE = 8;
+
 const UserRequests = () => {
   const authCtx = useContext(AuthContext);
   const [error, setError] = useState<null | string>(null);
@@ -33,8 +35,6 @@ const UserRequests = () => {
   const [sortByDate, setSortByDate] = useState("none");
   const [filterByStatus, setfilterByStatus] = useState("none");
   const [filterByType, setfilterByType] = useState("none");
-
-  const ITEMS_PER_PAGE = 8;
 
   const getRequests = useCallback(async () => {
     setError(null);
@@ -92,7 +92,7 @@ const UserRequests = () => {
     <div className={styles["requests-container"]}>
       <button
         className={styles["new-btn"]}
-        onClick={(event) => setIsAddRequest(true)}
+        onClick={() => setIsAddRequest(true)}
       >
         <img src={newImage} alt="plus" />
         Create new request
