@@ -37,7 +37,7 @@ export const fetchRequests = async (
       params: {
         status: status !== "All" && status !== "none" ? status : undefined,
         type: type !== "All" && type !== "none" ? type : undefined,
-        date,
+        date: date !== 'none' ? date : undefined,
         limit,
         skip
       }
@@ -68,7 +68,7 @@ export const fetchAllRequests = async (
         status: status !== "All" && status !== "none" ? status : undefined,
         type: type !== "All" && type !== "none" ? type : undefined,
         userSearch: user || undefined,
-        date,
+        date: date !== 'none' ? date : undefined,
         limit,
         skip,
         startDate,
