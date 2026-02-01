@@ -24,6 +24,12 @@ const DateRangeCalander = (props: DateRangeCalanderProps) => {
 
   const onChange = (dates: [Date | null, Date | null]) => {
     const [start, end] = dates;
+    if (start) {
+      start.setHours(0, 0, 0);
+    }
+    if (end) {
+      end.setHours(23, 59, 59);
+    }
     setStartDate(start);
     setEndDate(end);
   };
