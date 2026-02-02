@@ -59,9 +59,12 @@ const AuthPage = () => {
     } catch (error) {
       const axiosError = error as AxiosError;
       const errorMessage = axiosError.response?.data as string;
-      console.log(axiosError);
       if (errorMessage) {
-        setError(errorMessage);
+        if (errorMessage.includes("ENOTFOUND")) {
+          setError("Unable to connect. Check your internet.");
+        } else {
+          setError(errorMessage);
+        }
       } else if (isNewUser) {
         setError(
           "Unable to create account. Make sure all your information is correct and try again."
