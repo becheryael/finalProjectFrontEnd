@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/requests"
+  baseURL: process.env.REACT_APP_BASE_REQUEST_ROUTE
 });
 
 export const createRequest = async (
@@ -37,7 +37,7 @@ export const fetchRequests = async (
       params: {
         status: status !== "All" && status !== "none" ? status : undefined,
         type: type !== "All" && type !== "none" ? type : undefined,
-        date: date !== 'none' ? date : undefined,
+        date: date !== "none" ? date : undefined,
         limit,
         skip
       }
@@ -68,7 +68,7 @@ export const fetchAllRequests = async (
         status: status !== "All" && status !== "none" ? status : undefined,
         type: type !== "All" && type !== "none" ? type : undefined,
         userSearch: user || undefined,
-        date: date !== 'none' ? date : undefined,
+        date: date !== "none" ? date : undefined,
         limit,
         skip,
         startDate,

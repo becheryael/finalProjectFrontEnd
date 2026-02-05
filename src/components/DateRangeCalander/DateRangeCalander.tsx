@@ -44,6 +44,12 @@ const DateRangeCalander = (props: DateRangeCalanderProps) => {
     setIsShowCalendar(false);
   };
 
+  const handleCloseCalander = () => {
+    setStartDate(null);
+    setEndDate(null);
+    setIsShowCalendar(false);
+  };
+
   return (
     <div className={styles["calender-contianer"]}>
       <DatePicker
@@ -60,6 +66,9 @@ const DateRangeCalander = (props: DateRangeCalanderProps) => {
           Filter
         </button>
       )}
+      <button className={styles["close-btn"]} onClick={handleCloseCalander}>
+        Close
+      </button>
     </div>
   );
 };

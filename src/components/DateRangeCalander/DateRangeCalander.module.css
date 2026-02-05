@@ -1,6 +1,6 @@
 .calender-contianer {
   position: absolute;
-  top: 32vh;
+  top: 36vh;
   right: 8vw;
   display: flex;
   flex-direction: column;
@@ -9,6 +9,13 @@
 
 .filter-btn {
   background-color: #f2e8fa;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+}
+
+.close-btn {
   cursor: pointer;
   border-radius: 5px;
   border: none;

@@ -96,11 +96,11 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
   const initailPersonalNum = localStorage.getItem("personalNum");
   const initialEmail = localStorage.getItem("email");
   const initialAvatar = localStorage.getItem("avatar");
-  const manager = localStorage.getItem("manager");
+  const isManagerStr = localStorage.getItem("isManager");
   const id = localStorage.getItem("id");
 
   let managerBoolean: boolean;
-  if (manager === "true") {
+  if (isManagerStr === "true") {
     managerBoolean = true;
   } else {
     managerBoolean = false;
@@ -139,7 +139,7 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
     localStorage.setItem("email", user.email);
     localStorage.setItem("id", id);
     localStorage.setItem("avatar", user.avatar);
-    localStorage.setItem("manager", String(isManager));
+    localStorage.setItem("isManager", String(isManager));
 
     localStorage.setItem("token", token);
     localStorage.setItem("expirationTime", expirationTime);
@@ -157,7 +157,7 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
     localStorage.removeItem("email");
     localStorage.removeItem("id");
     localStorage.removeItem("avatar");
-    localStorage.removeItem("manager");
+    localStorage.removeItem("isManager");
     localStorage.removeItem("expirationTime");
     if (logoutTimer) {
       clearTimeout(logoutTimer);

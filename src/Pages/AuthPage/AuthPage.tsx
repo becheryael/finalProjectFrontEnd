@@ -51,7 +51,7 @@ const AuthPage = () => {
           res.data.token,
           res.data.user,
           res.data.user._id,
-          res.data.user.manager,
+          res.data.user.isManager,
           expirationTime.toISOString()
         );
         navigate("/main", { replace: true });

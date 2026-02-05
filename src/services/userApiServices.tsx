@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8000/users"
+  baseURL: process.env.REACT_APP_BASE_USER_ROUTE
 });
 
 export const loginUser = async (email: string, password: string) => {

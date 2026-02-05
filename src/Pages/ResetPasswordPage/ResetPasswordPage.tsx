@@ -56,7 +56,7 @@ const ResetPasswordPage = () => {
             res.data.token,
             res.data.user,
             res.data.user._id,
-            res.data.user.manager,
+            res.data.user.isManager,
             expirationTime.toISOString()
           );
         }, SUCCESS_TIMER);
