@@ -62,7 +62,9 @@ export const editUser = async (
 ) => {
   try {
     const response = await api.patch(
-      `/${id}`,
+      // `/${id}`,
+      `/update`,
+
       {
         name,
         personalNum,
@@ -112,7 +114,7 @@ export const forgotPassword = async (email: string) => {
 export const resetPassword = async (token: string, password: string) => {
   try {
     const response = await api.patch(
-      "/reset-password",
+      "/update",
       {
         password
       },

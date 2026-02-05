@@ -64,6 +64,7 @@ const ResetPasswordPage = () => {
     } catch (error) {
       const axiosError = error as AxiosError;
       const errorMessage = axiosError.response?.data as string;
+      console.log(errorMessage)
       if (errorMessage) {
         setError(errorMessage);
       } else {
