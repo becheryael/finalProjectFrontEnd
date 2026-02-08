@@ -62,7 +62,6 @@ export const editUser = async (
 ) => {
   try {
     const response = await api.patch(
-      // `/${id}`,
       `/update`,
 
       {
