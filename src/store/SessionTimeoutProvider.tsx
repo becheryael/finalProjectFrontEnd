@@ -10,7 +10,7 @@ import { jwtDecode } from "jwt-decode";
 const TEN_MINUTES = 600000;
 const IDLE_TIMEOUT = TEN_MINUTES;
 const MODAL_COUNTDOWN = 1 * 20 * 1000;
-const TO_MILLISECONDS = 1000;
+const MILLISECONDS_IN_SECOND = 1000;
 const REFRESH_INTERVAL = 10 * 60 * 1000;
 const EXEMPTED_PATHS = ["/login", "/", "forgot-password", "reset-password"];
 
@@ -29,7 +29,7 @@ export const SessionTimeoutProvider: React.FC<{
     try {
       const res = await newToken(authCtx.token);
       const decodedToken = jwtDecode(res.data.token);
-      const expirationTime = new Date(decodedToken.exp! * TO_MILLISECONDS);
+      const expirationTime = new Date(decodedToken.exp! * MILLISECONDS_IN_SECOND);
 
       const user = {
         name: authCtx.userInfo.name!,

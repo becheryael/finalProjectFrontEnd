@@ -14,9 +14,7 @@ const ForgotPasswordPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const mainBtnClasses = !emailIsValid
-    ? `${styles["main-button"]} ${styles["disabled-main-button"]}`
-    : styles["main-button"];
+  const mainBtnClasses = `${styles["main-button"]} ${!emailIsValid && styles["disabled-main-button"]}`;
 
   const sendResetEmail = async () => {
     setIsLoading(true);

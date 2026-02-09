@@ -9,7 +9,7 @@ import { StatusCodes } from "http-status-codes";
 //@ts-ignore
 import styles from "./ResetPasswordPage.module.css";
 
-const TO_MILLISECONDS = 1000;
+const MILLISECONDS_IN_SECOND = 1000;
 const SUCCESS_TIMER = 2000; // 2 seconds
 const MIN_PASSWORD_LENGTH = 7;
 
@@ -49,7 +49,7 @@ const ResetPasswordPage = () => {
       if (res.status === StatusCodes.OK) {
         const decodedToken = jwtDecode(res.data.token);
         const tokenExpiration = decodedToken.exp;
-        const expirationTime = new Date(tokenExpiration! * TO_MILLISECONDS);
+        const expirationTime = new Date(tokenExpiration! * MILLISECONDS_IN_SECOND);
         setIsSuccess(true);
         setTimeout(() => {
           authCtx.login(

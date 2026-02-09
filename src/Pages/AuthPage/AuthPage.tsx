@@ -9,7 +9,7 @@ import { StatusCodes } from "http-status-codes";
 // @ts-ignore
 import styles from "./AuthPage.module.css";
 
-const TO_MILLISECONDS = 1000;
+const MILLISECONDS_IN_SECOND = 1000;
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -38,15 +38,17 @@ const AuthPage = () => {
     setError("");
     try {
       let res;
-      if (!isNewUser) {
-        res = await loginUser(email, password);
-      } else {
-        res = await createUser(email, password, personalNum, name);
-      }
+
+      !isNewUser
+        ? (res = await loginUser(email, password))
+        : (res = await createUser(email, password, personalNum, name));
+
       if (res.status === StatusCodes.CREATED || res.status === StatusCodes.OK) {
         const decodedToken = jwtDecode(res.data.token);
         const tokenExpiration = decodedToken.exp;
-        const expirationTime = new Date(tokenExpiration! * TO_MILLISECONDS);
+        const expirationTime = new Date(
+          tokenExpiration! * MILLISECONDS_IN_SECOND
+        );
         authCtx.login(
           res.data.token,
           res.data.user,
@@ -76,11 +78,7 @@ const AuthPage = () => {
     setIsLoading(false);
   };
 
-  if (isNewUser) {
-    header = "Welcome to BAM HQ!";
-  } else {
-    header = "Welcome back to BAM HQ!";
-  }
+  header = `Welcome ${isNewUser && "back "}to BAM HQ!`;
 
   return (
     <main
