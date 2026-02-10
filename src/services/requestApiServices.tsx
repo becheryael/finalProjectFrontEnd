@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
+  // MICHAL: את סתם מוסיפה עוד שדות לenv. תכתבי אחד שהוא הקישור לשרת שלך ותשרשרי את הroute שאת צריכה באותו זמן
   baseURL: process.env.REACT_APP_BASE_REQUEST_ROUTE
 });
 
@@ -9,6 +10,7 @@ export const createRequest = async (
   text: string,
   token: string
 ) => {
+  // MICHAL: אין טעם לעשות try catch אם את לא מטפלת בשגיאה ופשוט זורקת אותה הלאה, זו ההתנהגות הדיפולטית.
   try {
     const response = await api.post(
       "",

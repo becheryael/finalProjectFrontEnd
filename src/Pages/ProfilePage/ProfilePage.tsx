@@ -10,9 +10,11 @@ import { StatusCodes } from "http-status-codes";
 const ProfilePage = () => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
+  // MICHAL: למה לא פשוט object destructuring?
   const id = authCtx.userId;
   const token = authCtx.token;
   const [isEdit, setIsEdit] = useState(false);
+  // MICHAL: כל הstates האלה לא צריכים להיות כאן אלא בתוך הform עצמו. תשלחי את הערכים שלהם בפונקציות שצריכות אותם.
   const [name, setName] = useState(authCtx.userInfo.name);
   const [personalNum, setPersonalNum] = useState(authCtx.userInfo.personalNum);
   const [avatar, setAvatar] = useState(authCtx.userInfo.avatar);
@@ -53,6 +55,7 @@ const ProfilePage = () => {
       handleUndo();
       const axiosError = error as AxiosError;
       const errorMessage = axiosError.response?.data as string;
+      // MICHAL: טיפה מבולגן לי כאן. הייתי מעדיפה שזה יהיה בhelper function נפרדת ולא כאן, משהו כמו parseAPIError
       const errorArray = errorMessage.split(" ");
       if (errorArray.includes("duplicate")) {
         const index = errorArray.indexOf("key:");

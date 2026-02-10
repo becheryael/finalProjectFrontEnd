@@ -10,6 +10,8 @@ import { StatusCodes } from "http-status-codes";
 import styles from "./ResetPasswordPage.module.css";
 
 const MILLISECONDS_IN_SECOND = 1000;
+// MICHAL: במקום ההערה פשוט תכתבי
+// 2 * MILLISECONDS_IN_SECOND
 const SUCCESS_TIMER = 2000; // 2 seconds
 const MIN_PASSWORD_LENGTH = 7;
 
@@ -25,6 +27,8 @@ const ResetPasswordPage = () => {
 
   const { token } = useParams();
 
+  // MICHAL: בשביל ייעול, תעטפי בuseMemo
+  // MICHAL: למה זה let?
   let formIsValid = passwordIsValid && confirmPasswordIsValid;
 
   const mainBtnClasses = !formIsValid

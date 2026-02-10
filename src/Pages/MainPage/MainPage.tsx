@@ -23,6 +23,7 @@ const MainPage = () => {
         )}
         <Routes>
           <Route path="/my-requests" element={<UserRequests />} />
+          {/*MICHAL: הroute הזה לא צריך להיות קיים בכלל למשתמשים רגילים*/}
           <Route path="/manage-requests" element={<ManagerRequests />} />
           <Route path="*" element={<Navigate to="/my-requests" replace />} />
         </Routes>

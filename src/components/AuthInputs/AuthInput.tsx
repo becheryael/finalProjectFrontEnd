@@ -35,6 +35,7 @@ const AuthInput = (props: authInputProps) => {
     setIsValid,
     ref,
     isNumOnly,
+    // MICHAL: הערך הזה redundant. אפשר להסיק אותו מinputType
     isPassword = false
   } = props;
   const { hasError, valueChangeHandler, inputBlurHandler, reset } =

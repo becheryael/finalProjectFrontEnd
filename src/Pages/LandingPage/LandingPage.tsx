@@ -4,6 +4,7 @@ import styles from "./LandingPage.module.css";
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  // MICHAL: צפוף לי כאן
   const handleLogIn = () => {
     navigate("/login", { replace: false });
   };
@@ -23,6 +24,7 @@ const LandingPage = () => {
         amazed at the beutifule UI UX experince! and the spelling mistakes that
         I won't fix hahahaahha
       </p>
+      {/*MICHAL: אין צורך להתעסק עם onClick וnavigate כשאת יכולה פשוט להשתמש בקישור? */}
       <button className={styles["auth-btn"]} onClick={handleLogIn}>
         Log In / Sign Up
       </button>

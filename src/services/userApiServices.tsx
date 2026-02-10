@@ -57,6 +57,7 @@ export const editUser = async (
   personalNum: string,
   email: string,
   avatar: string,
+  // MICHAL: הקפידי למחוק דברים ערכים את לא משתמשת
   id: string,
   token: string
 ) => {

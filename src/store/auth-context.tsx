@@ -5,14 +5,18 @@ let logoutTimer: ReturnType<typeof setTimeout>;
 interface AuthContextType {
   token: string | null;
   isLoggedIn: boolean;
+  // MICHAL: בעבור סדר וקריאות, כתבי את כל הפעולות בסוף
   login: (
     token: string,
+    // MICHAL: זה לא באמת מתאר את מה שאת שולחת כי את לא מסננת את המשתמש.
+    // MICHAL: בכל מקרה צרי type של user.
     user: { name: string; personalNum: string; email: string; avatar: string },
     id: string,
     isManager: boolean,
     expirationTime: string
   ) => void;
   logout: () => void;
+  // MICHAL: למה כל שדה יכול להיות null במקום פשוט כל הערך? יש מצב שבו משתמש עם שם אבל בלי אימייל?
   userInfo: {
     name: string | null;
     personalNum: string | null;
@@ -71,6 +75,7 @@ const retrieveStoredToken = () => {
 
   const remainingTime = calculateRemainingTime(storedExpirationDate!);
 
+  // MICHAL: enum!! no magic numbers.
   if (remainingTime <= 3600) {
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");
@@ -84,6 +89,7 @@ const retrieveStoredToken = () => {
 };
 
 export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
+  // MICHAL: זה רץ בכל שינוי בקונטקסט. שימי את זה בuseEffect שרץ בהתחלה וזהו.
   const tokenData = retrieveStoredToken();
 
   let initialToken: string;
@@ -92,6 +98,7 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
   }
 
   const [token, setToken] = useState<string | null>(initialToken!);
+  // MICHAL: גם זה
   const initailName = localStorage.getItem("name");
   const initailPersonalNum = localStorage.getItem("personalNum");
   const initialEmail = localStorage.getItem("email");
@@ -99,6 +106,7 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
   const isManagerStr = localStorage.getItem("isManager");
   const id = localStorage.getItem("id");
 
+  // MICHAL: תנאי טרינארי
   let managerBoolean: boolean;
   if (isManagerStr === "true") {
     managerBoolean = true;
@@ -151,6 +159,7 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
 
   const logoutHandler = useCallback(() => {
     setToken(null);
+    // MICHAL: את לא מאפסת את הuserInfo?
     localStorage.removeItem("token");
     localStorage.removeItem("name");
     localStorage.removeItem("personalNum");
