@@ -7,6 +7,15 @@ import { newToken } from "../services/userApiServices";
 import { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
 
+// MICHAL: אז הקטע הוא שאת אמורה להשתמש בenums שלך גם אחד בתוך השני. אנחנו רוצים להבין מה זה המספרים הרנדומליים האלה.
+/*
+const MILLISECONDS_IN_SECOND = 1000;
+const SECONDS_IN_MINUTES = 60;
+const IDLE_TIMEOUT = 10 * SECONDS_IN_MINUTES * MILLISECONDS_IN_SECOND;
+const MODAL_COUNTDOWN = 20 * MILLISECONDS_IN_SECOND;
+const REFRESH_INTERVAL = 10 * SECONDS_IN_MINUTES * MILLISECONDS_IN_SECOND;
+*/
+
 const TEN_MINUTES = 600000;
 const IDLE_TIMEOUT = TEN_MINUTES;
 const MODAL_COUNTDOWN = 1 * 20 * 1000;
@@ -18,6 +27,7 @@ export const SessionTimeoutProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
+  // MICHAL: הוא גורם לrerenders לא נחוצים. השתמשי בuseRef במקום
   const [countdownTimer, setCountdownTimer] = useState<NodeJS.Timeout>();
   const location = useLocation();
   const authCtx = useContext(AuthContext);
@@ -31,6 +41,7 @@ export const SessionTimeoutProvider: React.FC<{
       const decodedToken = jwtDecode(res.data.token);
       const expirationTime = new Date(decodedToken.exp! * MILLISECONDS_IN_SECOND);
 
+      // MICHAL: אין טעם להכניס מחדש את אותם הפרטים. צרי פונקציה שפשוט מעדכנת את הexpirationTime והtoken
       const user = {
         name: authCtx.userInfo.name!,
         personalNum: authCtx.userInfo.personalNum!,
@@ -50,6 +61,7 @@ export const SessionTimeoutProvider: React.FC<{
       alert(`${axiosError.message}. You will need to sign in again.`);
       authCtx.logout();
     }
+    // MICHAL: אם את רוצה לשים את isExemptedRoute בdependency array את חייבת להשתמש בuseMemo לחשב אותו, אחרת אין משמעות לuseCallback כי זה מחושב מחדש כל רנדר
   }, [authCtx, isExemptedRoute]);
 
   useEffect(() => {

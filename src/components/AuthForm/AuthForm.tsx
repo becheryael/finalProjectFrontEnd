@@ -70,13 +70,16 @@ const AuthForm = (props: authFormProps) => {
   }
 
   let formIsValid =
-    emailIsValid &&
-    passwordIsValid &&
-    (nameIsValid || !isNewUser) &&
-    (personalNumIsValid || !isNewUser);
+  emailIsValid &&
+  passwordIsValid &&
+  // MICHAL: מעדיפה
+  // (!isNewUser || nameIsValid && personalNumIsValid)
+  (nameIsValid || !isNewUser) &&
+  (personalNumIsValid || !isNewUser);
 
   const UIChange = () => {
     handlePageChange();
+    // MICHAL: את שולטת בinput שלך עם הvalue. אין צורך בref, פשוט תאתחלי את הstate
     nameRef.current?.resetInput();
     emailRef.current?.resetInput();
     passwordRef.current?.resetInput();
@@ -106,6 +109,13 @@ const AuthForm = (props: authFormProps) => {
   return (
     <div className={styles.container}>
       <div className={credentialsClasses}>
+        {/* MICHAL: תעטפי אותם בfragment ותבדקי בבת אחד isNewUser */}
+        {/* {isNewUser &&
+          <>
+            <AuthInput inputTitle="Name" />
+            <AuthInput inputTitle="Personal Number" />
+          </>
+        } */}
         {isNewUser && (
           <AuthInput
             inputTitle="Name"

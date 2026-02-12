@@ -24,6 +24,7 @@ const Avatars = (props: avatarProps) => {
 
   return (
     <div className={styles.images}>
+      {/* MICHAL: הייתי עושה מערך חיות ועושה עליו map כדי ליצור את זה */}
       <img
         src={koalaAvatar}
         alt="koala"

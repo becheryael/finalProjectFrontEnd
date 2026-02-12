@@ -55,6 +55,7 @@ const AuthInput = (props: authInputProps) => {
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (isNumOnly) {
+      // MICHAL: שימי לב שאת בודקת רק את התו האחרון, שהוא לא בהכרח התו שהתווסף
       const newChar = event.target.value.slice(-1);
       const isDigit = /^\d$/.test(newChar);
       if (isDigit || (event.target.value.length === 0 && newChar === "")) {
@@ -65,6 +66,7 @@ const AuthInput = (props: authInputProps) => {
       setInput(event.target.value);
       valueChangeHandler(event);
     }
+    // MICHAL: בשביל מה אז יש את הhook?
     const currentValidity = checkIsValid(event.target.value);
     setIsValid(currentValidity);
   };
