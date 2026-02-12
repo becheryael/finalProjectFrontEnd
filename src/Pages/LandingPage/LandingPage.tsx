@@ -4,9 +4,7 @@ import styles from "./LandingPage.module.css";
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  const handleLogIn = () => {
-    navigate("/login", { replace: false });
-  };
+
   return (
     <main className={styles["landing-page"]}>
       <h1>Welcome!</h1>
@@ -23,7 +21,10 @@ const LandingPage = () => {
         amazed at the beutifule UI UX experince! and the spelling mistakes that
         I won't fix hahahaahha
       </p>
-      <button className={styles["auth-btn"]} onClick={handleLogIn}>
+      <button
+        className={styles["auth-btn"]}
+        onClick={() => navigate("/login", { replace: false })}
+      >
         Log In / Sign Up
       </button>
     </main>
