@@ -9,11 +9,10 @@ type State = { isTouched: boolean; value: string };
 
 const inputStateReducer = (state: State, action: Action) => {
   if (action.type === "INPUT") {
-    // MICHAL: יכולה פשוט לכתוב ...state, changedValue: dflsfj
-    return { value: action.value, isTouched: state.isTouched };
+    return { ...state, value: action.value };
   }
   if (action.type === "BLUR") {
-    return { isTouched: true, value: state.value };
+    return { ...state, isTouched: true };
   }
   if (action.type === "RESET") {
     return { isTouched: false, value: "" };
@@ -23,11 +22,10 @@ const inputStateReducer = (state: State, action: Action) => {
 
 const useInput = (
   validateValue: (value: string) => boolean,
-  // MICHAL: prev? or initial?
-  prevValue?: string
+  initialValue?: string
 ) => {
   const [inputState, dispatch] = useReducer(inputStateReducer, {
-    value: prevValue || "",
+    value: initialValue || "",
     isTouched: false
   });
 
@@ -42,12 +40,7 @@ const useInput = (
     dispatch({ type: "INPUT", value: event.target.value });
   };
 
-  const inputBlurHandler = (
-    // MICHAL: אם אין שימוש בו, לא חייב לכתוב את הevent למרות שנקבל אחד
-    event:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  const inputBlurHandler = () => {
     dispatch({ type: "BLUR" });
   };
 

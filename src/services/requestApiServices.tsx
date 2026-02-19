@@ -10,17 +10,12 @@ export const createRequest = async (
   text: string,
   token: string
 ) => {
-  // MICHAL: אין טעם לעשות try catch אם את לא מטפלת בשגיאה ופשוט זורקת אותה הלאה, זו ההתנהגות הדיפולטית.
-  try {
     const response = await api.post(
       "",
       { type, text },
       { headers: { Authorization: token } }
     );
     return response;
-  } catch (error) {
-    throw error;
-  }
 };
 
 export const fetchRequests = async (
@@ -31,7 +26,6 @@ export const fetchRequests = async (
   limit: number,
   skip: number
 ) => {
-  try {
     const response = await api.get("", {
       headers: {
         Authorization: token
@@ -45,9 +39,6 @@ export const fetchRequests = async (
       }
     });
     return response;
-  } catch (error) {
-    throw error;
-  }
 };
 
 export const fetchAllRequests = async (
@@ -61,7 +52,6 @@ export const fetchAllRequests = async (
   startDate?: string,
   endDate?: string
 ) => {
-  try {
     const response = await api.get("/allRequests", {
       headers: {
         Authorization: token
@@ -78,9 +68,6 @@ export const fetchAllRequests = async (
       }
     });
     return response;
-  } catch (error) {
-    throw error;
-  }
 };
 
 export const editRequest = async (
@@ -89,7 +76,6 @@ export const editRequest = async (
   status: string,
   message?: string
 ) => {
-  try {
     const response = await api.patch(
       `/${requestId}`,
       {
@@ -103,7 +89,4 @@ export const editRequest = async (
       }
     );
     return response;
-  } catch (error) {
-    throw error;
-  }
 };

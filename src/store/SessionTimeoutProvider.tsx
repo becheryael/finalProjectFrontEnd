@@ -1,37 +1,39 @@
 import Modal from "../components/UI/Modal";
 import AuthContext from "./auth-context";
 import useIdleTimer from "../hooks/use-IdleTimer";
-import { useState, useContext, useCallback, useEffect } from "react";
+import {
+  useState,
+  useContext,
+  useCallback,
+  useEffect,
+  useRef,
+  useMemo
+} from "react";
 import { useLocation } from "react-router-dom";
 import { newToken } from "../services/userApiServices";
 import { AxiosError } from "axios";
 import { jwtDecode } from "jwt-decode";
 
-// MICHAL: אז הקטע הוא שאת אמורה להשתמש בenums שלך גם אחד בתוך השני. אנחנו רוצים להבין מה זה המספרים הרנדומליים האלה.
-/*
 const MILLISECONDS_IN_SECOND = 1000;
 const SECONDS_IN_MINUTES = 60;
 const IDLE_TIMEOUT = 10 * SECONDS_IN_MINUTES * MILLISECONDS_IN_SECOND;
 const MODAL_COUNTDOWN = 20 * MILLISECONDS_IN_SECOND;
 const REFRESH_INTERVAL = 10 * SECONDS_IN_MINUTES * MILLISECONDS_IN_SECOND;
-*/
 
-const TEN_MINUTES = 600000;
-const IDLE_TIMEOUT = TEN_MINUTES;
-const MODAL_COUNTDOWN = 1 * 20 * 1000;
-const MILLISECONDS_IN_SECOND = 1000;
-const REFRESH_INTERVAL = 10 * 60 * 1000;
 const EXEMPTED_PATHS = ["/login", "/", "forgot-password", "reset-password"];
 
 export const SessionTimeoutProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const [showModal, setShowModal] = useState(false);
-  // MICHAL: הוא גורם לrerenders לא נחוצים. השתמשי בuseRef במקום
-  const [countdownTimer, setCountdownTimer] = useState<NodeJS.Timeout>();
+  const countdownTimerRef = useRef<NodeJS.Timeout>(null);
   const location = useLocation();
   const authCtx = useContext(AuthContext);
-  const isExemptedRoute = EXEMPTED_PATHS.includes(location.pathname);
+
+  const isExemptedRoute = useMemo(
+    () => EXEMPTED_PATHS.includes(location.pathname),
+    [location]
+  );
 
   const handleRefresh = useCallback(async () => {
     if (!authCtx.token || isExemptedRoute) return;
@@ -39,7 +41,9 @@ export const SessionTimeoutProvider: React.FC<{
     try {
       const res = await newToken(authCtx.token);
       const decodedToken = jwtDecode(res.data.token);
-      const expirationTime = new Date(decodedToken.exp! * MILLISECONDS_IN_SECOND);
+      const expirationTime = new Date(
+        decodedToken.exp! * MILLISECONDS_IN_SECOND
+      );
 
       // MICHAL: אין טעם להכניס מחדש את אותם הפרטים. צרי פונקציה שפשוט מעדכנת את הexpirationTime והtoken
       const user = {
@@ -61,7 +65,6 @@ export const SessionTimeoutProvider: React.FC<{
       alert(`${axiosError.message}. You will need to sign in again.`);
       authCtx.logout();
     }
-    // MICHAL: אם את רוצה לשים את isExemptedRoute בdependency array את חייבת להשתמש בuseMemo לחשב אותו, אחרת אין משמעות לuseCallback כי זה מחושב מחדש כל רנדר
   }, [authCtx, isExemptedRoute]);
 
   useEffect(() => {
@@ -83,14 +86,14 @@ export const SessionTimeoutProvider: React.FC<{
         setShowModal(false);
         authCtx.logout();
       }, MODAL_COUNTDOWN);
-      setCountdownTimer(timer);
+      countdownTimerRef.current = timer;
     }
   });
 
   const handleContinue = () => {
     setShowModal(false);
     handleRefresh();
-    if (countdownTimer) clearTimeout(countdownTimer);
+    if (countdownTimerRef.current) clearTimeout(countdownTimerRef.current);
   };
 
   return (

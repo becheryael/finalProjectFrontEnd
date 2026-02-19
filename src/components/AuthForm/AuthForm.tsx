@@ -70,16 +70,12 @@ const AuthForm = (props: authFormProps) => {
   }
 
   let formIsValid =
-  emailIsValid &&
-  passwordIsValid &&
-  // MICHAL: מעדיפה
-  // (!isNewUser || nameIsValid && personalNumIsValid)
-  (nameIsValid || !isNewUser) &&
-  (personalNumIsValid || !isNewUser);
+    emailIsValid &&
+    passwordIsValid &&
+    (!isNewUser || (nameIsValid && personalNumIsValid));
 
   const UIChange = () => {
     handlePageChange();
-    // MICHAL: את שולטת בinput שלך עם הvalue. אין צורך בref, פשוט תאתחלי את הstate
     nameRef.current?.resetInput();
     emailRef.current?.resetInput();
     passwordRef.current?.resetInput();
@@ -109,37 +105,30 @@ const AuthForm = (props: authFormProps) => {
   return (
     <div className={styles.container}>
       <div className={credentialsClasses}>
-        {/* MICHAL: תעטפי אותם בfragment ותבדקי בבת אחד isNewUser */}
-        {/* {isNewUser &&
+        {isNewUser && (
           <>
-            <AuthInput inputTitle="Name" />
-            <AuthInput inputTitle="Personal Number" />
+            <AuthInput
+              inputTitle="Name"
+              inputType="text"
+              inputValue={name}
+              errorText="Please enter your name."
+              setIsValid={setNameIsValid}
+              setInput={setName}
+              checkIsValid={(value) => value !== ""}
+              ref={nameRef}
+            />
+            <AuthInput
+              inputTitle="Personal Number"
+              inputType="text"
+              inputValue={personalNum}
+              errorText={`Your personal number must have exactly ${PERSONAL_NUM_LENGTH} digits.`}
+              setIsValid={setPersonalNumIsValid}
+              setInput={setPersonalNum}
+              checkIsValid={(value) => value.length === PERSONAL_NUM_LENGTH}
+              ref={personalNumRef}
+              isNumOnly={true}
+            />
           </>
-        } */}
-        {isNewUser && (
-          <AuthInput
-            inputTitle="Name"
-            inputType="text"
-            inputValue={name}
-            errorText="Please enter your name."
-            setIsValid={setNameIsValid}
-            setInput={setName}
-            checkIsValid={(value) => value !== ""}
-            ref={nameRef}
-          />
-        )}
-        {isNewUser && (
-          <AuthInput
-            inputTitle="Personal Number"
-            inputType="text"
-            inputValue={personalNum}
-            errorText={`Your personal number must have exactly ${PERSONAL_NUM_LENGTH} digits.`}
-            setIsValid={setPersonalNumIsValid}
-            setInput={setPersonalNum}
-            checkIsValid={(value) => value.length === PERSONAL_NUM_LENGTH}
-            ref={personalNumRef}
-            isNumOnly={true}
-          />
         )}
         <AuthInput
           inputTitle="Email"
@@ -159,7 +148,6 @@ const AuthForm = (props: authFormProps) => {
           setInput={setPassword}
           checkIsValid={passwordValidity}
           ref={passwordRef}
-          isPassword={true}
         />
         {error && <p className={styles.error}>{error}</p>}
         {!isNewUser && (

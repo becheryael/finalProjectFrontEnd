@@ -7,6 +7,7 @@ const useIdleTimer = ({
   idleTime?: number;
   onIdle: () => void;
 }) => {
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const resetTimer = useCallback(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
@@ -14,14 +15,10 @@ const useIdleTimer = ({
     }, idleTime);
   }, [idleTime, onIdle]);
 
-  // MICHAL: שימי את זה ראשון
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
   const handleActivity = useCallback(() => {
     resetTimer();
   }, [resetTimer]);
 
-  // MICHAL: ואת זה מיד אחרי
   useEffect(() => {
     const events = ["mousemove", "keydown", "scroll", "click"];
     events.forEach((event) => window.addEventListener(event, handleActivity));

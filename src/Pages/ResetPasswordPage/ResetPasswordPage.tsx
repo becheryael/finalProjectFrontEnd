@@ -1,7 +1,7 @@
 import AuthInput from "../../components/AuthInputs/AuthInput";
 import AuthContext from "../../store/auth-context";
 import { resetPassword } from "../../services/userApiServices";
-import { useState, useContext } from "react";
+import { useState, useContext, useMemo } from "react";
 import { AxiosError } from "axios";
 import { useParams } from "react-router";
 import { jwtDecode } from "jwt-decode";
@@ -10,9 +10,7 @@ import { StatusCodes } from "http-status-codes";
 import styles from "./ResetPasswordPage.module.css";
 
 const MILLISECONDS_IN_SECOND = 1000;
-// MICHAL: במקום ההערה פשוט תכתבי
-// 2 * MILLISECONDS_IN_SECOND
-const SUCCESS_TIMER = 2000; // 2 seconds
+const SUCCESS_TIMER = 2 * MILLISECONDS_IN_SECOND;
 const MIN_PASSWORD_LENGTH = 7;
 
 const ResetPasswordPage = () => {
@@ -27,9 +25,10 @@ const ResetPasswordPage = () => {
 
   const { token } = useParams();
 
-  // MICHAL: בשביל ייעול, תעטפי בuseMemo
-  // MICHAL: למה זה let?
-  let formIsValid = passwordIsValid && confirmPasswordIsValid;
+  const formIsValid = useMemo(
+    () => passwordIsValid && confirmPasswordIsValid,
+    [passwordIsValid, confirmPasswordIsValid]
+  );
 
   const mainBtnClasses = !formIsValid
     ? `${styles["main-button"]} ${styles["disabled-main-button"]}`
@@ -53,7 +52,9 @@ const ResetPasswordPage = () => {
       if (res.status === StatusCodes.OK) {
         const decodedToken = jwtDecode(res.data.token);
         const tokenExpiration = decodedToken.exp;
-        const expirationTime = new Date(tokenExpiration! * MILLISECONDS_IN_SECOND);
+        const expirationTime = new Date(
+          tokenExpiration! * MILLISECONDS_IN_SECOND
+        );
         setIsSuccess(true);
         setTimeout(() => {
           authCtx.login(
@@ -90,7 +91,6 @@ const ResetPasswordPage = () => {
           setIsValid={setPasswordIsValid}
           setInput={setPassword}
           checkIsValid={(value) => value.length >= MIN_PASSWORD_LENGTH}
-          isPassword={true}
         />
         <AuthInput
           inputTitle="Confirm Password"
@@ -99,7 +99,6 @@ const ResetPasswordPage = () => {
           setIsValid={setConfirmPasswordIsValid}
           setInput={setConfirmPassword}
           checkIsValid={(value) => value.length >= MIN_PASSWORD_LENGTH}
-          isPassword={true}
         />
         {isLoading && <p>Loading...</p>}
         {isSuccess && (

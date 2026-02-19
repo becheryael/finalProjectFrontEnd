@@ -5,15 +5,11 @@ const api = axios.create({
 });
 
 export const loginUser = async (email: string, password: string) => {
-  try {
     const response = await api.post("/login", {
       email,
       password
     });
     return response;
-  } catch (error) {
-    throw error;
-  }
 };
 
 export const createUser = async (
@@ -22,7 +18,6 @@ export const createUser = async (
   personalNum: string,
   name: string
 ) => {
-  try {
     const response = await api.post("/create", {
       email,
       password,
@@ -30,13 +25,9 @@ export const createUser = async (
       name
     });
     return response;
-  } catch (error) {
-    throw error;
-  }
 };
 
 export const logoutUser = async (token: string) => {
-  try {
     const response = await api.post(
       "/logout",
       {},
@@ -47,9 +38,6 @@ export const logoutUser = async (token: string) => {
       }
     );
     return response;
-  } catch (error) {
-    throw error;
-  }
 };
 
 export const editUser = async (
@@ -57,11 +45,8 @@ export const editUser = async (
   personalNum: string,
   email: string,
   avatar: string,
-  // MICHAL: הקפידי למחוק דברים ערכים את לא משתמשת
-  id: string,
   token: string
 ) => {
-  try {
     const response = await api.patch(
       `/update`,
 
@@ -78,13 +63,9 @@ export const editUser = async (
       }
     );
     return response;
-  } catch (error) {
-    throw error;
-  }
 };
 
 export const newToken = async (token: string) => {
-  try {
     const response = await api.post(
       "/newToken",
       {},
@@ -95,24 +76,16 @@ export const newToken = async (token: string) => {
       }
     );
     return response;
-  } catch (error) {
-    throw error;
-  }
 };
 
 export const forgotPassword = async (email: string) => {
-  try {
     const response = await api.post("/forgot-password", {
       email
     });
     return response;
-  } catch (error) {
-    throw error;
-  }
 };
 
 export const resetPassword = async (token: string, password: string) => {
-  try {
     const response = await api.patch(
       "/update",
       {
@@ -125,7 +98,4 @@ export const resetPassword = async (token: string, password: string) => {
       }
     );
     return response;
-  } catch (error) {
-    throw error;
-  }
 };

@@ -1,5 +1,6 @@
 import ProfileForm from "../../components/ProfileForm/ProfileForm";
 import AuthContext from "../../store/auth-context";
+import parseAPIError from "../../helperFunctions/parseAPIError";
 import { useContext, useState, useRef } from "react";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
@@ -10,9 +11,7 @@ import { StatusCodes } from "http-status-codes";
 const ProfilePage = () => {
   const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
-  // MICHAL: למה לא פשוט object destructuring?
-  const id = authCtx.userId;
-  const token = authCtx.token;
+  const { token } = authCtx;
   const [isEdit, setIsEdit] = useState(false);
   // MICHAL: כל הstates האלה לא צריכים להיות כאן אלא בתוך הform עצמו. תשלחי את הערכים שלהם בפונקציות שצריכות אותם.
   const [name, setName] = useState(authCtx.userInfo.name);
@@ -40,14 +39,7 @@ const ProfilePage = () => {
     setIsLoading(true);
     setError("");
     try {
-      const res = await editUser(
-        name!,
-        personalNum!,
-        email!,
-        avatar!,
-        id!,
-        token!
-      );
+      const res = await editUser(name!, personalNum!, email!, avatar!, token!);
       if (res.status === StatusCodes.OK) {
         authCtx.edit(name!, personalNum!, email!, avatar!);
       }
@@ -55,28 +47,18 @@ const ProfilePage = () => {
       handleUndo();
       const axiosError = error as AxiosError;
       const errorMessage = axiosError.response?.data as string;
-      // MICHAL: טיפה מבולגן לי כאן. הייתי מעדיפה שזה יהיה בhelper function נפרדת ולא כאן, משהו כמו parseAPIError
-      const errorArray = errorMessage.split(" ");
-      if (errorArray.includes("duplicate")) {
-        const index = errorArray.indexOf("key:");
-        if (errorArray.includes("personalNum:")) {
-          errorArray[index + 2] = "Personal number";
-        }
-        const returnError = `${errorArray[index + 2]} ${
-          errorArray[index + 3]
-        } already exists in database.`;
+      const returnError = parseAPIError(errorMessage);
+      if (returnError) {
         setError(returnError);
-        setIsLoading(false);
-        setIsEdit(false);
         return;
       }
       if (errorMessage) {
         setError(errorMessage);
-      } else {
-        setError(
-          "Unable to make changes. make sure all your informaion in correct."
-        );
+        return;
       }
+      setError(
+        "Unable to make changes. make sure all your informaion in correct."
+      );
     }
     setIsLoading(false);
     setIsEdit(false);

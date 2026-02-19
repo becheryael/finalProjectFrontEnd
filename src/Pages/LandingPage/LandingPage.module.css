@@ -8,6 +8,8 @@
   cursor: pointer;
   margin-left: 15rem;
   width: 20%;
+  text-decoration: none;
+  text-align: center;
 }
 
 .auth-btn:hover {

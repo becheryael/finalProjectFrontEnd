@@ -14,6 +14,13 @@ interface avatarProps {
   avatar: string;
 }
 
+const avatarArray = [
+  { name: "koala", src: koalaAvatar },
+  { name: "deer", src: deerAvatar },
+  { name: "raccoon", src: raccoonAvatar },
+  { name: "beaver", src: beaverAvatar }
+];
+
 const Avatars = (props: avatarProps) => {
   const { setAvatar, avatar } = props;
 
@@ -24,43 +31,19 @@ const Avatars = (props: avatarProps) => {
 
   return (
     <div className={styles.images}>
-      {/* MICHAL: הייתי עושה מערך חיות ועושה עליו map כדי ליצור את זה */}
-      <img
-        src={koalaAvatar}
-        alt="koala"
-        id="koala"
-        onClick={ChangeAvatar}
-        className={
-          avatar === "koala" ? styles["chosen-avatar"] : styles["avatar"]
-        }
-      />
-      <img
-        src={deerAvatar}
-        alt="deer"
-        id="deer"
-        onClick={ChangeAvatar}
-        className={
-          avatar === "deer" ? styles["chosen-avatar"] : styles["avatar"]
-        }
-      />
-      <img
-        src={raccoonAvatar}
-        alt="raccoon"
-        id="raccoon"
-        onClick={ChangeAvatar}
-        className={
-          avatar === "raccoon" ? styles["chosen-avatar"] : styles["avatar"]
-        }
-      />
-      <img
-        src={beaverAvatar}
-        alt="beaver"
-        id="beaver"
-        onClick={ChangeAvatar}
-        className={
-          avatar === "beaver" ? styles["chosen-avatar"] : styles["avatar"]
-        }
-      />
+      {avatarArray.map((avatarItem) => (
+        <img
+          src={avatarItem.src}
+          alt={avatarItem.name}
+          id={avatarItem.name}
+          onClick={ChangeAvatar}
+          className={
+            avatar === avatarItem.name
+              ? styles["chosen-avatar"]
+              : styles["avatar"]
+          }
+        />
+      ))}
     </div>
   );
 };

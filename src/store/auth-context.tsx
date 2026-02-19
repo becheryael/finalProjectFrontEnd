@@ -106,13 +106,8 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
   const isManagerStr = localStorage.getItem("isManager");
   const id = localStorage.getItem("id");
 
-  // MICHAL: תנאי טרינארי
   let managerBoolean: boolean;
-  if (isManagerStr === "true") {
-    managerBoolean = true;
-  } else {
-    managerBoolean = false;
-  }
+  isManagerStr ? (managerBoolean = true) : (managerBoolean = false);
 
   const [userId, setUserId] = useState<string | null>(id);
   const [isManager, setIsManager] = useState<boolean>(managerBoolean);

@@ -1,4 +1,5 @@
 import useInput from "../../hooks/use-input";
+import onlyDigitsCheck from "../../helperFunctions/onlyDigitsCheck";
 import { useImperativeHandle, Ref, useState } from "react";
 //@ts-ignore
 import styles from "./AuthInput.module.css";
@@ -21,7 +22,6 @@ interface authInputProps {
   setIsValid: (value: boolean) => void;
   ref?: Ref<AuthInputHandle>;
   isNumOnly?: boolean;
-  isPassword?: boolean;
 }
 
 const AuthInput = (props: authInputProps) => {
@@ -34,16 +34,14 @@ const AuthInput = (props: authInputProps) => {
     setInput,
     setIsValid,
     ref,
-    isNumOnly,
-    // MICHAL: הערך הזה redundant. אפשר להסיק אותו מinputType
-    isPassword = false
+    isNumOnly
   } = props;
   const { hasError, valueChangeHandler, inputBlurHandler, reset } =
     useInput(checkIsValid);
 
   const [isShowPassword, setIsShowPassword] = useState(false);
   let type;
-  if (isPassword) {
+  if (inputType === "password") {
     if (!isShowPassword) {
       type = "password";
     } else {
@@ -55,10 +53,7 @@ const AuthInput = (props: authInputProps) => {
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (isNumOnly) {
-      // MICHAL: שימי לב שאת בודקת רק את התו האחרון, שהוא לא בהכרח התו שהתווסף
-      const newChar = event.target.value.slice(-1);
-      const isDigit = /^\d$/.test(newChar);
-      if (isDigit || (event.target.value.length === 0 && newChar === "")) {
+      if (onlyDigitsCheck(event.target.value)) {
         setInput(event.target.value);
         valueChangeHandler(event);
       }
@@ -91,7 +86,7 @@ const AuthInput = (props: authInputProps) => {
     <div className={styles["input-div"]}>
       <div className={styles["title-container"]}>
         <label>{inputTitle}</label>
-        {isPassword && (
+        {inputType === "password" && (
           <img
             src={isShowPassword ? openEyeImage : closedEyeImage}
             alt={isShowPassword ? "open eye" : "closed eye"}
